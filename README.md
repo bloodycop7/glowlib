@@ -29,3 +29,10 @@ GlowLib:Define("model.mdl", {
     ColorAlpha = 120,
 })
 ```
+### Getting the Sprite Entity
+```
+** SHARED **
+ent:GetNW2Entity("GlowLib_Eye", nil)
+** SERVER **
+GlowLib.Entities[ent]
+```
