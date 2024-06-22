@@ -65,6 +65,10 @@ if ( SERVER ) then
                 continue
             end
 
+            if ( v:GetNoDraw() ) then
+                GlowLib:Hide(v)
+            end
+
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
             local lastBodygroups, lastMaterials = v.lastBodygroups or "", v.lastMaterials or ""
 
