@@ -97,4 +97,9 @@ if ( SERVER ) then
             GlowLib:Show(ply)
         end
     end)
+
+    GlowLib:Hook("DoPlayerDeath", "RemovePlayerEyes", function(ply)
+        GlowLib:Remove(ply)
+        GlowLib:SendData()
+    end)
 end
