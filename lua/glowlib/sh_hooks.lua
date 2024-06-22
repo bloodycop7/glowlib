@@ -70,7 +70,7 @@ if ( SERVER ) then
             end
 
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
-            local lastBodygroups, lastMaterials = v.lastBodygroups or "", v.lastMaterials or ""
+            local lastBodygroups, lastMaterials = v.glow_lib_lastBodygroups or "", v.glow_lib_lastMaterials or ""
 
             if ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) then
                 continue
@@ -78,8 +78,8 @@ if ( SERVER ) then
 
             v:SetNW2String("glowlib_lastModel", v:GetModel())
             v:SetNW2Int("glowlib_lastSkin", v:GetSkin())
-            v.lastBodygroups = table.ToString(v:GetBodyGroups())
-            v.lastMaterials = table.ToString(v:GetMaterials())
+            v.glow_lib_lastBodygroups = table.ToString(v:GetBodyGroups())
+            v.glow_lib_lastMaterials = table.ToString(v:GetMaterials())
 
             GlowLib:Initialize(v)
         end
