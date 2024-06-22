@@ -67,6 +67,8 @@ if ( SERVER ) then
 
             if ( v:GetNoDraw() ) then
                 GlowLib:Hide(v)
+            else
+                GlowLib:Show(v)
             end
 
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
@@ -86,5 +88,13 @@ if ( SERVER ) then
 
         GlowLib:SendData()
         GlowLib.nextThinkRun = CurTime() + 1
+    end)
+
+    GlowLib:Hook("PlayerNoClip", "NoClipEyes", function(ply, state)
+        if ( state ) then
+            GlowLib:Hide(ply)
+        else
+            GlowLib:Show(ply)
+        end
     end)
 end
