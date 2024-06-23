@@ -66,6 +66,10 @@ if ( SERVER ) then
             end
 
             if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
+                if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                    GlowLib:Hide(v)
+                end
+
                 continue
             end
 
