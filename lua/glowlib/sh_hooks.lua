@@ -65,6 +65,10 @@ if ( SERVER ) then
                 continue
             end
 
+            if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
+                continue
+            end
+
             if ( v:GetNoDraw() ) then
                 GlowLib:Hide(v)
             else
