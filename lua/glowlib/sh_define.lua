@@ -7,6 +7,15 @@ GlowLib:Define("models/combine_soldier.mdl", {
         [1] = Color(180, 100, 25)
     },
     ColorAlpha = 120,
+        {
+            Size = 0.2,
+            Color = {
+                [0] = Color(255, 0, 234),
+                [1] = Color(180, 100, 25)
+            },
+            ColorAlpha = 120,
+        },
+    }
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
