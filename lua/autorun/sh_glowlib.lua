@@ -89,7 +89,7 @@ else
         GlowLib.Entities = net.ReadTable()
 
         local glow_eyes = ply:GetNW2Entity("GlowLib_Eye", nil)
-        if ( IsValid(glow_eyes) and ply:GetViewEntity() == ply ) then
+        if ( IsValid(glow_eyes) and hook.Run("ShouldDrawLocalPlayer", ply) == false ) then
             glow_eyes:SetNoDraw(true)
         end
     end)
