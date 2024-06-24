@@ -73,12 +73,6 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( v:GetNoDraw() ) then
-                GlowLib:Hide(v)
-            else
-                GlowLib:Show(v)
-            end
-
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
             local lastBodygroups, lastMaterials = v.glow_lib_lastBodygroups or "", v.glow_lib_lastMaterials or ""
 
@@ -109,5 +103,13 @@ if ( SERVER ) then
     GlowLib:Hook("DoPlayerDeath", "RemovePlayerEyes", function(ply)
         GlowLib:Remove(ply)
         GlowLib:SendData()
+    end)
+
+    GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+        if ( ent:GetNoDraw() ) then
+            return false
+        end
+
+        return true
     end)
 end
