@@ -81,12 +81,12 @@ if ( SERVER ) then
     end
 else
     net.Receive("GlowLib:SendData", function()
+        GlowLib.Entities = net.ReadTable()
+
         local ply = LocalPlayer()
         if not ( IsValid(ply) ) then
             return
         end
-
-        GlowLib.Entities = net.ReadTable()
 
         local glow_eyes = ply:GetNW2Entity("GlowLib_Eye", nil)
         if ( IsValid(glow_eyes) and hook.Run("ShouldDrawLocalPlayer", ply) == false ) then
