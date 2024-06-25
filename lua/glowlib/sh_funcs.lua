@@ -89,10 +89,8 @@ if ( SERVER ) then
             ent:DeleteOnRemove(sprite)
             ent:CallOnRemove("GlowLibRemove", function(this)
                 self:Remove(this)
-                self:SendData()
             end)
 
-            self:SendData()
             hook.Run("GlowLib:Initalize", ent)
         end
     end
