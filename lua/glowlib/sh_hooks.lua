@@ -17,16 +17,22 @@ if ( SERVER ) then
         end)
     end
 
-    GlowLib:Hook("PlayerSpawnedNPC", "CreateEntityEyes", function(ply, ent)
-        initFunc(ent)
-    end)
+    timer.Create("GlowLib:CheckForEntity", 1, 0, function()
+        for k, v in ents.Iterator() do
+            if not ( IsValid(v) ) then
+                continue
+            end
 
-    GlowLib:Hook("PlayerSpawnedRagdoll", "CreateRagdollEyes", function(ply, model, ent)
-        initFunc(ent)
-    end)
+            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
+                continue
+            end
 
-    GlowLib:Hook("PlayerLoadout", "CreatePlayerEyes", function(ply)
-        initFunc(ply, 1)
+            if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                continue
+            end
+
+            initFunc(v, 0.1)
+        end
     end)
 
     GlowLib:Hook("PlayerDisconnected", "RemovePlayerEyes", function(ply)

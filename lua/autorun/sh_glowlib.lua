@@ -95,7 +95,9 @@ if ( SERVER ) then
 else
     net.Receive("GlowLib:SendData", function()
         GlowLib.Entities = net.ReadTable()
+    end)
 
+    timer.Create("GlowLib:ClearEyes", 1, 0, function()
         local ply = LocalPlayer()
         if not ( IsValid(ply) ) then
             return

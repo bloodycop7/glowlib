@@ -11,7 +11,7 @@ GlowLib:Define("models/combine_soldier.mdl", {
         [0] = Color(0, 140, 255),
         [1] = Color(180, 100, 25)
     },
-    ColorAlpha = 120,
+    ColorAlpha = 180,
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
@@ -25,7 +25,7 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
         [0] = Color(255, 200, 0),
         [1] = Color(255, 70, 0)
     },
-    ColorAlpha = 120,
+    ColorAlpha = 180,
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
@@ -38,7 +38,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     Color = {
         [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 150,
+    ColorAlpha = 180,
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
