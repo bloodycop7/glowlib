@@ -97,30 +97,28 @@ else
         GlowLib.Entities = net.ReadTable()
     end)
 
-    timer.Create("GlowLib:ClearEyes", 1, 0, function()
+    local nextThink = 0
+    GlowLib:Hook("Think", "ClearEyesClientside", function()
+        if ( nextThink > CurTime() ) then
+            return
+        end
+
         local ply = LocalPlayer()
         if not ( IsValid(ply) ) then
             return
         end
 
         local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool() or true
-        if ( cl_enabled ) then
-            for k, v in ipairs(GlowLib.Entities) do
-                if not ( IsValid(v) ) then
-                    continue
-                end
-
-                local glow_eye = v:GetNW2Entity("GlowLib_Eye", nil)
-                if ( IsValid(glow_eye) ) then
-                    glow_eye:SetNoDraw(true)
-                end
-            end
+        if not ( cl_enabled ) then
+            GlowLib:HideAll()
         end
 
         local glow_eyes = ply:GetNW2Entity("GlowLib_Eye", nil)
         if ( IsValid(glow_eyes) and hook.Run("ShouldDrawLocalPlayer", ply) == false ) then
             glow_eyes:SetNoDraw(true)
         end
+
+        nextThink = CurTime() + 1
     end)
 
     concommand.Add("glowlib_print_attachments", function()

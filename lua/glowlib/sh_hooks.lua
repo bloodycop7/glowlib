@@ -56,9 +56,9 @@ if ( SERVER ) then
         end
     end)
 
-    GlowLib.nextThinkRun = 0
+    local nextThink = 0
     GlowLib:Hook("Think", "UpdateEyes", function()
-        if ( GlowLib.nextThinkRun > CurTime() ) then
+        if ( nextThink > CurTime() ) then
             return
         end
 
@@ -95,7 +95,7 @@ if ( SERVER ) then
             GlowLib:SendData()
         end
 
-        GlowLib.nextThinkRun = CurTime() + 1
+        nextThink = CurTime() + 1
     end)
 
     GlowLib:Hook("PlayerNoClip", "NoClipEyes", function(ply, state)

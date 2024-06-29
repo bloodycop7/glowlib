@@ -41,16 +41,21 @@ if ( SERVER ) then
     end
 
     function GlowLib:Initialize(ent)
-        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
-        if not ( sv_enabled ) then
-            return
-        end
-
         if not ( IsValid(ent) ) then
             return
         end
 
         if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+            return
+        end
+
+        local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
+        if ( IsValid(glow_eye) ) then
+            glow_eye:Remove()
+        end
+
+        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
+        if not ( sv_enabled ) then
             return
         end
 
@@ -61,11 +66,6 @@ if ( SERVER ) then
 
         model = model:lower()
         local glowData = self.Glow_Data[model]
-
-        local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
-        if ( IsValid(glow_eye) ) then
-            glow_eye:Remove()
-        end
 
         if ( glowData ) then
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
