@@ -86,9 +86,9 @@ if ( SERVER ) then
             v.glow_lib_lastMaterials = table.ToString(v:GetMaterials())
 
             GlowLib:Initialize(v)
+            GlowLib:SendData()
         end
 
-        GlowLib:SendData()
         GlowLib.nextThinkRun = CurTime() + 1
     end)
 
