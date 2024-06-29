@@ -79,6 +79,12 @@ if ( SERVER ) then
             model = model:lower()
             local glowData = GlowLib.Glow_Data[model]
 
+            if not ( glowData ) then
+                if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                    GlowLib:Remove(v)
+                end
+            end
+
             if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
                 if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
                     GlowLib:Hide(v)
@@ -89,8 +95,17 @@ if ( SERVER ) then
 
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
             local lastBodygroups, lastMaterials = v.glow_lib_lastBodygroups or "", v.glow_lib_lastMaterials or ""
+            local shouldPass = false
 
-            if ( ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) or glowData and !IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+            if ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) then
+                shouldPass = true
+            end
+
+            if ( !IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                shouldPass = true
+            end
+
+            if ( shouldPass ) then
                 continue
             end
 
