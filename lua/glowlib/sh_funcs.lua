@@ -41,6 +41,11 @@ if ( SERVER ) then
     end
 
     function GlowLib:Initialize(ent)
+        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
+        if not ( sv_enabled ) then
+            return
+        end
+
         if not ( IsValid(ent) ) then
             return
         end

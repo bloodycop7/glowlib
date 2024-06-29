@@ -35,7 +35,7 @@ GlowLib:Define("models/combine_scanner.mdl", {
     end,
     Size = 0.2,
     Color = {
-        [0] = Color(255, 0, 0),
+        [0] = Color(255, 135, 0),
     },
     ColorAlpha = 255,
 })

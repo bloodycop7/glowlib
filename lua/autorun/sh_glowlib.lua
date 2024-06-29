@@ -73,6 +73,19 @@ if ( SERVER ) then
     util.AddNetworkString("GlowLib:SendData")
 
     function GlowLib:SendData()
+        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
+        if not ( sv_enabled ) then
+            for k, v in ipairs(self.Entities) do
+                if not ( IsValid(v) ) then
+                    continue
+                end
+
+                self:HideAll()
+            end
+
+            return
+        end
+
         net.Start("GlowLib:SendData")
             net.WriteTable(self.Entities)
         net.Broadcast()
@@ -86,6 +99,20 @@ else
         local ply = LocalPlayer()
         if not ( IsValid(ply) ) then
             return
+        end
+
+        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool() or false
+        if ( cl_enabled ) then
+            for k, v in ipairs(GlowLib.Entities) do
+                if not ( IsValid(v) ) then
+                    continue
+                end
+
+                local glow_eye = v:GetNW2Entity("GlowLib_Eye", nil)
+                if ( IsValid(glow_eye) ) then
+                    glow_eye:SetNoDraw(true)
+                end
+            end
         end
 
         local glow_eyes = ply:GetNW2Entity("GlowLib_Eye", nil)
