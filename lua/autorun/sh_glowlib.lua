@@ -101,7 +101,7 @@ else
             return
         end
 
-        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool() or false
+        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool() or true
         if ( cl_enabled ) then
             for k, v in ipairs(GlowLib.Entities) do
                 if not ( IsValid(v) ) then
