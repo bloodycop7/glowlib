@@ -49,7 +49,12 @@ if ( SERVER ) then
             return
         end
 
-        local model = ent:GetModel():lower()
+        local model = ent:GetModel()
+        if not ( model ) then
+            return
+        end
+
+        model = model:lower()
         local glowData = self.Glow_Data[model]
 
         local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
