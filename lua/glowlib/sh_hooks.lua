@@ -71,6 +71,14 @@ if ( SERVER ) then
                 continue
             end
 
+            local model = v:GetModel()
+            if not ( model ) then
+                return
+            end
+
+            model = model:lower()
+            local glowData = GlowLib.Glow_Data[model]
+
             if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
                 if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
                     GlowLib:Hide(v)
@@ -82,7 +90,7 @@ if ( SERVER ) then
             local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
             local lastBodygroups, lastMaterials = v.glow_lib_lastBodygroups or "", v.glow_lib_lastMaterials or ""
 
-            if ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) then
+            if ( ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) or glowData and !IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
                 continue
             end
 
