@@ -73,18 +73,16 @@ if ( SERVER ) then
             local colAlpha = glowData.ColorAlpha or glowCol.a
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02_add_noz.vmt"
             local glow_size = glowData.Size or 2
-            local vec_sprite = ( glowData["Position"] and glowData["Position"](ent) ) or vector_origin
-            local attach_vec = ( glowData["AttachmentOffset"] and glowData["AttachmentOffset"](ent) ) or vector_origin
-            local glow_attach = ent:LookupAttachment(glowData.Attachment or "eyes")
-            local glow_attach_data = ent:GetAttachment(glow_attach)
+            local vec_sprite = ( glowData["Position"] and glowData["Position"](ent, glowData) ) or vector_origin
+            local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
                 glowCol = glowData["CustomColor"](ent, glowCol)
             end
 
             local sprite = ents.Create("env_sprite")
-            sprite:SetPos( ( glow_attach_data.Pos + attach_vec ) or vec_sprite)
-            sprite:SetParent(ent, glow_attach)
+            sprite:SetPos(vec_sprite)
+            sprite:SetParent(ent, attach or 0)
             sprite:SetKeyValue("model", tostring(glow_mat))
             sprite:SetKeyValue("rendercolor", tostring(glowCol))
             sprite:SetKeyValue("renderamt", tostring(colAlpha))
@@ -100,6 +98,10 @@ if ( SERVER ) then
             ent:CallOnRemove("GlowLibRemove", function(this)
                 self:Remove(this)
             end)
+
+            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) ) then
+                glowData["OnInitialize"](ent, sprite)
+            end
 
             hook.Run("GlowLib:Initalize", ent)
         end

@@ -1,6 +1,11 @@
 local GlowLib = GlowLib
 
 GlowLib:Define("models/combine_soldier.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
+    end,
+    Attachment = "eyes",
     Size = 0.2,
     Color = {
         [0] = Color(0, 140, 255),
@@ -10,6 +15,11 @@ GlowLib:Define("models/combine_soldier.mdl", {
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
+    end,
+    Attachment = "eyes",
     Size = 0.2,
     Color = {
         [0] = Color(255, 200, 0),
@@ -19,9 +29,11 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
-    AttachmentOffset = function(ent)
-        return ent:GetUp() * 1
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
     end,
+    Attachment = "eyes",
     Size = 0.15,
     Color = {
         [0] = Color(255, 0, 0),
@@ -30,12 +42,67 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
-    AttachmentOffset = function(self)
-        return self:GetForward() * -0.5
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
     end,
+    Attachment = "eyes",
     Size = 0.2,
     Color = {
         [0] = Color(255, 135, 0),
     },
     ColorAlpha = 255,
+})
+
+// Minerva Servers
+GlowLib:Define("models/dpfilms/metropolice/hl2concept.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 1.55
+    end,
+    Attachment = "eyes",
+    Size = 0.2,
+    Color = {
+        [0] = Color(0, 174, 255),
+    },
+    ColorAlpha = 180,
+})
+
+GlowLib:Define("models/dpfilms/metropolice/civil_medic.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 1.55
+    end,
+    Attachment = "eyes",
+    Size = 0.2,
+    Color = {
+        [0] = Color(255, 230, 0),
+    },
+    ColorAlpha = 180,
+})
+
+GlowLib:Define("models/dpfilms/metropolice/phoenix_police.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 1.55
+    end,
+    Attachment = "eyes",
+    Size = 0.2,
+    Color = {
+        [0] = Color(255, 0, 0),
+    },
+    ColorAlpha = 150,
+})
+
+GlowLib:Define("models/dpfilms/metropolice/police_bt.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 1.55
+    end,
+    Attachment = "eyes",
+    Size = 0.2,
+    Color = {
+        [0] = Color(255, 0, 0),
+    },
+    ColorAlpha = 200,
 })

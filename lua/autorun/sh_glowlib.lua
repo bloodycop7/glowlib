@@ -132,6 +132,31 @@ else
             print(k, v.name)
         end
     end)
+
+    concommand.Add("glowlib_goto_nearest", function(ply)
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        for k, v in ents.Iterator() do
+            if not ( IsValid(v) ) then
+                continue
+            end
+
+            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
+                continue
+            end
+
+            if ( v == ply ) then
+                continue
+            end
+
+            if not ( v:GetNW2Entity("GlowLib_Eye", nil) ) then
+                continue
+            end
+
+            print(v:GetNW2Entity("GlowLib_Eye", nil))
+        end
+    end)
 end
 
 MsgC("\n", Color(255, 95, 0), "GlowLib by eon (bloodycop) has been loaded!\n")
