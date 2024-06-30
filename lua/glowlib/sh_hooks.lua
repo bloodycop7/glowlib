@@ -132,8 +132,8 @@ if ( SERVER ) then
                 continue
             end
 
-            checkForEntities()
-            updateEntities()
+            checkForEntities(v)
+            updateEntities(v)
         end
 
         nextThink = CurTime() + 1
