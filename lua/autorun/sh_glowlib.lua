@@ -75,14 +75,7 @@ if ( SERVER ) then
     function GlowLib:SendData()
         local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
         if not ( sv_enabled ) then
-            for k, v in ipairs(self.Entities) do
-                if not ( IsValid(v) ) then
-                    continue
-                end
-
-                self:HideAll()
-            end
-
+            self:HideAll()
             return
         end
 
@@ -113,7 +106,7 @@ else
             GlowLib:HideAll()
         end
 
-        local glow_eyes = ply:GetNW2Entity("GlowLib_Eye", nil)
+        local glow_eyes = ply:GetGlowingEye()
         if ( IsValid(glow_eyes) and hook.Run("ShouldDrawLocalPlayer", ply) == false ) then
             glow_eyes:SetNoDraw(true)
         end
@@ -150,11 +143,11 @@ else
                 continue
             end
 
-            if not ( v:GetNW2Entity("GlowLib_Eye", nil) ) then
+            if not ( v:GetGlowingEye() ) then
                 continue
             end
 
-            print(v:GetNW2Entity("GlowLib_Eye", nil))
+            print(v:GetGlowingEye())
         end
     end)
 end

@@ -49,7 +49,7 @@ if ( SERVER ) then
             return
         end
 
-        local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
+        local glow_eye = ent:GetGlowingEye()
         if ( IsValid(glow_eye) ) then
             glow_eye:Remove()
         end
@@ -117,7 +117,7 @@ function GlowLib:Hide(ent)
         return
     end
 
-    local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
+    local glow_eye = ent:GetGlowingEye()
     if ( IsValid(glow_eye) ) then
         glow_eye:SetNoDraw(true)
     end
@@ -146,7 +146,7 @@ function GlowLib:Show(ent)
         return
     end
 
-    local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
+    local glow_eye = ent:GetGlowingEye()
     if ( IsValid(glow_eye) ) then
         glow_eye:SetNoDraw(false)
     end

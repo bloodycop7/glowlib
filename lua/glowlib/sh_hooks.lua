@@ -27,7 +27,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+            if ( IsValid(v:GetGlowingEye()) ) then
                 continue
             end
 
@@ -80,13 +80,13 @@ if ( SERVER ) then
             local glowData = GlowLib.Glow_Data[model]
 
             if not ( glowData ) then
-                if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                if ( IsValid(v:GetGlowingEye()) ) then
                     GlowLib:Remove(v)
                 end
             end
 
             if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
-                if ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+                if ( IsValid(v:GetGlowingEye()) ) then
                     GlowLib:Hide(v)
                 end
 
