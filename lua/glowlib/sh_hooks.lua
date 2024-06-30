@@ -55,6 +55,10 @@ if ( SERVER ) then
             local spriteColor = saveTable.GlowLib_LastSpriteColor or color_white
             local spriteAlpha = spriteColor.a or 255
 
+            if ( glowData["CustomColor"] ) then
+                glowEyeColor = glowData["CustomColor"]
+            end
+
             if ( glowEyeColor != spriteColor or glowEyeColor.a != spriteColor.a ) then
                 colorIsChanged = true
             end
