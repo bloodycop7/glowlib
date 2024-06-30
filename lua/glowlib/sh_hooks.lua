@@ -56,7 +56,7 @@ if ( SERVER ) then
             local spriteAlpha = spriteColor.a or 255
 
             if ( glowData["CustomColor"] ) then
-                glowEyeColor = glowData["CustomColor"]
+                glowEyeColor = glowData:CustomColor(ent, glowEyeColor)
             end
 
             if ( glowEyeColor != spriteColor or glowEyeColor.a != spriteColor.a ) then
