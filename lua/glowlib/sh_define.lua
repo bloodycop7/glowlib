@@ -47,7 +47,7 @@ GlowLib:Define("models/combine_scanner.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.25,
+    Size = 0.15,
     Color = {
         [0] = Color(255, 135, 0),
     },
