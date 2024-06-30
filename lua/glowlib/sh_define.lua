@@ -53,3 +53,16 @@ GlowLib:Define("models/combine_scanner.mdl", {
     },
     ColorAlpha = 255,
 })
+
+GlowLib:Define("models/vortigaunt.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 3
+    end,
+    Attachment = "eyes",
+    Size = 0.25,
+    Color = {
+        [0] = Color(255, 95, 0),
+    },
+    ColorAlpha = 255,
+})

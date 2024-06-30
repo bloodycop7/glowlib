@@ -143,7 +143,7 @@ else
                 continue
             end
 
-            if not ( v:GetGlowingEye() ) then
+            if not ( IsValid(v:GetGlowingEye()) ) then
                 continue
             end
 

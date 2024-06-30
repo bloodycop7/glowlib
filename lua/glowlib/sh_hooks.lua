@@ -19,15 +19,15 @@ if ( SERVER ) then
 
     local function checkForEntities(ent)
         if not ( IsValid(ent) ) then
-            continue
+            return
         end
 
         if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
-            continue
+            return
         end
 
         if ( IsValid(ent:GetGlowingEye()) ) then
-            continue
+            return
         end
 
         initFunc(ent, 0.1)
@@ -35,51 +35,67 @@ if ( SERVER ) then
 
     local function updateEntities(ent)
         if not ( IsValid(ent) ) then
-            continue
+            return
         end
 
         if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
-            continue
+            return
         end
 
         local model = ent:GetModel()
         if not ( model ) then
-            continue
+            return
         end
 
         model = model:lower()
         local glowData = GlowLib.Glow_Data[model]
 
+        local glowEyes = ent:GetGlowingEye()
         if not ( glowData ) then
-            if ( IsValid(ent:GetGlowingEye()) ) then
+            if ( IsValid(glowEyes) ) then
                 GlowLib:Remove(ent)
             end
 
-            continue
+            return
         end
 
         if ( hook.Run("GlowLib:ShouldDraw", ent) == false ) then
-            if ( IsValid(ent:GetGlowingEye()) ) then
+            if ( IsValid(glowEyes) ) then
                 GlowLib:Hide(ent)
             end
 
-            continue
+            return
+        end
+
+        if ( !IsValid(glowEyes) ) then
+            return
+        end
+
+        local lastSpriteCol = ent:GetNW2String("glowlib_lastSpriteCol", vector_origin) or color_white:ToVector()
+        local colToLookFor = !glowData["CustomColor"] and tostring(glowData.Color[0]) or tostring(glowData["CustomColor"]) or tostring(color_white)
+        if ( lastSpriteCol != colToLookFor ) then
+            glowEyes:SetKeyValue("rendercolor", tostring(colToLookFor))
+            ent:SetNW2Vector("glowlib_lastSpriteCol", colToLookFor:ToVector())
+        end
+
+        local lastSpriteAlpha = ent:GetNW2Int("glowlib_lastSpriteAlpha", 255)
+        local alphaToLookFor = colToLookFor.a or glowData.ColorAlpha or 255
+        if ( lastSpriteAlpha != alphaToLookFor ) then
+            glowEyes:SetKeyValue("renderamt", alphaToLookFor)
+            ent:SetNW2Int("glowlib_lastSpriteAlpha", alphaToLookFor)
         end
 
         local lastModel, lastSkin = ent:GetNW2String("glowlib_lastModel", ""), ent:GetNW2Int("glowlib_lastSkin", 0)
         local lastBodygroups, lastMaterials = ent.glow_lib_lastBodygroups or "", ent.glow_lib_lastMaterials or ""
+
         local shouldPass = false
 
         if ( lastModel == ent:GetModel() and lastSkin == ent:GetSkin() and lastBodygroups == table.ToString(ent:GetBodyGroups()) and lastMaterials == table.ToString(ent:GetMaterials()) ) then
             shouldPass = true
         end
 
-        if ( !IsValid(ent:GetGlowingEye()) ) then
-            shouldPass = true
-        end
-
         if ( shouldPass ) then
-            continue
+            return
         end
 
         ent:SetNW2String("glowlib_lastModel", ent:GetModel())
