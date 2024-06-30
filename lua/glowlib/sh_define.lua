@@ -1,7 +1,7 @@
 local GlowLib = GlowLib
 
 GlowLib:Define("models/combine_soldier.mdl", {
-    Position = function(ent)
+    Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
         return attachmentData.Pos
     end,
@@ -15,7 +15,7 @@ GlowLib:Define("models/combine_soldier.mdl", {
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
-    Position = function(ent)
+    Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
         return attachmentData.Pos
     end,
@@ -29,7 +29,7 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
-    Position = function(ent)
+    Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
         return attachmentData.Pos
     end,
@@ -42,7 +42,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
-    Position = function(ent)
+    Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
         return attachmentData.Pos
     end,

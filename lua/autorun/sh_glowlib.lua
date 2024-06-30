@@ -73,7 +73,7 @@ if ( SERVER ) then
     util.AddNetworkString("GlowLib:SendData")
 
     function GlowLib:SendData()
-        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
+        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if not ( sv_enabled ) then
             self:HideAll()
             return
@@ -101,7 +101,7 @@ else
             return
         end
 
-        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool() or true
+        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
         if not ( cl_enabled ) then
             GlowLib:HideAll()
         end

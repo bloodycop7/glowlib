@@ -73,7 +73,7 @@ if ( SERVER ) then
 
             local model = v:GetModel()
             if not ( model ) then
-                return
+                continue
             end
 
             model = model:lower()
@@ -83,6 +83,8 @@ if ( SERVER ) then
                 if ( IsValid(v:GetGlowingEye()) ) then
                     GlowLib:Remove(v)
                 end
+
+                continue
             end
 
             if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
@@ -101,7 +103,7 @@ if ( SERVER ) then
                 shouldPass = true
             end
 
-            if ( !IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+            if ( !IsValid(v:GetGlowingEye()) ) then
                 shouldPass = true
             end
 
@@ -135,6 +137,12 @@ if ( SERVER ) then
     end)
 
     GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
+        if not ( sv_enabled ) then
+            print("GlowLib is disabled.")
+            return false
+        end
+
         if ( ent:GetNoDraw() ) then
             return false
         end

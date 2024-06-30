@@ -9,30 +9,35 @@ Size - a number
 Position - a function(ent)
     return self:GetPos() + self:GetForward() * 2
 end
-AttachmentOffet - a function(ent) -- Used only if there is an attachment.
-    return self:GetForward() * 2
-end
 Attachment - a string
 CustomColor - a function(ent, glowCol)
     return color_white
+end
+OnInitialize - a function(ent, sprite)
+
 end
 ```
 
 **Example**
 ```
 GlowLib:Define("model.mdl", {
+    Position = function(ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
+    end,
+    Attachment = "eyes",
     Size = 0.2,
     Color = {
         [0] = Color(0, 140, 255),
         [1] = Color(180, 100, 25)
     },
-    ColorAlpha = 120,
+    ColorAlpha = 180,
 })
 ```
 ### Getting the Sprite Entity
 ```
 ** SHARED **
-ent:GetNW2Entity("GlowLib_Eye", nil)
+ent:GetGlowingEye()
 ** SERVER **
 GlowLib.Entities[ent]
 ```

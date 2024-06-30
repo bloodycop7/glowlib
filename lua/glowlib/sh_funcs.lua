@@ -10,7 +10,7 @@ if ( SERVER ) then
             return
         end
 
-        local glow_eye = ent:GetNW2Entity("GlowLib_Eye", nil)
+        local glow_eye = ent:GetGlowingEye()
         if ( IsValid(glow_eye) ) then
             glow_eye:Remove()
         end
@@ -30,7 +30,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if not ( IsValid(v:GetNW2Entity("GlowLib_Eye", nil)) ) then
+            if not ( IsValid(v:GetGlowingEye()) ) then
                 continue
             end
 
@@ -73,11 +73,11 @@ if ( SERVER ) then
             local colAlpha = glowData.ColorAlpha or glowCol.a
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02_add_noz.vmt"
             local glow_size = glowData.Size or 2
-            local vec_sprite = ( glowData["Position"] and glowData["Position"](ent, glowData) ) or vector_origin
+            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or vector_origin
             local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
-                glowCol = glowData["CustomColor"](ent, glowCol)
+                glowCol = glowData:CustomColor(ent, glowCol)
             end
 
             local sprite = ents.Create("env_sprite")
@@ -100,7 +100,7 @@ if ( SERVER ) then
             end)
 
             if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) ) then
-                glowData["OnInitialize"](ent, sprite)
+                glowData:OnInitialize(ent, sprite)
             end
 
             hook.Run("GlowLib:Initalize", ent)
