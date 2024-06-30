@@ -60,7 +60,7 @@ GlowLib:Define("models/vortigaunt.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * 3
     end,
     Attachment = "eyes",
-    Size = 0.25,
+    Size = 0.15,
     Color = {
         [0] = Color(255, 95, 0),
     },
