@@ -17,23 +17,79 @@ if ( SERVER ) then
         end)
     end
 
-    timer.Create("GlowLib:CheckForEntity", 1, 0, function()
-        for k, v in ents.Iterator() do
-            if not ( IsValid(v) ) then
-                continue
-            end
-
-            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
-                continue
-            end
-
-            if ( IsValid(v:GetGlowingEye()) ) then
-                continue
-            end
-
-            initFunc(v, 0.1)
+    local function checkForEntities(ent)
+        if not ( IsValid(ent) ) then
+            continue
         end
-    end)
+
+        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+            continue
+        end
+
+        if ( IsValid(ent:GetGlowingEye()) ) then
+            continue
+        end
+
+        initFunc(ent, 0.1)
+    end
+
+    local function updateEntities(ent)
+        if not ( IsValid(ent) ) then
+            continue
+        end
+
+        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+            continue
+        end
+
+        local model = ent:GetModel()
+        if not ( model ) then
+            continue
+        end
+
+        model = model:lower()
+        local glowData = GlowLib.Glow_Data[model]
+
+        if not ( glowData ) then
+            if ( IsValid(ent:GetGlowingEye()) ) then
+                GlowLib:Remove(ent)
+            end
+
+            continue
+        end
+
+        if ( hook.Run("GlowLib:ShouldDraw", ent) == false ) then
+            if ( IsValid(ent:GetGlowingEye()) ) then
+                GlowLib:Hide(ent)
+            end
+
+            continue
+        end
+
+        local lastModel, lastSkin = ent:GetNW2String("glowlib_lastModel", ""), ent:GetNW2Int("glowlib_lastSkin", 0)
+        local lastBodygroups, lastMaterials = ent.glow_lib_lastBodygroups or "", ent.glow_lib_lastMaterials or ""
+        local shouldPass = false
+
+        if ( lastModel == ent:GetModel() and lastSkin == ent:GetSkin() and lastBodygroups == table.ToString(ent:GetBodyGroups()) and lastMaterials == table.ToString(ent:GetMaterials()) ) then
+            shouldPass = true
+        end
+
+        if ( !IsValid(ent:GetGlowingEye()) ) then
+            shouldPass = true
+        end
+
+        if ( shouldPass ) then
+            continue
+        end
+
+        ent:SetNW2String("glowlib_lastModel", ent:GetModel())
+        ent:SetNW2Int("glowlib_lastSkin", ent:GetSkin())
+        ent.glow_lib_lastBodygroups = table.ToString(ent:GetBodyGroups())
+        ent.glow_lib_lastMaterials = table.ToString(ent:GetMaterials())
+
+        GlowLib:Initialize(ent)
+        GlowLib:SendData()
+    end
 
     GlowLib:Hook("PlayerDisconnected", "RemovePlayerEyes", function(ply)
         GlowLib:Remove(ply)
@@ -76,48 +132,8 @@ if ( SERVER ) then
                 continue
             end
 
-            model = model:lower()
-            local glowData = GlowLib.Glow_Data[model]
-
-            if not ( glowData ) then
-                if ( IsValid(v:GetGlowingEye()) ) then
-                    GlowLib:Remove(v)
-                end
-
-                continue
-            end
-
-            if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
-                if ( IsValid(v:GetGlowingEye()) ) then
-                    GlowLib:Hide(v)
-                end
-
-                continue
-            end
-
-            local lastModel, lastSkin = v:GetNW2String("glowlib_lastModel", ""), v:GetNW2Int("glowlib_lastSkin", 0)
-            local lastBodygroups, lastMaterials = v.glow_lib_lastBodygroups or "", v.glow_lib_lastMaterials or ""
-            local shouldPass = false
-
-            if ( lastModel == v:GetModel() and lastSkin == v:GetSkin() and lastBodygroups == table.ToString(v:GetBodyGroups()) and lastMaterials == table.ToString(v:GetMaterials()) ) then
-                shouldPass = true
-            end
-
-            if ( !IsValid(v:GetGlowingEye()) ) then
-                shouldPass = true
-            end
-
-            if ( shouldPass ) then
-                continue
-            end
-
-            v:SetNW2String("glowlib_lastModel", v:GetModel())
-            v:SetNW2Int("glowlib_lastSkin", v:GetSkin())
-            v.glow_lib_lastBodygroups = table.ToString(v:GetBodyGroups())
-            v.glow_lib_lastMaterials = table.ToString(v:GetMaterials())
-
-            GlowLib:Initialize(v)
-            GlowLib:SendData()
+            checkForEntities()
+            updateEntities()
         end
 
         nextThink = CurTime() + 1
