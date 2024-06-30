@@ -152,4 +152,4 @@ else
     end)
 end
 
-MsgC("\n", Color(255, 95, 0), "GlowLib by eon (bloodycop) has been loaded!\n")
+MsgC("\n", Color(255, 100, 0), "GlowLib by eon (bloodycop) has been loaded!\n")
