@@ -17,7 +17,7 @@ if ( SERVER ) then
         end)
     end
 
-    local function checkForEntities(ent)
+    local function checkForEntities(ent, glowData, glowEyes)
         if not ( IsValid(ent) ) then
             return
         end
@@ -33,77 +33,67 @@ if ( SERVER ) then
         initFunc(ent, 0.1)
     end
 
-    local function updateEntities(ent)
-        if not ( IsValid(ent) ) then
-            return
-        end
+    local function updateEntities(ent, glowData, glowEyes)
+        local saveTable = ent:GetTable()
+        if ( !saveTable ) then return end
 
-        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
-            return
-        end
-
+        local last_mdl = saveTable.GlowLib_LastModel or ""
         local model = ent:GetModel()
-        if not ( model ) then
-            return
-        end
 
-        model = model:lower()
-        local glowData = GlowLib.Glow_Data[model]
+        local last_skin = saveTable.GlowLib_LastSkin or 0
+        local skinEnt = ent:GetSkin()
 
-        local glowEyes = ent:GetGlowingEye()
-        if not ( glowData ) then
-            if ( IsValid(glowEyes) ) then
-                GlowLib:Remove(ent)
+        local last_bodygroups = table.ToString(saveTable.GlowLib_LastBodygroups or {}) or ""
+        local bodygroups = table.ToString(ent:GetBodyGroups() or {}) or ""
+
+        local last_mats = table.ToString(saveTable.GlowLib_LastMaterials or {}) or ""
+        local materials = table.ToString(ent:GetMaterials() or {}) or ""
+
+        local modelChanged, skinChanged, bodygroupsChanged, materialsChanged, colorIsChanged = false, false, false, false, false
+        if ( IsValid(glowEyes) ) then
+            local glowEyeColor = glowEyes:GetColor()
+            local spriteColor = saveTable.GlowLib_LastSpriteColor or color_white
+            local spriteAlpha = spriteColor.a or 255
+
+            if ( glowEyeColor != spriteColor or glowEyeColor.a != spriteColor.a ) then
+                colorIsChanged = true
             end
-
-            return
         end
 
-        if ( hook.Run("GlowLib:ShouldDraw", ent) == false ) then
-            if ( IsValid(glowEyes) ) then
-                GlowLib:Hide(ent)
-            end
-
-            return
+        if ( last_mdl != model ) then
+            modelChanged = true
         end
 
-        if ( !IsValid(glowEyes) ) then
-            return
+        if ( last_skin != skinEnt ) then
+            skinChanged = true
         end
 
-        local lastSpriteCol = ent:GetNW2String("glowlib_lastSpriteCol", vector_origin) or color_white:ToVector()
-        local colToLookFor = !glowData["CustomColor"] and tostring(glowData.Color[0]) or tostring(glowData["CustomColor"]) or tostring(color_white)
-        if ( lastSpriteCol != colToLookFor ) then
-            glowEyes:SetKeyValue("rendercolor", tostring(colToLookFor))
-            ent:SetNW2Vector("glowlib_lastSpriteCol", colToLookFor:ToVector())
+        if ( last_bodygroups != bodygroups ) then
+            bodygroupsChanged = true
         end
 
-        local lastSpriteAlpha = ent:GetNW2Int("glowlib_lastSpriteAlpha", 255)
-        local alphaToLookFor = colToLookFor.a or glowData.ColorAlpha or 255
-        if ( lastSpriteAlpha != alphaToLookFor ) then
-            glowEyes:SetKeyValue("renderamt", alphaToLookFor)
-            ent:SetNW2Int("glowlib_lastSpriteAlpha", alphaToLookFor)
+        if ( last_mats != materials ) then
+            materialsChanged = true
         end
 
-        local lastModel, lastSkin = ent:GetNW2String("glowlib_lastModel", ""), ent:GetNW2Int("glowlib_lastSkin", 0)
-        local lastBodygroups, lastMaterials = ent.glow_lib_lastBodygroups or "", ent.glow_lib_lastMaterials or ""
-
-        local shouldPass = false
-
-        if ( lastModel == ent:GetModel() and lastSkin == ent:GetSkin() and lastBodygroups == table.ToString(ent:GetBodyGroups()) and lastMaterials == table.ToString(ent:GetMaterials()) ) then
-            shouldPass = true
+        local shouldReNew = false
+        if ( modelChanged or skinChanged or bodygroupsChanged or materialsChanged or colorIsChanged ) then
+            shouldReNew = true
         end
 
-        if ( shouldPass ) then
-            return
+        if ( shouldReNew ) then
+            GlowLib:Remove(ent)
+            GlowLib:Initialize(ent)
         end
 
-        ent:SetNW2String("glowlib_lastModel", ent:GetModel())
-        ent:SetNW2Int("glowlib_lastSkin", ent:GetSkin())
-        ent.glow_lib_lastBodygroups = table.ToString(ent:GetBodyGroups())
-        ent.glow_lib_lastMaterials = table.ToString(ent:GetMaterials())
+        saveTable.GlowLib_LastModel = ent:GetModel()
+        saveTable.GlowLib_LastSkin = ent:GetSkin()
+        saveTable.GlowLib_LastMaterials = ent:GetMaterials()
+        saveTable.GlowLib_LastBodygroups = ent:GetBodyGroups()
+        if ( IsValid(glowEyes) ) then
+            saveTable.GlowLib_LastSpriteColor = glowEyes:GetColor()
+        end
 
-        GlowLib:Initialize(ent)
         GlowLib:SendData()
     end
 
@@ -145,11 +135,30 @@ if ( SERVER ) then
 
             local model = v:GetModel()
             if not ( model ) then
+                print("No model")
                 continue
             end
 
-            checkForEntities(v)
-            updateEntities(v)
+            model = model:lower()
+            local glowData = GlowLib.Glow_Data[model]
+            local glowEyes = v:GetGlowingEye()
+
+            if not ( glowData ) then
+                GlowLib:Remove(v)
+
+                continue
+            end
+
+            if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
+                if ( IsValid(glowEyes) ) then
+                    GlowLib:Hide(v)
+                end
+
+                continue
+            end
+
+            checkForEntities(v, glowData, glowEyes)
+            updateEntities(v, glowData, glowEyes)
         end
 
         nextThink = CurTime() + 1
@@ -171,7 +180,6 @@ if ( SERVER ) then
     GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
         local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if not ( sv_enabled ) then
-            print("GlowLib is disabled.")
             return false
         end
 
