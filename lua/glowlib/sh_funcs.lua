@@ -30,10 +30,6 @@ if ( SERVER ) then
                 continue
             end
 
-            if not ( IsValid(v:GetGlowingEye()) ) then
-                continue
-            end
-
             self:Remove(v)
         end
 

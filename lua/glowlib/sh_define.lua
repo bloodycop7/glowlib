@@ -9,9 +9,9 @@ GlowLib:Define("models/combine_soldier.mdl", {
     Size = 0.2,
     Color = {
         [0] = Color(0, 140, 255),
-        [1] = Color(180, 100, 25)
+        [1] = Color(205, 75, 0)
     },
-    ColorAlpha = 180,
+    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
@@ -25,29 +25,29 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
         [0] = Color(255, 200, 0),
         [1] = Color(255, 70, 0)
     },
-    ColorAlpha = 180,
+    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.15,
+    Size = 0.2,
     Color = {
         [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 180,
+    ColorAlpha = 255,
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.2,
+    Size = 0.25,
     Color = {
         [0] = Color(255, 135, 0),
     },
