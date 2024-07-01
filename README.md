@@ -6,14 +6,14 @@ RenderMode - a number, check https://developer.valvesoftware.com/wiki/Env_sprite
 ColorAlpha - a number (0 - 255)
 GlowTexture - a string
 Size - a number
-Position - a function(ent)
+Position - a function(self, ent)
     return self:GetPos() + self:GetForward() * 2
 end
 Attachment - a string
-CustomColor - a function(ent, glowCol)
+CustomColor - a function(self, ent, glowCol)
     return color_white
 end
-OnInitialize - a function(ent, sprite)
+OnInitialize - a function(self, ent, sprite)
 
 end
 ```
