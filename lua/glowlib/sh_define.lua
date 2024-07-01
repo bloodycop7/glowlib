@@ -69,14 +69,6 @@ GlowLib:Define("models/hunter.mdl", {
         local attachment = ent:LookupAttachment("bottom_eye")
         local attachmentData = ent:GetAttachment(attachment)
 
-        local orgSprite = ent:GetGlowingEye()
-        local olgSpriteModel = orgSprite:GetInternalVariable("model")
-        local olgSpriteRenderColor = orgSprite:GetInternalVariable("rendercolor")
-        local olgSpriteRenderAlpha = orgSprite:GetInternalVariable("renderamt")
-        local olgSpriteRenderMode = orgSprite:GetInternalVariable("rendermode")
-        local olgSpriteHDRScale = orgSprite:GetInternalVariable("HDRColorScale")
-        local olgSpriteScale = orgSprite:GetInternalVariable("scale")
-
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -5)
         sprite:SetParent(ent, attachment)
