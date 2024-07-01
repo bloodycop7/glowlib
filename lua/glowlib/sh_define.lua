@@ -85,6 +85,19 @@ GlowLib:Define("models/hunter.mdl", {
     end,
 })
 
+GlowLib:Define("models/shield_scanner.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("light"))
+        return attachmentData.Pos
+    end,
+    Attachment = "light",
+    Size = 0.15,
+    Color = {
+        [0] = Color(255, 135, 0),
+    },
+    ColorAlpha = 255,
+})
+
 GlowLib:Define("models/vortigaunt.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
