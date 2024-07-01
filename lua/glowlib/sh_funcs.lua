@@ -95,8 +95,9 @@ if ( SERVER ) then
                 self:Remove(this)
             end)
 
-            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) ) then
+            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !ent.glowlib_hasBeenInitalized ) then
                 glowData:OnInitialize(ent, sprite)
+                ent.glowlib_hasBeenInitalized = true
             end
 
             hook.Run("GlowLib:Initalize", ent)
