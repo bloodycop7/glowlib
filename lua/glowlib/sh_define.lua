@@ -44,14 +44,14 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
 GlowLib:Define("models/combine_scanner.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * -3
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.15,
+    Size = 0.4,
     Color = {
         [0] = Color(255, 135, 0),
     },
-    ColorAlpha = 255,
+    ColorAlpha = 125,
 })
 
 GlowLib:Define("models/hunter.mdl", {
