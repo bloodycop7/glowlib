@@ -87,7 +87,6 @@ if ( SERVER ) then
         end
 
         if ( shouldReNew ) then
-            GlowLib:Remove(ent)
             GlowLib:Initialize(ent)
         end
 
@@ -177,6 +176,9 @@ if ( SERVER ) then
             GlowLib:Hide(ply)
         else
             GlowLib:Show(ply)
+            timer.Simple(0.1, function()
+                ply:SendLua([[LocalPlayer():GetGlowingEye():SetNoDraw(true)]])
+            end)
         end
     end)
 
