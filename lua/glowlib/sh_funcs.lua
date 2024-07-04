@@ -159,7 +159,7 @@ function GlowLib:ShowAll()
             continue
         end
 
-        local model = ent:GetModel()
+        local model = v:GetModel()
         if not ( model ) then
             continue
         end

@@ -104,6 +104,8 @@ else
         local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
         if not ( cl_enabled ) then
             GlowLib:HideAll()
+
+            return
         end
 
         local glow_eyes = ply:GetGlowingEye()
@@ -118,15 +120,6 @@ else
         end
 
         nextThink = CurTime() + 1
-    end)
-
-    GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
-        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        if not ( cl_enabled ) then
-            return false
-        end
-
-        return true
     end)
 
     concommand.Add("glowlib_print_attachments", function()

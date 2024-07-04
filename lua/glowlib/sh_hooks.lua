@@ -90,6 +90,18 @@ if ( SERVER ) then
             GlowLib:Initialize(ent)
         end
 
+        local glowEyes = ent:GetGlowingEye()
+        if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
+            if ( IsValid(glowEyes) ) then
+                print("Hiding eyes")
+                GlowLib:Hide(ent)
+            end
+        else
+            if ( IsValid(glowEyes) and glowEyes:GetNoDraw() ) then
+                GlowLib:Show(ent)
+            end
+        end
+
         saveTable.GlowLib_LastModel = ent:GetModel()
         saveTable.GlowLib_LastSkin = ent:GetSkin()
         saveTable.GlowLib_LastMaterials = ent:GetMaterials()
@@ -148,7 +160,6 @@ if ( SERVER ) then
 
             model = model:lower()
             local glowData = GlowLib.Glow_Data[model]
-            local glowEyes = v:GetGlowingEye()
 
             if not ( glowData ) then
                 GlowLib:Remove(v)
@@ -156,13 +167,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( hook.Run("GlowLib:ShouldDraw", v) == false ) then
-                if ( IsValid(glowEyes) ) then
-                    GlowLib:Hide(v)
-                end
-
-                continue
-            end
+            local glowEyes = v:GetGlowingEye()
 
             checkForEntities(v, glowData, glowEyes)
             updateEntities(v, glowData, glowEyes)
@@ -171,32 +176,23 @@ if ( SERVER ) then
         nextThink = CurTime() + 1
     end)
 
-    GlowLib:Hook("PlayerNoClip", "NoClipEyes", function(ply, state)
-        if ( state ) then
-            GlowLib:Hide(ply)
-        else
-            GlowLib:Show(ply)
-            timer.Simple(0.1, function()
-                ply:SendLua([[LocalPlayer():GetGlowingEye():SetNoDraw(true)]])
-            end)
-        end
-    end)
-
     GlowLib:Hook("DoPlayerDeath", "RemovePlayerEyes", function(ply)
-        GlowLib:Remove(ply)
+        GlowLib:Hide(ply)
         GlowLib:SendData()
     end)
+end
 
-    GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+    if ( SERVER ) then
         local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if not ( sv_enabled ) then
             return false
         end
+    end
 
-        if ( ent:GetNoDraw() ) then
-            return false
-        end
+    if ( ent:GetNoDraw() ) then
+        return false
+    end
 
-        return true
-    end)
-end
+    return true
+end)
