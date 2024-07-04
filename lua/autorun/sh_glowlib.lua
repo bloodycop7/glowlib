@@ -107,11 +107,26 @@ else
         end
 
         local glow_eyes = ply:GetGlowingEye()
-        if ( IsValid(glow_eyes) and hook.Run("ShouldDrawLocalPlayer", ply) == false ) then
-            glow_eyes:SetNoDraw(true)
+        if ( IsValid(glow_eyes) ) then
+            if ( !ply:ShouldDrawLocalPlayer() and !hook.Run("ShouldDrawLocalPlayer", ply) ) then
+                GlowLib:Hide(ply)
+            else
+                if ( hook.Run("GlowLib:ShouldDraw", ply) and glow_eyes:GetNoDraw() ) then
+                    GlowLib:Show(ply)
+                end
+            end
         end
 
         nextThink = CurTime() + 1
+    end)
+
+    GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if not ( cl_enabled ) then
+            return false
+        end
+
+        return true
     end)
 
     concommand.Add("glowlib_print_attachments", function()
@@ -135,8 +150,9 @@ else
                 continue
             end
 
-            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
-                continue
+            local model = v:GetModel()
+            if not ( model ) then
+                return
             end
 
             if ( v == ply ) then
@@ -152,4 +168,6 @@ else
     end)
 end
 
-MsgC("\n", Color(255, 100, 0), "GlowLib by eon (bloodycop) has been loaded!\n")
+if ( CLIENT ) then
+    MsgC(Color(255, 100, 0), "[ GlowLib ] by eon (bloodycop)", color_white, " has been loaded!\n")
+end

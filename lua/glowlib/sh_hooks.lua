@@ -22,7 +22,8 @@ if ( SERVER ) then
             return
         end
 
-        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+        local model = ent:GetModel()
+        if not ( model ) then
             return
         end
 
@@ -114,7 +115,15 @@ if ( SERVER ) then
                 continue
             end
 
-            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
+            local model = v:GetModel()
+            if not ( model ) then
+                continue
+            end
+
+            local glowData = GlowLib.Glow_Data[model]
+            if not ( glowData ) then
+                GlowLib:Remove(v)
+
                 continue
             end
 
@@ -133,13 +142,8 @@ if ( SERVER ) then
                 continue
             end
 
-            if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
-                continue
-            end
-
             local model = v:GetModel()
             if not ( model ) then
-                print("No model")
                 continue
             end
 

@@ -20,7 +20,8 @@ cvars.AddChangeCallback("sv_glowlib_enabled", function(_, _, newValue)
             continue
         end
 
-        if not ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() or v:IsRagdoll() ) then
+        local model = v:GetModel()
+        if not ( model ) then
             continue
         end
 

@@ -6,7 +6,8 @@ if ( SERVER ) then
             return
         end
 
-        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+        local model = ent:GetModel()
+        if not ( model ) then
             return
         end
 
@@ -26,7 +27,8 @@ if ( SERVER ) then
                 continue
             end
 
-            if not ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() or v:IsRagdoll() ) then
+            local model = v:GetModel()
+            if not ( model ) then
                 continue
             end
 
@@ -38,10 +40,6 @@ if ( SERVER ) then
 
     function GlowLib:Initialize(ent)
         if not ( IsValid(ent) ) then
-            return
-        end
-
-        if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
             return
         end
 
@@ -62,7 +60,6 @@ if ( SERVER ) then
 
         model = model:lower()
         local glowData = self.Glow_Data[model]
-
         if ( glowData ) then
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
             local renderMode = glowData.RenderMode or 9
@@ -74,6 +71,10 @@ if ( SERVER ) then
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
+            end
+
+            if ( glowData["ShouldDraw"] and isfunction(glowData["ShouldDraw"]) and !glowData:ShouldDraw(ent) ) then
+                return
             end
 
             local sprite = ents.Create("env_sprite")
@@ -110,7 +111,8 @@ function GlowLib:Hide(ent)
         return
     end
 
-    if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+    local model = ent:GetModel()
+    if not ( model ) then
         return
     end
 
@@ -126,7 +128,8 @@ function GlowLib:HideAll()
             continue
         end
 
-        if not ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() or v:IsRagdoll() ) then
+        local model = v:GetModel()
+        if not ( model ) then
             continue
         end
 
@@ -139,7 +142,8 @@ function GlowLib:Show(ent)
         return
     end
 
-    if not ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() or ent:IsRagdoll() ) then
+    local model = ent:GetModel()
+    if not ( model ) then
         return
     end
 
@@ -155,7 +159,8 @@ function GlowLib:ShowAll()
             continue
         end
 
-        if not ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() or v:IsRagdoll() ) then
+        local model = ent:GetModel()
+        if not ( model ) then
             continue
         end
 
