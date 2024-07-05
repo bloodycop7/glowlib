@@ -35,23 +35,6 @@ function GlowLib:IncludeDir(dir)
     end
 end
 
-local hookAdd = hook.Add
-function GlowLib:Hook(hookName, hookIdentifier, hookFunc)
-    if not ( hookName ) then
-        return print("GlowLib:Hook - hookName is a required argument [1]")
-    end
-
-    if not ( hookIdentifier ) then
-        return print("GlowLib:Hook - hookIdentifier is a required argument [2]")
-    end
-
-    hookFunc = hookFunc or function()
-        print(hookName, hookFunc, "Does not have a proper function argument [3]")
-    end
-
-    hookAdd(hookName, "GlowLib:" .. hookIdentifier, hookFunc)
-end
-
 function GlowLib:Define(entModel, glowData)
     if not ( entModel ) then
         return print("GlowLib:Define - entModel is a required argument [1]")
@@ -65,7 +48,7 @@ function GlowLib:Define(entModel, glowData)
 end
 
 GlowLib:IncludeDir("glowlib")
-GlowLib:Hook("OnReloaded", "GlowLibReload", function()
+hook.Add("OnReloaded", "GlowLib:Reload", function()
     GlowLib:IncludeDir("glowlib")
 end)
 
@@ -88,16 +71,6 @@ if ( SERVER ) then
 else
     net.Receive("GlowLib:SendData", function()
         GlowLib.Entities = net.ReadTable()
-    end)
-
-    local nextThink = 0
-    GlowLib:Hook("Think", "ClearEyesClientside", function()
-        if ( nextThink > CurTime() ) then return end
-
-        local ply = LocalPlayer()
-        if ( !IsValid(ply) ) then return end
-
-        nextThink = CurTime() + 1
     end)
 
     concommand.Add("glowlib_print_attachments", function()

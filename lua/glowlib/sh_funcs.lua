@@ -64,9 +64,7 @@ if ( SERVER ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
             end
 
-            if ( glowData["ShouldDraw"] and isfunction(glowData["ShouldDraw"]) and !glowData:ShouldDraw(ent) ) then
-                return
-            end
+            if ( glowData["ShouldDraw"] and isfunction(glowData["ShouldDraw"]) and !glowData:ShouldDraw(ent) ) then return end
 
             local sprite = ents.Create("env_sprite")
             sprite:SetPos(vec_sprite)
@@ -75,16 +73,16 @@ if ( SERVER ) then
             sprite:SetKeyValue("rendercolor", tostring(glowCol))
             sprite:SetKeyValue("renderamt", tostring(colAlpha))
             sprite:SetKeyValue("rendermode", tostring(renderMode))
-            sprite:SetKeyValue("HDRColorScale", "3")
+            sprite:SetKeyValue("HDRColorScale", "0.5")
             sprite:SetKeyValue("scale", tostring(glow_size))
             sprite:Spawn()
 
             ent:SetNW2Entity("GlowLib_Eye", sprite)
             self.Entities[ent] = sprite
 
-            ent:DeleteOnRemove(sprite)
+            //ent:DeleteOnRemove(sprite)
             ent:CallOnRemove("GlowLibRemove", function(this)
-                self:Remove(this)
+                //self:Remove(this)
             end)
 
             if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !ent.glowlib_hasBeenInitalized ) then
@@ -106,31 +104,29 @@ if ( SERVER ) then
         local glowEye = ent:GetGlowingEye()
         if ( !IsValid(glowEye) ) then return end
 
-
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
-        glowEye:SetKeyValue(glowData.GlowTexture or "sprites/light_glow02.vmt")
+        glowEye:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
         glowEye:SetKeyValue("rendercolor", tostring(glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white))
         glowEye:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
         glowEye:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
         glowEye:SetKeyValue("HDRColorScale", "0.5")
-        glowEye:SetKeyValue("scale", tostring(glowData.Size or 2))
+        glowEye:SetKeyValue("scale", tostring(glowData.Size or 0.3))
     end
 end
 
 function GlowLib:Hide(ent)
-    if not ( IsValid(ent) ) then
-        return
-    end
+    if ( !IsValid(ent) ) then return end
 
     local model = ent:GetModel()
-    if not ( model ) then
-        return
-    end
+    if ( !model ) then return end
+
+    local glowData = self.Glow_Data[model]
+    if ( !glowData ) then return end
 
     local glow_eye = ent:GetGlowingEye()
-    if ( IsValid(glow_eye) ) then
+    if ( IsValid(glow_eye) and !glow_eye:GetNoDraw() ) then
         glow_eye:SetNoDraw(true)
     end
 end
@@ -146,22 +142,24 @@ function GlowLib:HideAll()
             continue
         end
 
+        local glowData = self.Glow_Data[model]
+        if ( !glowData ) then continue end
+
         self:Hide(v)
     end
 end
 
 function GlowLib:Show(ent)
-    if not ( IsValid(ent) ) then
-        return
-    end
+    if ( !IsValid(ent) ) then return end
 
     local model = ent:GetModel()
-    if not ( model ) then
-        return
-    end
+    if ( !model ) then return end
+
+    local glowData = self.Glow_Data[model]
+    if ( !glowData ) then return end
 
     local glow_eye = ent:GetGlowingEye()
-    if ( IsValid(glow_eye) ) then
+    if ( IsValid(glow_eye) and glow_eye:GetNoDraw() ) then
         glow_eye:SetNoDraw(false)
     end
 end
@@ -176,6 +174,9 @@ function GlowLib:ShowAll()
         if not ( model ) then
             continue
         end
+
+        local glowData = self.Glow_Data[model]
+        if ( !glowData ) then continue end
 
         self:Show(v)
     end

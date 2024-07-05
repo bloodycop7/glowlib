@@ -44,6 +44,10 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
 GlowLib:Define("models/combine_scanner.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        if ( !attachmentData ) then
+            return ent:GetPos() + ent:GetAngles():Forward() * 5
+        end
+
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",

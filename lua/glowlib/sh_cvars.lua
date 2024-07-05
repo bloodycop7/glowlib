@@ -11,23 +11,12 @@ cvars.AddChangeCallback("sv_glowlib_enabled", function(_, _, newValue)
     end
 
     if ( newValue == "0" ) then
-        GlowLib:RemoveAll()
+        GlowLib:HideAll()
 
         return
     end
 
-    for k, v in ents.Iterator() do
-        if not ( IsValid(v) ) then
-            continue
-        end
-
-        local model = v:GetModel()
-        if not ( model ) then
-            continue
-        end
-
-        GlowLib:Initialize(v)
-    end
+    GlowLib:ShowAll()
 end)
 
 cvars.AddChangeCallback("cl_glowlib_enabled", function(_, _, newValue)
