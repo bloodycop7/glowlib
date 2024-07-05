@@ -80,6 +80,11 @@ if ( SERVER ) then
             ent:SetNW2Entity("GlowLib_Eye", sprite)
             self.Entities[ent] = sprite
 
+            ent:DeleteOnRemove(sprite)
+            ent:CallOnRemove("GlowLib:Remove", function(ent)
+                GlowLib:Remove(ent)
+            end)
+
             if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !ent.glowlib_hasBeenInitalized ) then
                 glowData:OnInitialize(ent, sprite)
                 ent.glowlib_hasBeenInitalized = true
