@@ -110,11 +110,6 @@ if ( SERVER ) then
         GlowLib:SendData()
     end
 
-    GlowLib:Hook("PlayerDisconnected", "RemovePlayerEyes", function(ply)
-        GlowLib:Remove(ply)
-        GlowLib:SendData()
-    end)
-
     GlowLib:Hook("OnReloaded", "RemoveAllEyes", function()
         GlowLib:RemoveAll()
 
@@ -130,8 +125,6 @@ if ( SERVER ) then
 
             local glowData = GlowLib.Glow_Data[model]
             if not ( glowData ) then
-                GlowLib:Remove(v)
-
                 continue
             end
 
@@ -159,8 +152,6 @@ if ( SERVER ) then
             local glowData = GlowLib.Glow_Data[model]
 
             if not ( glowData ) then
-                GlowLib:Remove(v)
-
                 continue
             end
 

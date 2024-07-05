@@ -48,8 +48,7 @@ if ( SERVER ) then
             glow_eye:Remove()
         end
 
-        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool() or true
-        if not ( sv_enabled ) then
+        if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
             return
         end
 
