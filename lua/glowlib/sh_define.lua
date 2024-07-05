@@ -11,7 +11,7 @@ GlowLib:Define("models/combine_soldier.mdl", {
         [0] = Color(0, 140, 255),
         [1] = Color(205, 75, 0)
     },
-    ColorAlpha = 200,
+    ColorAlpha = 170,
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
@@ -25,7 +25,7 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
         [0] = Color(255, 200, 0),
         [1] = Color(255, 70, 0)
     },
-    ColorAlpha = 200,
+    ColorAlpha = 170,
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
@@ -111,8 +111,11 @@ GlowLib:Define("models/vortigaunt.mdl", {
     Color = {
         [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 255,
+    ColorAlpha = 230,
 })
+
+GlowLib.Glow_Data["models/vortigaunt_blue.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
+GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
 
 GlowLib:Define("models/dog.mdl", {
     Position = function(self, ent)
@@ -124,5 +127,5 @@ GlowLib:Define("models/dog.mdl", {
     Color = {
         [0] = Color(255, 50, 0),
     },
-    ColorAlpha = 255,
+    ColorAlpha = 230,
 })
