@@ -180,6 +180,13 @@ GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
         if ( !ply:ShouldDrawLocalPlayer() or !hook.Run("ShouldDrawLocalPlayer", ply) ) then
             return false
         end
+
+        if ( ent:Health() <= 0 ) then
+            local cl_keep_on_death = GetConVar("cl_glowlib_keep_on_death"):GetBool()
+            if not ( cl_keep_on_death ) then
+                return false
+            end
+        end
     end
 
     if ( ent:GetNoDraw() ) then
