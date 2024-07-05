@@ -64,7 +64,14 @@ hook.Add("Think", "GlowLib:Think_SV", function()
     if ( !sv_enabled ) then return end
 
     for k, v in ents.Iterator() do
-        if ( !IsValid(v) ) then continue end
+        if ( !IsValid(v) ) then
+            local stored_eye = GlowLib.Entities[v]
+            if ( IsValid(stored_eye) ) then
+                stored_eye:Remove()
+            end
+
+            continue
+        end
 
         local model = v:GetModel()
         if ( !model ) then continue end

@@ -80,11 +80,6 @@ if ( SERVER ) then
             ent:SetNW2Entity("GlowLib_Eye", sprite)
             self.Entities[ent] = sprite
 
-            ent:DeleteOnRemove(sprite)
-            ent:CallOnRemove("GlowLibRemove", function(this)
-                self:Remove(this)
-            end)
-
             if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !ent.glowlib_hasBeenInitalized ) then
                 glowData:OnInitialize(ent, sprite)
                 ent.glowlib_hasBeenInitalized = true
@@ -162,6 +157,23 @@ function GlowLib:Show(ent)
     local glow_eye = ent:GetGlowingEye()
     if ( IsValid(glow_eye) and glow_eye:GetNoDraw() ) then
         glow_eye:SetNoDraw(false)
+    end
+
+    if ( CLIENT ) then
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        local plyModel = ply:GetModel()
+        if ( !plyModel ) then return end
+        plyModel = plyModel:lower()
+
+        local glowData = self.Glow_Data[plyModel]
+        if ( !glowData ) then return end
+
+        local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
+        if ( !shouldDrawLocalPlayer ) then
+            self:Hide(ply)
+        end
     end
 end
 
