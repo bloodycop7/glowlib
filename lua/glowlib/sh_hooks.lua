@@ -25,33 +25,7 @@ local function updateGlow(ent)
     local glowEye = ent:GetGlowingEye()
     if ( !IsValid(glowEye) ) then return end
 
-    local saveData = ent:GetTable()
-    if ( !saveData ) then return end
-
-    local updModel, updSkin, updMaterials, updBodygroups = false, false, false, false
-    if ( !saveData.GlowLib_Model or saveData.GlowLib_Model != model ) then
-        saveData.GlowLib_Model = model
-        updModel = true
-    end
-
-    if ( !saveData.GlowLib_Skin or saveData.GlowLib_Skin != ent:GetSkin() ) then
-        saveData.GlowLib_Skin = ent:GetSkin()
-        updSkin = true
-    end
-
-    if ( !saveData.GlowLib_Materials or saveData.GlowLib_Materials != ent:GetMaterials() ) then
-        saveData.GlowLib_Materials = ent:GetMaterials()
-        updMaterials = true
-    end
-
-    if ( !saveData.GlowLib_Bodygroups or saveData.GlowLib_Bodygroups != ent:GetBodyGroups() ) then
-        saveData.GlowLib_Bodygroups = ent:GetBodyGroups()
-        updBodygroups = true
-    end
-
-    if ( updModel or updSkin or updMaterials or updBodygroups ) then
-        GlowLib:Update(ent)
-    end
+    GlowLib:Update(ent)
 end
 
 local nextThinkSV = 0

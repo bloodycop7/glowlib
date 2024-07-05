@@ -101,7 +101,7 @@ GlowLib:Define("models/vortigaunt.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0),
+        [0] = Color(255, 50, 50),
     },
     ColorAlpha = 230,
 })
@@ -117,7 +117,7 @@ GlowLib:Define("models/dog.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 50, 0),
+        [0] = Color(220, 10, 0),
     },
-    ColorAlpha = 230,
+    ColorAlpha = 255,
 })
