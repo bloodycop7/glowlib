@@ -73,16 +73,19 @@ hook.Add("Think", "GlowLib:Think_SV", function()
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then
             GlowLib:Remove(v)
+
             continue
         end
 
         if ( v:GetNoDraw() ) then
             GlowLib:Hide(v)
+
             continue
         end
 
-        if ( v:Health() <= 0 ) then
+        if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 ) then
             GlowLib:Remove(v)
+
             continue
         end
 
@@ -127,12 +130,12 @@ hook.Add("Think", "GlowLib:Think_CL", function()
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then continue end
 
-        if ( v == ply ) then continue end
-
         if ( v:GetNoDraw() ) then
             GlowLib:Hide(v)
             continue
         end
+
+        if ( v == ply ) then continue end
 
         local glowEye = v:GetGlowingEye()
         if ( IsValid(glowEye) ) then

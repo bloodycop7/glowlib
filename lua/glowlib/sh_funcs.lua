@@ -18,6 +18,7 @@ if ( SERVER ) then
 
         ent:SetNW2Entity("GlowLib_Eye", nil)
         self.Entities[ent] = nil
+
         hook.Run("GlowLib:Remove", ent)
     end
 
@@ -113,6 +114,8 @@ if ( SERVER ) then
         glowEye:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
         glowEye:SetKeyValue("HDRColorScale", "0.5")
         glowEye:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+
+        hook.Run("GlowLib:Update", ent)
     end
 end
 
@@ -130,6 +133,8 @@ function GlowLib:Hide(ent)
     if ( IsValid(glow_eye) and !glow_eye:GetNoDraw() ) then
         glow_eye:SetNoDraw(true)
     end
+
+    hook.Run("GlowLib:Hide", ent)
 end
 
 function GlowLib:HideAll()
@@ -180,6 +185,8 @@ function GlowLib:Show(ent)
             self:Hide(ply)
         end
     end
+
+    hook.Run("GlowLib:Show", ent)
 end
 
 function GlowLib:ShowAll()
