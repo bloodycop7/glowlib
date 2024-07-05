@@ -121,6 +121,7 @@ function GlowLib:Hide(ent)
 
     local model = ent:GetModel()
     if ( !model ) then return end
+    model = model:lower()
 
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
@@ -138,9 +139,8 @@ function GlowLib:HideAll()
         end
 
         local model = v:GetModel()
-        if not ( model ) then
-            continue
-        end
+        if ( !model ) then continue end
+        model = model:lower()
 
         local glowData = self.Glow_Data[model]
         if ( !glowData ) then continue end
@@ -154,6 +154,7 @@ function GlowLib:Show(ent)
 
     local model = ent:GetModel()
     if ( !model ) then return end
+    model = model:lower()
 
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
@@ -171,9 +172,8 @@ function GlowLib:ShowAll()
         end
 
         local model = v:GetModel()
-        if not ( model ) then
-            continue
-        end
+        if ( !model ) then continue end
+        model = model:lower()
 
         local glowData = self.Glow_Data[model]
         if ( !glowData ) then continue end

@@ -6,6 +6,7 @@ local function initGlow(ent)
     if ( !IsValid(ent) ) then return end
     local model = ent:GetModel()
     if ( !model ) then return end
+    model = model:lower()
 
     local glowEye = ent:GetGlowingEye()
     if ( IsValid(glowEye) ) then return end
@@ -19,6 +20,7 @@ local function updateGlow(ent)
     if ( !IsValid(ent) ) then return end
     local model = ent:GetModel()
     if ( !model ) then return end
+    model = model:lower()
 
     local glowEye = ent:GetGlowingEye()
     if ( !IsValid(glowEye) ) then return end
@@ -66,6 +68,7 @@ hook.Add("Think", "GlowLib:Think_SV", function()
 
         local model = v:GetModel()
         if ( !model ) then continue end
+        model = model:lower()
 
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then continue end
@@ -111,6 +114,7 @@ hook.Add("Think", "GlowLib:Think_CL", function()
 
         local model = v:GetModel()
         if ( !model ) then continue end
+        model = model:lower()
 
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then continue end

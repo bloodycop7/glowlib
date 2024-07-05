@@ -38,7 +38,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     Color = {
         [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 255,
+    ColorAlpha = 230,
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
@@ -55,7 +55,6 @@ GlowLib:Define("models/combine_scanner.mdl", {
     Color = {
         [0] = Color(255, 135, 0),
     },
-    ColorAlpha = 125,
 })
 
 GlowLib:Define("models/hunter.mdl", {
