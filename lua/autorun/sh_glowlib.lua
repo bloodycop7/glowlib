@@ -52,27 +52,7 @@ hook.Add("OnReloaded", "GlowLib:Reload", function()
     GlowLib:IncludeDir("glowlib")
 end)
 
-if ( SERVER ) then
-    util.AddNetworkString("GlowLib:SendData")
-
-    function GlowLib:SendData()
-        local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
-        if not ( sv_enabled ) then
-            self:HideAll()
-            return
-        end
-
-        net.Start("GlowLib:SendData")
-            net.WriteTable(self.Entities)
-        net.Broadcast()
-
-        hook.Run("GlowLib:SendData")
-    end
-else
-    net.Receive("GlowLib:SendData", function()
-        GlowLib.Entities = net.ReadTable()
-    end)
-
+if ( CLIENT ) then
     concommand.Add("glowlib_print_attachments", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
         if not ( IsValid(ent) ) then

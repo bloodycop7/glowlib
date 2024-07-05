@@ -96,6 +96,8 @@ hook.Add("Think", "GlowLib:Think_SV", function()
             initGlow(v)
         end
     end
+
+    GlowLib:SendData()
 end)
 
 local nextThinkCL = 0

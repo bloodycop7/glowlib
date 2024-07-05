@@ -17,8 +17,6 @@ if ( SERVER ) then
         end
 
         ent:SetNW2Entity("GlowLib_Eye", nil)
-        self.Entities[ent] = nil
-
         hook.Run("GlowLib:Remove", ent)
     end
 
@@ -79,7 +77,6 @@ if ( SERVER ) then
             sprite:Spawn()
 
             ent:SetNW2Entity("GlowLib_Eye", sprite)
-            self.Entities[ent] = sprite
 
             ent:DeleteOnRemove(sprite)
             ent:CallOnRemove("GlowLib:Remove", function(ent)
@@ -183,6 +180,14 @@ function GlowLib:Show(ent)
         local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
         if ( !shouldDrawLocalPlayer ) then
             self:Hide(ply)
+        end
+    else
+        if ( ent:IsPlayer() ) then
+            timer.Simple(0.1, function()
+                if ( !IsValid(ent) ) then return end
+
+                ent:SendLua([[GlowLib:Hide(LocalPlayer())]])
+            end)
         end
     end
 

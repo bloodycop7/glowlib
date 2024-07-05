@@ -5,9 +5,7 @@ else
 end
 
 cvars.AddChangeCallback("sv_glowlib_enabled", function(_, _, newValue)
-    if not ( SERVER ) then
-        return
-    end
+    if ( !SERVER ) then return end
 
     if ( newValue == "0" ) then
         GlowLib:HideAll()
