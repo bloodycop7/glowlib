@@ -110,12 +110,10 @@ else
 
         local glow_eyes = ply:GetGlowingEye()
         if ( IsValid(glow_eyes) ) then
-            if ( !ply:ShouldDrawLocalPlayer() and !hook.Run("ShouldDrawLocalPlayer", ply) ) then
+            if ( !hook.Run("GlowLib:ShouldDraw", ply) ) then
                 GlowLib:Hide(ply)
             else
-                if ( hook.Run("GlowLib:ShouldDraw", ply) and glow_eyes:GetNoDraw() ) then
-                    GlowLib:Show(ply)
-                end
+                GlowLib:Show(ply)
             end
         end
 

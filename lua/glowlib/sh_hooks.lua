@@ -91,13 +91,10 @@ if ( SERVER ) then
         end
 
         local glowEyes = ent:GetGlowingEye()
-        if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
-            if ( IsValid(glowEyes) ) then
-                print("Hiding eyes")
+        if ( IsValid(glowEyes) ) then
+            if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
                 GlowLib:Hide(ent)
-            end
-        else
-            if ( IsValid(glowEyes) and glowEyes:GetNoDraw() ) then
+            else
                 GlowLib:Show(ent)
             end
         end
@@ -175,17 +172,22 @@ if ( SERVER ) then
 
         nextThink = CurTime() + 1
     end)
-
-    GlowLib:Hook("DoPlayerDeath", "RemovePlayerEyes", function(ply)
-        GlowLib:Hide(ply)
-        GlowLib:SendData()
-    end)
 end
 
 GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
+    if ( !IsValid(ent) ) then return false end
     if ( SERVER ) then
         local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if not ( sv_enabled ) then
+            return false
+        end
+    end
+
+    if ( CLIENT ) then
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        if ( !ply:ShouldDrawLocalPlayer() or !hook.Run("ShouldDrawLocalPlayer", ply) ) then
             return false
         end
     end
