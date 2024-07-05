@@ -120,10 +120,7 @@ hook.Add("Think", "GlowLib:Think_CL", function()
         model = model:lower()
 
         local glowData = GlowLib.Glow_Data[model]
-        if ( !glowData ) then
-            GlowLib:Remove(v)
-            continue
-        end
+        if ( !glowData ) then continue end
 
         if ( v == ply ) then continue end
 
