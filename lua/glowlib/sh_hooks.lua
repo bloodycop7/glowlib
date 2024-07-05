@@ -90,7 +90,6 @@ if ( SERVER ) then
             GlowLib:Initialize(ent)
         end
 
-        local glowEyes = ent:GetGlowingEye()
         if ( IsValid(glowEyes) ) then
             if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
                 GlowLib:Hide(ent)
