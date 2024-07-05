@@ -47,7 +47,7 @@ GlowLib:Define("models/combine_scanner.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.4,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 135, 0),
     },
@@ -104,7 +104,7 @@ GlowLib:Define("models/vortigaunt.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * 3
     end,
     Attachment = "eyes",
-    Size = 0.35,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 0, 0),
     },
@@ -117,7 +117,7 @@ GlowLib:Define("models/dog.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * 0
     end,
     Attachment = "eyes",
-    Size = 0.25,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 50, 0),
     },

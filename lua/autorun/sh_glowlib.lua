@@ -92,30 +92,10 @@ else
 
     local nextThink = 0
     GlowLib:Hook("Think", "ClearEyesClientside", function()
-        if ( nextThink > CurTime() ) then
-            return
-        end
+        if ( nextThink > CurTime() ) then return end
 
         local ply = LocalPlayer()
-        if not ( IsValid(ply) ) then
-            return
-        end
-
-        local cl_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        if not ( cl_enabled ) then
-            GlowLib:HideAll()
-
-            return
-        end
-
-        local glow_eyes = ply:GetGlowingEye()
-        if ( IsValid(glow_eyes) ) then
-            if ( !hook.Run("GlowLib:ShouldDraw", ply) ) then
-                GlowLib:Hide(ply)
-            else
-                GlowLib:Show(ply)
-            end
-        end
+        if ( !IsValid(ply) ) then return end
 
         nextThink = CurTime() + 1
     end)

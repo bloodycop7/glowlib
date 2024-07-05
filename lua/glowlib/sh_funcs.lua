@@ -39,32 +39,24 @@ if ( SERVER ) then
     end
 
     function GlowLib:Initialize(ent)
-        if not ( IsValid(ent) ) then
-            return
-        end
+        if ( !IsValid(ent) ) then return end
 
         local glow_eye = ent:GetGlowingEye()
         if ( IsValid(glow_eye) ) then
             glow_eye:Remove()
         end
 
-        if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
-            return
-        end
-
         local model = ent:GetModel()
-        if not ( model ) then
-            return
-        end
-
+        if ( !model ) then return end
         model = model:lower()
+
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
             local renderMode = glowData.RenderMode or 9
             local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
-            local glow_size = glowData.Size or 2
+            local glow_size = glowData.Size or 0.3
             local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or vector_origin
             local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
 
@@ -83,7 +75,7 @@ if ( SERVER ) then
             sprite:SetKeyValue("rendercolor", tostring(glowCol))
             sprite:SetKeyValue("renderamt", tostring(colAlpha))
             sprite:SetKeyValue("rendermode", tostring(renderMode))
-            sprite:SetKeyValue("HDRColorScale", "0.5")
+            sprite:SetKeyValue("HDRColorScale", "3")
             sprite:SetKeyValue("scale", tostring(glow_size))
             sprite:Spawn()
 
@@ -102,6 +94,28 @@ if ( SERVER ) then
 
             hook.Run("GlowLib:Initalize", ent)
         end
+    end
+
+    function GlowLib:Update(ent)
+        if ( !IsValid(ent) ) then return end
+
+        local model = ent:GetModel()
+        if ( !model ) then return end
+        model = model:lower()
+
+        local glowEye = ent:GetGlowingEye()
+        if ( !IsValid(glowEye) ) then return end
+
+
+        local glowData = GlowLib.Glow_Data[model]
+        if ( !glowData ) then return end
+
+        glowEye:SetKeyValue(glowData.GlowTexture or "sprites/light_glow02.vmt")
+        glowEye:SetKeyValue("rendercolor", tostring(glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white))
+        glowEye:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
+        glowEye:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
+        glowEye:SetKeyValue("HDRColorScale", "0.5")
+        glowEye:SetKeyValue("scale", tostring(glowData.Size or 2))
     end
 end
 

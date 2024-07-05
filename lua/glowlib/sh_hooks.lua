@@ -1,167 +1,53 @@
 local GlowLib = GlowLib
 
 if ( SERVER ) then
-    local function initFunc(ent, timeOverride)
-        if not ( IsValid(ent) ) then
-            return
-        end
-
-        timeOverride = timeOverride or 0.3
-
-        timer.Simple(timeOverride, function()
-            if not ( IsValid(ent) ) then
-                return
-            end
-
-            GlowLib:Initialize(ent)
-        end)
-    end
-
-    local function checkForEntities(ent, glowData, glowEyes)
-        if not ( IsValid(ent) ) then
-            return
-        end
-
+    local function initGlow(ent)
+        if ( !IsValid(ent) ) then return end
         local model = ent:GetModel()
-        if not ( model ) then
-            return
-        end
+        if ( !model ) then return end
 
-        if ( IsValid(ent:GetGlowingEye()) ) then
-            return
-        end
+        local glowEye = ent:GetGlowingEye()
+        if ( IsValid(glowEye) ) then return end
 
-        initFunc(ent, 0.1)
+        GlowLib:Initialize(ent)
     end
 
-    local function updateEntities(ent, glowData, glowEyes)
-        local saveTable = ent:GetTable()
-        if ( !saveTable ) then return end
-
-        local last_mdl = saveTable.GlowLib_LastModel or ""
+    local function updateGlow(ent)
+        if ( !IsValid(ent) ) then return end
         local model = ent:GetModel()
+        if ( !model ) then return end
 
-        local last_skin = saveTable.GlowLib_LastSkin or 0
-        local skinEnt = ent:GetSkin()
+        local glowEye = ent:GetGlowingEye()
+        if ( !IsValid(glowEye) ) then return end
 
-        local last_bodygroups = table.ToString(saveTable.GlowLib_LastBodygroups or {}) or ""
-        local bodygroups = table.ToString(ent:GetBodyGroups() or {}) or ""
+        local saveData = ent:GetTable()
+        if ( !saveData ) then return end
 
-        local last_mats = table.ToString(saveTable.GlowLib_LastMaterials or {}) or ""
-        local materials = table.ToString(ent:GetMaterials() or {}) or ""
-
-        local modelChanged, skinChanged, bodygroupsChanged, materialsChanged, colorIsChanged = false, false, false, false, false
-        if ( IsValid(glowEyes) ) then
-            local glowEyeColor = glowEyes:GetColor()
-            local spriteColor = saveTable.GlowLib_LastSpriteColor or color_white
-            local spriteAlpha = spriteColor.a or 255
-
-            if ( glowData["CustomColor"] ) then
-                glowEyeColor = glowData:CustomColor(ent, glowEyeColor)
-            end
-
-            if ( glowEyeColor != spriteColor or glowEyeColor.a != spriteColor.a ) then
-                colorIsChanged = true
-            end
+        local updModel, updSkin, updMaterials, updBodygroups = false, false, false, false
+        if ( !saveData.GlowLib_Model or saveData.GlowLib_Model != model ) then
+            saveData.GlowLib_Model = model
+            updModel = true
         end
 
-        if ( last_mdl != model ) then
-            modelChanged = true
+        if ( !saveData.GlowLib_Skin or saveData.GlowLib_Skin != ent:GetSkin() ) then
+            saveData.GlowLib_Skin = ent:GetSkin()
+            updSkin = true
         end
 
-        if ( last_skin != skinEnt ) then
-            skinChanged = true
+        if ( !saveData.GlowLib_Materials or saveData.GlowLib_Materials != ent:GetMaterials() ) then
+            saveData.GlowLib_Materials = ent:GetMaterials()
+            updMaterials = true
         end
 
-        if ( last_bodygroups != bodygroups ) then
-            bodygroupsChanged = true
+        if ( !saveData.GlowLib_Bodygroups or saveData.GlowLib_Bodygroups != ent:GetBodyGroups() ) then
+            saveData.GlowLib_Bodygroups = ent:GetBodyGroups()
+            updBodygroups = true
         end
 
-        if ( last_mats != materials ) then
-            materialsChanged = true
+        if ( updModel or updSkin or updMaterials or updBodygroups ) then
+            GlowLib:Update(ent)
         end
-
-        local shouldReNew = false
-        if ( modelChanged or skinChanged or bodygroupsChanged or materialsChanged or colorIsChanged ) then
-            shouldReNew = true
-        end
-
-        if ( shouldReNew ) then
-            GlowLib:Initialize(ent)
-        end
-
-        if ( IsValid(glowEyes) ) then
-            if ( !hook.Run("GlowLib:ShouldDraw", ent) ) then
-                GlowLib:Hide(ent)
-            else
-                GlowLib:Show(ent)
-            end
-        end
-
-        saveTable.GlowLib_LastModel = ent:GetModel()
-        saveTable.GlowLib_LastSkin = ent:GetSkin()
-        saveTable.GlowLib_LastMaterials = ent:GetMaterials()
-        saveTable.GlowLib_LastBodygroups = ent:GetBodyGroups()
-        if ( IsValid(glowEyes) ) then
-            saveTable.GlowLib_LastSpriteColor = glowEyes:GetColor()
-        end
-
-        GlowLib:SendData()
     end
-
-    GlowLib:Hook("OnReloaded", "RemoveAllEyes", function()
-        GlowLib:RemoveAll()
-
-        for k, v in ents.Iterator() do
-            if not ( IsValid(v) ) then
-                continue
-            end
-
-            local model = v:GetModel()
-            if not ( model ) then
-                continue
-            end
-
-            local glowData = GlowLib.Glow_Data[model]
-            if not ( glowData ) then
-                continue
-            end
-
-            GlowLib:Initialize(v)
-        end
-    end)
-
-    local nextThink = 0
-    GlowLib:Hook("Think", "UpdateEyes", function()
-        if ( nextThink > CurTime() ) then
-            return
-        end
-
-        for k, v in ents.Iterator() do
-            if not ( IsValid(v) ) then
-                continue
-            end
-
-            local model = v:GetModel()
-            if not ( model ) then
-                continue
-            end
-
-            model = model:lower()
-            local glowData = GlowLib.Glow_Data[model]
-
-            if not ( glowData ) then
-                continue
-            end
-
-            local glowEyes = v:GetGlowingEye()
-
-            checkForEntities(v, glowData, glowEyes)
-            updateEntities(v, glowData, glowEyes)
-        end
-
-        nextThink = CurTime() + 1
-    end)
 end
 
 GlowLib:Hook("GlowLib:ShouldDraw", "ShouldDrawHook", function(ent)
