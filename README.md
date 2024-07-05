@@ -26,7 +26,7 @@ GlowLib:Define("model.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eyes",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(0, 140, 255),
         [1] = Color(180, 100, 25)

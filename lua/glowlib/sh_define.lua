@@ -6,7 +6,7 @@ GlowLib:Define("models/combine_soldier.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eyes",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(0, 140, 255),
         [1] = Color(205, 75, 0)
@@ -20,7 +20,7 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eyes",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 200, 0),
         [1] = Color(255, 70, 0)
@@ -34,7 +34,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 0, 0),
     },
@@ -60,7 +60,7 @@ GlowLib:Define("models/hunter.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -5
     end,
     Attachment = "top_eye",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(0, 255, 255),
     },
@@ -91,7 +91,7 @@ GlowLib:Define("models/shield_scanner.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "light",
-    Size = 0.2,
+    Size = 0.3,
     Color = {
         [0] = Color(255, 135, 0),
     },
