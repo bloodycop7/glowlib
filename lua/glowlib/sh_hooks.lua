@@ -81,6 +81,11 @@ hook.Add("Think", "GlowLib:Think_SV", function()
             continue
         end
 
+        if ( v:Health() <= 0 ) then
+            GlowLib:Remove(v)
+            continue
+        end
+
         local glowEye = v:GetGlowingEye()
         if ( IsValid(glowEye) ) then
             updateGlow(v)
