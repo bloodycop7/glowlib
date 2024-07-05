@@ -6,12 +6,11 @@ GlowLib:Define("models/combine_soldier.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(0, 140, 255),
         [1] = Color(205, 75, 0)
     },
-    ColorAlpha = 170,
+    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
@@ -20,12 +19,11 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(255, 200, 0),
         [1] = Color(255, 70, 0)
     },
-    ColorAlpha = 170,
+    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
@@ -34,7 +32,6 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(255, 0, 0),
     },
@@ -51,7 +48,6 @@ GlowLib:Define("models/combine_scanner.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -1
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(255, 135, 0),
     },
@@ -63,11 +59,9 @@ GlowLib:Define("models/hunter.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * -5
     end,
     Attachment = "top_eye",
-    Size = 0.3,
     Color = {
         [0] = Color(0, 255, 255),
     },
-    ColorAlpha = 255,
     OnInitialize = function(self, ent)
         local attachment = ent:LookupAttachment("bottom_eye")
         local attachmentData = ent:GetAttachment(attachment)
@@ -90,15 +84,14 @@ GlowLib:Define("models/hunter.mdl", {
 
 GlowLib:Define("models/shield_scanner.mdl", {
     Position = function(self, ent)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("light"))
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eye"))
         return attachmentData.Pos
     end,
-    Attachment = "light",
-    Size = 0.3,
+    Attachment = "eye",
+    Size = 0.8,
     Color = {
         [0] = Color(255, 135, 0),
     },
-    ColorAlpha = 255,
 })
 
 GlowLib:Define("models/vortigaunt.mdl", {
@@ -107,13 +100,13 @@ GlowLib:Define("models/vortigaunt.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * 3
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(255, 0, 0),
     },
     ColorAlpha = 230,
 })
 
+GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
 GlowLib.Glow_Data["models/vortigaunt_blue.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
 GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
 
@@ -123,7 +116,6 @@ GlowLib:Define("models/dog.mdl", {
         return attachmentData.Pos + attachmentData.Ang:Forward() * 0
     end,
     Attachment = "eyes",
-    Size = 0.3,
     Color = {
         [0] = Color(255, 50, 0),
     },
