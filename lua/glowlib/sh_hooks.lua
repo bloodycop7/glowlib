@@ -64,21 +64,17 @@ hook.Add("Think", "GlowLib:Think_SV", function()
     if ( !sv_enabled ) then return end
 
     for k, v in ents.Iterator() do
-        if ( !IsValid(v) ) then
-            local stored_eye = GlowLib.Entities[v]
-            if ( IsValid(stored_eye) ) then
-                stored_eye:Remove()
-            end
-
-            continue
-        end
+        if ( !IsValid(v) ) then continue end
 
         local model = v:GetModel()
         if ( !model ) then continue end
         model = model:lower()
 
         local glowData = GlowLib.Glow_Data[model]
-        if ( !glowData ) then continue end
+        if ( !glowData ) then
+            GlowLib:Remove(v)
+            continue
+        end
 
         if ( v:GetNoDraw() ) then
             GlowLib:Hide(v)
@@ -124,7 +120,10 @@ hook.Add("Think", "GlowLib:Think_CL", function()
         model = model:lower()
 
         local glowData = GlowLib.Glow_Data[model]
-        if ( !glowData ) then continue end
+        if ( !glowData ) then
+            GlowLib:Remove(v)
+            continue
+        end
 
         if ( v == ply ) then continue end
 
@@ -137,5 +136,21 @@ hook.Add("Think", "GlowLib:Think_CL", function()
         if ( IsValid(glowEye) ) then
             GlowLib:Show(v)
         end
+    end
+end)
+
+hook.Add("DoPlayerDeath", "GlowLib:DoPlayerDeath", function(ply)
+    if ( !IsValid(ply) ) then return end
+
+    local model = ply:GetModel()
+    if ( !model ) then return end
+    model = model:lower()
+
+    local glowData = GlowLib.Glow_Data[model]
+    if ( !glowData ) then return end
+
+    local ownGlowEyes = ply:GetGlowingEye()
+    if ( IsValid(ownGlowEyes) ) then
+        GlowLib:Remove(ply)
     end
 end)
