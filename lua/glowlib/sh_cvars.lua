@@ -2,6 +2,7 @@ local GlowLib = GlowLib
 
 if ( CLIENT ) then
     CreateClientConVar("cl_glowlib_enabled", "1", true, false, "Enable or disable GlowLib", 0, 1)
+    CreateClientConVar("cl_glowlib_dynamiclights", "1", true, false, "Enable or disable dynamic lights", 0, 1)
 else
     CreateConVar("sv_glowlib_enabled", "1", {FCVAR_ARCHIVE, FCVAR_GAMEDLL}, "Enable or disable GlowLib", 0, 1)
 end

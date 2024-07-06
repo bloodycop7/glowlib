@@ -131,6 +131,12 @@ else
     end)
 
     hook.Add("Think", "GlowLib:DynamicLight", function()
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        local enabled = GetConVar("cl_glowlib_dynamiclights"):GetBool()
+        if ( !enabled ) then return end
+
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
 
@@ -148,13 +154,13 @@ else
             local dynLight = DynamicLight(v:EntIndex())
             if ( !dynLight ) then continue end
 
-            dynLight.Pos = glowEye:GetPos() + glowEye:GetAngles():Forward() * 0.5 + glowEye:GetAngles():Up() * 3
+            dynLight.Pos = glowEye:GetPos() + glowEye:GetAngles():Forward() * 0.3
             dynLight.r = glowEye:GetColor().r
             dynLight.g = glowEye:GetColor().g
             dynLight.b = glowEye:GetColor().b
             dynLight.Brightness = 1
-            dynLight.Size = 30
-            dynLight.Decay = 256
+            dynLight.Size = 20
+            dynLight.Decay = 1000 / 1
             dynLight.DieTime = CurTime() + 1
         end
     end)
