@@ -63,7 +63,11 @@ if ( SERVER ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
             end
 
-            if ( glowData["ShouldDraw"] and isfunction(glowData["ShouldDraw"]) and !glowData:ShouldDraw(ent) ) then return end
+            if ( !glowData["ShouldDraw"] ) then
+                glowData["ShouldDraw"] = function(self, ent) return true end
+            end
+
+            if ( !glowData:ShouldDraw(ent) ) then return end
 
             local sprite = ents.Create("env_sprite")
             sprite:SetPos(vec_sprite)

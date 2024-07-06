@@ -4,6 +4,7 @@ local function initGlow(ent)
     if ( !SERVER ) then return end
 
     if ( !IsValid(ent) ) then return end
+
     local model = ent:GetModel()
     if ( !model ) then return end
     model = model:lower()
