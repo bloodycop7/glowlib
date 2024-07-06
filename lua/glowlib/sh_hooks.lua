@@ -9,8 +9,7 @@ local function initGlow(ent)
     if ( !model ) then return end
     model = model:lower()
 
-    local glowEye = ent:GetGlowingEye()
-    if ( IsValid(glowEye) ) then return end
+    local glowEye = ent:GetGlowingEyes()
 
     GlowLib:Initialize(ent)
 end
@@ -23,8 +22,8 @@ local function updateGlow(ent)
     if ( !model ) then return end
     model = model:lower()
 
-    local glowEye = ent:GetGlowingEye()
-    if ( !IsValid(glowEye) ) then return end
+    local glowEyes = ent:GetGlowingEyes()
+    if ( #glowEyes == 0 ) then return end
 
     GlowLib:Update(ent)
 end
@@ -70,11 +69,15 @@ if ( SERVER ) then
                 continue
             end
 
-            local glowEye = v:GetGlowingEye()
-            if ( IsValid(glowEye) ) then
-                updateGlow(v)
-            else
+            local glowEyes = v:GetGlowingEyes()
+            if ( #glowEyes == 0 ) then
                 initGlow(v)
+            end
+
+            for k, v in ipairs(glowEyes) do
+                if ( IsValid(v) ) then
+                    updateGlow(v)
+                end
             end
         end
     end)
@@ -91,12 +94,14 @@ else
         if ( !glib_enabled ) then return end
 
         local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
-        local ownGlowEyes = ply:GetGlowingEye()
-        if ( IsValid(ownGlowEyes) ) then
-            if ( shouldDrawLocalPlayer ) then
-                GlowLib:Show(ply)
-            else
-                GlowLib:Hide(ply)
+        local ownGlowEyes = ply:GetGlowingEyes()
+        for k, v in ipairs(ownGlowEyes) do
+            if ( IsValid(v) ) then
+                if ( shouldDrawLocalPlayer ) then
+                    GlowLib:Show(ply)
+                else
+                    GlowLib:Hide(ply)
+                end
             end
         end
 
@@ -123,9 +128,11 @@ else
                 continue
             end
 
-            local glowEye = v:GetGlowingEye()
-            if ( IsValid(glowEye) ) then
-                GlowLib:Show(v)
+            local glowEyes = v:GetGlowingEyes()
+            for k2, v2 in ipairs(glowEyes) do
+                if ( IsValid(v2) ) then
+                    GlowLib:Show(v)
+                end
             end
         end
     end)
@@ -147,21 +154,24 @@ else
             local glowData = GlowLib.Glow_Data[model]
             if ( !glowData ) then continue end
 
-            local glowEye = v:GetGlowingEye()
-            if ( !IsValid(glowEye) ) then continue end
-            if ( glowEye:GetNoDraw() ) then continue end
+            local glowEyes = v:GetGlowingEyes()
+            if ( #glowEyes == 0 ) then continue end
 
-            local dynLight = DynamicLight(v:EntIndex())
-            if ( !dynLight ) then continue end
+            for k2, v2 in ipairs(glowEyes) do
+                if ( v2:GetNoDraw() ) then continue end
 
-            dynLight.Pos = glowEye:GetPos() + glowEye:GetAngles():Forward() * 0.3
-            dynLight.r = glowEye:GetColor().r
-            dynLight.g = glowEye:GetColor().g
-            dynLight.b = glowEye:GetColor().b
-            dynLight.Brightness = 1
-            dynLight.Size = 20
-            dynLight.Decay = 1000 / 1
-            dynLight.DieTime = CurTime() + 1
+                local dynLight = DynamicLight(v:EntIndex())
+                if ( !dynLight ) then continue end
+
+                dynLight.Pos = v2:GetPos() + v2:GetAngles():Forward() * 0.3
+                dynLight.r = v2:GetColor().r
+                dynLight.g = v2:GetColor().g
+                dynLight.b = v2:GetColor().b
+                dynLight.Brightness = 1
+                dynLight.Size = 20
+                dynLight.Decay = 1000 / 1
+                dynLight.DieTime = CurTime() + 1
+            end
         end
     end)
 end
@@ -176,8 +186,10 @@ hook.Add("DoPlayerDeath", "GlowLib:DoPlayerDeath", function(ply)
     local glowData = GlowLib.Glow_Data[model]
     if ( !glowData ) then return end
 
-    local ownGlowEyes = ply:GetGlowingEye()
-    if ( IsValid(ownGlowEyes) ) then
-        GlowLib:Remove(ply)
+    local ownGlowEyes = ply:GetGlowingEyes()
+    for k, v in ipairs(ownGlowEyes) do
+        if ( IsValid(v) ) then
+            GlowLib:Remove(ply)
+        end
     end
 end)

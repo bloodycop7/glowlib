@@ -68,7 +68,9 @@ GlowLib:Define("models/hunter.mdl", {
 
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -5)
-        sprite:SetParent(ent, attachment)
+        sprite:SetParent(ent, attach or 0)
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #ent:GetGlowingEyes() + 1)
         sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
         sprite:SetKeyValue("rendercolor", "0 255 255")
         sprite:SetKeyValue("renderamt", "255")
@@ -77,7 +79,6 @@ GlowLib:Define("models/hunter.mdl", {
         sprite:SetKeyValue("scale", "0.3")
         sprite:Spawn()
 
-        ent:SetNW2Entity("GlowLib_Eye2", sprite)
         ent:DeleteOnRemove(sprite)
     end,
 })

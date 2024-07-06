@@ -11,12 +11,13 @@ if ( SERVER ) then
             return
         end
 
-        local glow_eye = ent:GetGlowingEye()
-        if ( IsValid(glow_eye) ) then
-            glow_eye:Remove()
+        local glow_eyes = ent:GetGlowingEyes()
+        for k, v in ipairs(glow_eyes) do
+            if ( IsValid(v) ) then
+                v:Remove()
+            end
         end
 
-        ent:SetNW2Entity("GlowLib_Eye", nil)
         hook.Run("GlowLib:Remove", ent)
     end
 
@@ -40,9 +41,11 @@ if ( SERVER ) then
     function GlowLib:Initialize(ent)
         if ( !IsValid(ent) ) then return end
 
-        local glow_eye = ent:GetGlowingEye()
-        if ( IsValid(glow_eye) ) then
-            glow_eye:Remove()
+        local glow_eyes = ent:GetGlowingEyes()
+        for k, v in ipairs(glow_eyes) do
+            if ( IsValid(v) ) then
+                v:Remove()
+            end
         end
 
         local model = ent:GetModel()
@@ -72,6 +75,8 @@ if ( SERVER ) then
             local sprite = ents.Create("env_sprite")
             sprite:SetPos(vec_sprite)
             sprite:SetParent(ent, attach or 0)
+            sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
             sprite:SetKeyValue("model", tostring(glow_mat))
             sprite:SetKeyValue("rendercolor", tostring(glowCol))
             sprite:SetKeyValue("renderamt", tostring(colAlpha))
@@ -79,8 +84,6 @@ if ( SERVER ) then
             sprite:SetKeyValue("HDRColorScale", "0.5")
             sprite:SetKeyValue("scale", tostring(glow_size))
             sprite:Spawn()
-
-            ent:SetNW2Entity("GlowLib_Eye", sprite)
 
             ent:DeleteOnRemove(sprite)
             ent:CallOnRemove("GlowLib:Remove", function(ent)
@@ -103,18 +106,20 @@ if ( SERVER ) then
         if ( !model ) then return end
         model = model:lower()
 
-        local glowEye = ent:GetGlowingEye()
-        if ( !IsValid(glowEye) ) then return end
+        local glowEyes = ent:GetGlowingEyes()
+        if ( !glowEyes or #glowEyes == 0 ) then return end
 
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
-        glowEye:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
-        glowEye:SetKeyValue("rendercolor", tostring(glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white))
-        glowEye:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
-        glowEye:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
-        glowEye:SetKeyValue("HDRColorScale", "0.5")
-        glowEye:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+        for k, v in ipairs(glowEyes) do
+            v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
+            v:SetKeyValue("rendercolor", tostring(glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white))
+            v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
+            v:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
+            v:SetKeyValue("HDRColorScale", "0.5")
+            v:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+        end
 
         hook.Run("GlowLib:Update", ent)
     end
@@ -130,9 +135,11 @@ function GlowLib:Hide(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    local glow_eye = ent:GetGlowingEye()
-    if ( IsValid(glow_eye) and !glow_eye:GetNoDraw() ) then
-        glow_eye:SetNoDraw(true)
+    local glow_eyes = ent:GetGlowingEyes()
+    for k, v in ipairs(glow_eyes) do
+        if ( IsValid(v) and !v:GetNoDraw() ) then
+            v:SetNoDraw(true)
+        end
     end
 
     hook.Run("GlowLib:Hide", ent)
@@ -165,9 +172,11 @@ function GlowLib:Show(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    local glow_eye = ent:GetGlowingEye()
-    if ( IsValid(glow_eye) and glow_eye:GetNoDraw() ) then
-        glow_eye:SetNoDraw(false)
+    local glow_eyes = ent:GetGlowingEyes()
+    for k, v in ipairs(glow_eyes) do
+        if ( IsValid(v) and v:GetNoDraw() ) then
+            v:SetNoDraw(false)
+        end
     end
 
     if ( CLIENT ) then

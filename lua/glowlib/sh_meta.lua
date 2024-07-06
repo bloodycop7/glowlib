@@ -1,5 +1,13 @@
 local ENTITY = FindMetaTable("Entity")
 
-function ENTITY:GetGlowingEye()
-    return self:GetNW2Entity("GlowLib_Eye", nil)
+function ENTITY:GetGlowingEyes()
+    local eyes = {}
+
+    for k, v in ipairs(self:GetChildren()) do
+        if ( v:GetClass() == "env_sprite" and v:GetNW2String("GlowEyeName", "") == "GlowLib_Eye_" .. self:EntIndex() ) then
+            table.insert(eyes, v)
+        end
+    end
+
+    return eyes
 end
