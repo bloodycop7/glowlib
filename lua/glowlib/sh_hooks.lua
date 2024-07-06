@@ -72,10 +72,12 @@ if ( SERVER ) then
             local glowEyes = v:GetGlowingEyes()
             if ( #glowEyes == 0 ) then
                 initGlow(v)
+
+                continue
             end
 
-            for k, v in ipairs(glowEyes) do
-                if ( IsValid(v) ) then
+            for k2, v2 in ipairs(glowEyes) do
+                if ( IsValid(v2) ) then
                     updateGlow(v)
                 end
             end
