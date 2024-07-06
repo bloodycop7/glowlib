@@ -148,7 +148,7 @@ else
             local dynLight = DynamicLight(v:EntIndex())
             if ( !dynLight ) then continue end
 
-            dynLight.Pos = glowEye:GetPos() + glowEye:GetAngles():Forward() * 0.5 + glowEye:GetAngles():Up() * 5
+            dynLight.Pos = glowEye:GetPos() + glowEye:GetAngles():Forward() * 0.5 + glowEye:GetAngles():Up() * 3
             dynLight.r = glowEye:GetColor().r
             dynLight.g = glowEye:GetColor().g
             dynLight.b = glowEye:GetColor().b
