@@ -88,7 +88,7 @@ GlowLib:Define("models/shield_scanner.mdl", {
         return attachmentData.Pos
     end,
     Attachment = "eye",
-    Size = 0.8,
+    Size = 0.35,
     Color = {
         [0] = Color(255, 135, 0),
     },
