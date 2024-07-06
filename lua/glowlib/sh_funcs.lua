@@ -113,8 +113,13 @@ if ( SERVER ) then
         if ( !glowData ) then return end
 
         for k, v in ipairs(glowEyes) do
+            local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
+            if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
+                col = glowData:CustomColor(ent, col)
+            end
+
             v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
-            v:SetKeyValue("rendercolor", tostring(glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white))
+            v:SetKeyValue("rendercolor", tostring(col))
             v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
             v:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
             v:SetKeyValue("HDRColorScale", "0.5")
