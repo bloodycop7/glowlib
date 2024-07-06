@@ -1,3 +1,5 @@
+local GlowLib = GlowLib
+
 if ( CLIENT ) then
     CreateClientConVar("cl_glowlib_enabled", "1", true, false, "Enable or disable GlowLib", 0, 1)
 else
