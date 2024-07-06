@@ -63,6 +63,12 @@ hook.Add("Think", "GlowLib:Think_SV", function()
             continue
         end
 
+        if ( glowData["ShouldDraw"] and !glowData["ShouldDraw"](glowData, v) ) then
+            GlowLib:Hide(v)
+
+            continue
+        end
+
         local glowEye = v:GetGlowingEye()
         if ( IsValid(glowEye) ) then
             updateGlow(v)
@@ -110,6 +116,12 @@ hook.Add("Think", "GlowLib:Think_CL", function()
         end
 
         if ( v == ply ) then continue end
+
+        if ( glowData["ShouldDraw"] and !glowData["ShouldDraw"](glowData, v) ) then
+            GlowLib:Hide(v)
+
+            continue
+        end
 
         local glowEye = v:GetGlowingEye()
         if ( IsValid(glowEye) ) then
