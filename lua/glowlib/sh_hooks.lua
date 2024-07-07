@@ -58,7 +58,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 ) then
+            if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 and !v.GlowLib_IgnoreHealth ) then
                 GlowLib:Remove(v)
 
                 continue
