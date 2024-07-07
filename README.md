@@ -6,7 +6,8 @@ ColorAlpha = 0-255
 GlowTexture = "sprites/light_glow02.vmt"
 Size = 0.3
 Position = function(self, ent)
-    return self:GetPos() + self:GetForward() * 2
+    local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+    return attachmentData.Pos
 end
 Attachment = "eyes"
 CustomColor = function(self, ent, glowCol)
