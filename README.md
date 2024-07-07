@@ -10,7 +10,7 @@ Position = function(self, ent)
 end
 Attachment = "eyes"
 CustomColor = function(self, ent, glowCol)
-    return color_white
+
 end
 OnInitialize = function(self, ent, sprite)
 
