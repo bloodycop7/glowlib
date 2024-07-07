@@ -58,7 +58,7 @@ if ( SERVER ) then
             local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
             local glow_size = glowData.Size or 0.3
-            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or vector_origin
+            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or ent:EyePos()
             local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
