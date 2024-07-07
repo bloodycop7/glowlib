@@ -1,4 +1,4 @@
-## Documentation
+# Documentation
 ### Define Arguments
 ```
 Color - a Color(r, g, b) (reverts to the color with skin 0 or the color white)
@@ -39,7 +39,7 @@ GlowLib:Define("model.mdl", {
 ** SHARED **
 ent:GetGlowingEyes() :: table
 ```
-## In the case you're using a custom entity and the glow is not showing.
+### In the case you're using a custom entity and the glow is not showing.
 ```
 ENT.GlowLib_IgnoreHealth = true
 ```
