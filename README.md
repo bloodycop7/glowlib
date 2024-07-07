@@ -1,18 +1,18 @@
 # Documentation
 ### Define Arguments
 ```
-Color - a Color(r, g, b) (reverts to the color with skin 0 or the color white)
-ColorAlpha - a number (0 - 255)
-GlowTexture - a string
-Size - a number
-Position - a function(self, ent)
+Color - Color(r, g, b)
+ColorAlpha = 0-255
+GlowTexture = "sprites/light_glow02.vmt"
+Size = 0.3
+Position = function(self, ent)
     return self:GetPos() + self:GetForward() * 2
 end
-Attachment - a string
-CustomColor - a function(self, ent, glowCol)
+Attachment = "eyes"
+CustomColor = function(self, ent, glowCol)
     return color_white
 end
-OnInitialize - a function(self, ent, sprite)
+OnInitialize = function(self, ent, sprite)
 
 end
 ```
