@@ -2,7 +2,6 @@
 ### Define Arguments
 ```
 Color - a Color(r, g, b) (reverts to the color with skin 0 or the color white)
-RenderMode - a number, check https://developer.valvesoftware.com/wiki/Env_sprite
 ColorAlpha - a number (0 - 255)
 GlowTexture - a string
 Size - a number
