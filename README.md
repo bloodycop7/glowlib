@@ -39,3 +39,7 @@ GlowLib:Define("model.mdl", {
 ** SHARED **
 ent:GetGlowingEyes() :: table
 ```
+## In the case you're using a custom entity and the glow is not showing.
+```
+ENT.GlowLib_IgnoreHealth = true
+```
