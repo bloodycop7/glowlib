@@ -9,9 +9,10 @@ local function initGlow(ent)
     if ( !model ) then return end
     model = model:lower()
 
-    local glowEye = ent:GetGlowingEyes()
-
-    GlowLib:Initialize(ent)
+    local glowEyes = ent:GetGlowingEyes()
+    if ( #glowEyes == 0 ) then
+        GlowLib:Initialize(ent)
+    end
 end
 
 local function updateGlow(ent)
