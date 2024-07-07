@@ -5,17 +5,23 @@ GlowLib.Glow_Data = GlowLib.Glow_Data or {}
 local fileFind, AddCSLuaFile, fileInclude = file.Find, AddCSLuaFile, include
 
 function GlowLib:IncludeFile(fileName, realm)
-    realm = (realm or "shared"):lower()
+    realm = (realm or ""):lower()
+    fileName = fileName:lower()
 
-    if ( ( realm:lower() == "server" or fileName:lower():find("sv_") ) and SERVER ) then
+    local realFileName = fileName:lower()
+    if ( fileName:find("glowlib/") ) then
+        realFileName = fileName:lower():gsub("glowlib/", "")
+    end
+
+    if ( ( realm:lower() == "server" or realFileName:find("sv_") ) and SERVER ) then
         return fileInclude(fileName)
-	elseif ( realm:lower() == "shared" or fileName:lower():find("shared.lua") or fileName:lower():find("sh_") ) then
+	elseif ( realm:lower() == "shared" or realFileName:find("shared.lua") or realFileName:find("sh_") ) then
 		if ( SERVER ) then
 			AddCSLuaFile(fileName)
 		end
 
 		return fileInclude(fileName)
-	elseif ( realm:lower() == "client" or fileName:find("cl_") ) then
+	elseif ( realm:lower() == "client" or realFileName:find("cl_") ) then
 		if ( SERVER ) then
 			AddCSLuaFile(fileName)
 		else
@@ -90,8 +96,40 @@ if ( CLIENT ) then
             print(v:GetGlowingEye())
         end
     end)
-end
 
-if ( CLIENT ) then
     MsgC(Color(255, 100, 0), "[ GlowLib ] by eon (bloodycop)", color_white, " has been loaded!\n")
+else
+    util.AddNetworkString("GlowLib:EditMenu:Save")
+
+    net.Receive("GlowLib:EditMenu:Save", function(len, ply)
+        if ( !IsValid(ply) ) then return end
+        if ( !ply:IsAdmin() ) then return end
+
+        local ent = net.ReadEntity()
+        local sprite = net.ReadEntity()
+        local data = net.ReadTable()
+
+        if ( !IsValid(ent) ) then return end
+        if ( !IsValid(sprite) ) then return end
+        if ( !data ) then return end
+
+        local model = ent:GetModel()
+        if ( !model ) then return end
+        model = model:lower()
+
+        local glowData = GlowLib.Glow_Data[model]
+        if ( !glowData ) then return end
+
+        ent.GlowLib_DisableUpdating = true
+
+        local texture = data["texture"]
+        local size = data["size"]
+        local color = data["color"]
+        local colorNoA = Color(color.r, color.g, color.b)
+
+        sprite:SetKeyValue("model", texture)
+        sprite:SetKeyValue("rendercolor", tostring(colorNoA))
+        sprite:SetKeyValue("renderamt", tostring(color.a))
+        sprite:SetKeyValue("scale", size)
+    end)
 end

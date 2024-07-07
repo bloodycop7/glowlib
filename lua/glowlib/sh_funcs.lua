@@ -55,7 +55,6 @@ if ( SERVER ) then
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
-            local renderMode = glowData.RenderMode or 9
             local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
             local glow_size = glowData.Size or 0.3
@@ -75,12 +74,14 @@ if ( SERVER ) then
             local sprite = ents.Create("env_sprite")
             sprite:SetPos(vec_sprite)
             sprite:SetParent(ent, attach or 0)
+
             sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
             sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
             sprite:SetKeyValue("model", tostring(glow_mat))
             sprite:SetKeyValue("rendercolor", tostring(glowCol))
             sprite:SetKeyValue("renderamt", tostring(colAlpha))
-            sprite:SetKeyValue("rendermode", tostring(renderMode))
+            sprite:SetKeyValue("rendermode", "9")
             sprite:SetKeyValue("HDRColorScale", "0.5")
             sprite:SetKeyValue("scale", tostring(glow_size))
             sprite:Spawn()
@@ -118,12 +119,17 @@ if ( SERVER ) then
                 col = glowData:CustomColor(ent, col)
             end
 
-            v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
-            v:SetKeyValue("rendercolor", tostring(col))
-            v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
-            v:SetKeyValue("rendermode", tostring(glowData.RenderMode or 9))
+            if ( !ent.GlowLib_DisableUpdating ) then
+                v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
+                v:SetKeyValue("rendercolor", tostring(col))
+                v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
+            end
+
             v:SetKeyValue("HDRColorScale", "0.5")
-            v:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+
+            if ( !ent.GlowLib_DisableUpdating ) then
+                v:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+            end
         end
 
         hook.Run("GlowLib:Update", ent)
