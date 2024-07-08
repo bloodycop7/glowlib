@@ -8,9 +8,8 @@ GlowLib:Define("models/combine_soldier.mdl", {
     Attachment = "eyes",
     Color = {
         [0] = Color(0, 140, 255),
-        [1] = Color(205, 75, 0)
+        [1] = Color(205, 75, 0, 100)
     },
-    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
@@ -20,10 +19,9 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 200, 0),
-        [1] = Color(255, 70, 0)
+        [0] = Color(255, 200, 0, 200),
+        [1] = Color(205, 55, 30)
     },
-    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_super_soldier.mdl", {
@@ -33,9 +31,9 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0),
+        [0] = Color(170, 0, 0),
     },
-    ColorAlpha = 230,
+    ColorAlpha = 150,
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
@@ -88,6 +86,10 @@ GlowLib:Define("models/shield_scanner.mdl", {
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eye"))
         return attachmentData.Pos
     end,
+    DynamicLightPos = function(self, ent, sprite)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eye"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 2
+    end,
     Attachment = "eye",
     Size = 0.35,
     Color = {
@@ -104,7 +106,8 @@ GlowLib:Define("models/vortigaunt.mdl", {
     Color = {
         [0] = Color(255, 50, 50),
     },
-    ColorAlpha = 230,
+    Size = 0.25,
+    ColorAlpha = 180,
 })
 
 GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]

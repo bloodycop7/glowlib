@@ -58,7 +58,7 @@ if ( SERVER ) then
             local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
             local glow_size = glowData.Size or 0.3
-            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or ent:EyePos()
+            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or ( ent:EyePos() + ent:GetAngles():Forward() * 7 )
             local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
@@ -122,7 +122,7 @@ if ( SERVER ) then
             if ( !ent.GlowLib_DisableUpdating ) then
                 v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
                 v:SetKeyValue("rendercolor", tostring(col))
-                v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or 255))
+                v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or ( col.a or 255 )))
             end
 
             v:SetKeyValue("HDRColorScale", "0.5")

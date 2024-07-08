@@ -166,17 +166,23 @@ else
             if ( #glowEyes == 0 ) then continue end
 
             for k2, v2 in ipairs(glowEyes) do
+                if ( !IsValid(v2) ) then continue end
                 if ( v2:GetNoDraw() ) then continue end
 
                 local dynLight = DynamicLight(v:EntIndex())
                 if ( !dynLight ) then continue end
 
-                dynLight.Pos = v2:GetPos() + v2:GetAngles():Forward() * 0.3
-                dynLight.r = v2:GetColor().r
-                dynLight.g = v2:GetColor().g
-                dynLight.b = v2:GetColor().b
-                dynLight.Brightness = 1
-                dynLight.Size = 20
+                local lightPos = ( glowData["DynamicLightPos"] and glowData["DynamicLightPos"](glowData, v, v2) ) or ( v:EyePos() + v:GetAngles():Forward() * 2 )
+                local lightColor = ( glowData["DynamicLightColor"] and glowData["DynamicLightColor"](glowData, v, v2) ) or v2:GetColor()
+                local lightBrightness = ( glowData["DynamicLightBrightness"] and glowData["DynamicLightBrightness"](glowData, v, v2) ) or 1
+                local lightSize = ( glowData["DynamicLightSize"] and glowData["DynamicLightSize"](glowData, v, v2) ) or 10
+
+                dynLight.Pos = lightPos
+                dynLight.r = lightColor.r
+                dynLight.g = lightColor.g
+                dynLight.b = lightColor.b
+                dynLight.Brightness = lightBrightness
+                dynLight.Size = lightSize
                 dynLight.Decay = 1000 / 1
                 dynLight.DieTime = CurTime() + 1
             end
