@@ -96,7 +96,7 @@ else
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
         if ( !glib_enabled ) then return end
 
-        local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
+        local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply) or false
         local ownGlowEyes = ply:GetGlowingEyes()
         for k, v in ipairs(ownGlowEyes) do
             if ( IsValid(v) ) then
@@ -110,9 +110,10 @@ else
 
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
+            if ( v == ply ) then continue end
 
             local model = v:GetModel()
-            if ( !model ) then continue end
+            if ( !model or model == "" ) then continue end
             model = model:lower()
 
             local glowData = GlowLib.Glow_Data[model]
@@ -120,10 +121,11 @@ else
 
             if ( v:GetNoDraw() ) then
                 GlowLib:Hide(v)
+
                 continue
             end
 
-            if ( v == ply ) then continue end
+            if ( v:GetClass() == "class C_BaseFlex" ) then continue end
 
             if ( glowData["ShouldDraw"] and !glowData["ShouldDraw"](glowData, v) ) then
                 GlowLib:Hide(v)
@@ -143,9 +145,6 @@ else
     hook.Add("Think", "GlowLib:DynamicLight", function()
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
-
-        local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        if ( !glib_enabled ) then return end
 
         local enabled = GetConVar("cl_glowlib_dynamiclights"):GetBool()
         if ( !enabled ) then return end

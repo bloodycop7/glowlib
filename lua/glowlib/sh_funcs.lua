@@ -148,7 +148,7 @@ function GlowLib:Hide(ent)
 
     local glow_eyes = ent:GetGlowingEyes()
     for k, v in ipairs(glow_eyes) do
-        if ( IsValid(v) and !v:GetNoDraw() ) then
+        if ( IsValid(v) ) then
             v:SetNoDraw(true)
         end
     end
@@ -183,13 +183,6 @@ function GlowLib:Show(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    local glow_eyes = ent:GetGlowingEyes()
-    for k, v in ipairs(glow_eyes) do
-        if ( IsValid(v) and v:GetNoDraw() ) then
-            v:SetNoDraw(false)
-        end
-    end
-
     if ( CLIENT ) then
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
@@ -212,6 +205,13 @@ function GlowLib:Show(ent)
 
                 ent:SendLua([[GlowLib:Hide(LocalPlayer())]])
             end)
+        end
+    end
+
+    local glow_eyes = ent:GetGlowingEyes()
+    for k, v in ipairs(glow_eyes) do
+        if ( IsValid(v) ) then
+            v:SetNoDraw(false)
         end
     end
 
