@@ -122,39 +122,3 @@ GlowLib:Define("models/dog.mdl", {
     },
     ColorAlpha = 255,
 })
-
-GlowLib:Define("models/player/combine_super_soldier.mdl", {
-    Position = function(self, ent)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * -1
-    end,
-    Attachment = "eyes",
-    Color = {
-        [0] = Color(0, 0, 0),
-    },
-    CustomColor = function(self, ent)
-        if ( ent:IsPlayer() ) then
-            return ent:GetPlayerColor():ToColor()
-        end
-    end,
-    ColorAlpha = 230,
-})
-
-GlowLib:Define("models/player/combine_soldier.mdl", {
-    Position = function(self, ent)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos
-    end,
-    Attachment = "eyes",
-    Color = {
-        [0] = Color(0, 0, 0),
-    },
-    CustomColor = function(self, ent)
-        if ( ent:IsPlayer() ) then
-            return ent:GetPlayerColor():ToColor()
-        end
-    end,
-    ColorAlpha = 200,
-})
-
-GlowLib.Glow_Data["models/player/combine_soldier_prisonguard.mdl"] = GlowLib.Glow_Data["models/combine_soldier_prisonguard.mdl"]
