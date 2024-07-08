@@ -174,10 +174,10 @@ else
                 local dynLight = DynamicLight(v:EntIndex())
                 if ( !dynLight ) then continue end
 
-                local lightPos = ( glowData["DynamicLightPos"] and glowData["DynamicLightPos"](glowData, v, v2) ) or ( v:EyePos() + v:GetAngles():Forward() * 2 )
-                local lightColor = ( glowData["DynamicLightColor"] and glowData["DynamicLightColor"](glowData, v, v2) ) or v2:GetColor()
-                local lightBrightness = ( glowData["DynamicLightBrightness"] and glowData["DynamicLightBrightness"](glowData, v, v2) ) or 1
-                local lightSize = ( glowData["DynamicLightSize"] and glowData["DynamicLightSize"](glowData, v, v2) ) or 10
+                local lightPos = ( glowData["DynamicLightPos"] and glowData:DynamicLightPos(v, v2) ) or ( v:EyePos() + v:GetAngles():Forward() * 2 )
+                local lightColor = ( glowData["DynamicLightColor"] and glowData:DynamicLightColor(v, v2) ) or v2:GetColor()
+                local lightBrightness = ( glowData["DynamicLightBrightness"] and glowData:DynamicLightBrightness(v, v2) ) or 1
+                local lightSize = ( glowData["DynamicLightSize"] and glowData:DynamicLightSize(v, v2) ) or 10
 
                 dynLight.Pos = lightPos
                 dynLight.r = lightColor.r
