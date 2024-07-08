@@ -146,6 +146,8 @@ function GlowLib:Hide(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
+    hook.Run("GlowLib:PreHide", ent)
+
     local glow_eyes = ent:GetGlowingEyes()
     for k, v in ipairs(glow_eyes) do
         if ( IsValid(v) ) then
@@ -182,6 +184,8 @@ function GlowLib:Show(ent)
 
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
+
+    hook.Run("GlowLib:PreShow", ent)
 
     if ( CLIENT ) then
         local ply = LocalPlayer()
