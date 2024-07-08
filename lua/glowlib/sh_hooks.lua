@@ -146,6 +146,9 @@ else
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
 
+        local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if ( !glib_enabled ) then return end
+
         local enabled = GetConVar("cl_glowlib_dynamiclights"):GetBool()
         if ( !enabled ) then return end
 
