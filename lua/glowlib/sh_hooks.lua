@@ -82,6 +82,8 @@ if ( SERVER ) then
                     updateGlow(v)
                 end
             end
+
+            GlowLib:Show(v)
         end
     end)
 else
