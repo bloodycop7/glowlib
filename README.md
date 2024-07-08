@@ -16,6 +16,18 @@ end
 OnInitialize = function(self, ent, sprite)
 
 end
+DynamicLightColor = function(self, ent, sprite)
+
+end
+DynamicLightPos = function(self, ent, sprite)
+
+end
+DynamicLightBrightness = function(self, ent, sprite)
+
+end
+DynamicLightSize = function(self, ent, sprite)
+
+end
 ```
 
 **Example**
