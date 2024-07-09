@@ -80,6 +80,8 @@ if ( SERVER ) then
 
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
+            if ( ent.NoGlowLib ) then return end
+
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
             local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"

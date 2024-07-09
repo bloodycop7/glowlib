@@ -182,3 +182,58 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
     end,
     ColorAlpha = 200,
 })
+
+GlowLib:Define("models/props_combine/combine_intmonitor001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 29 + ent:GetAngles():Forward() * 10
+    end,
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    Size = 1.7,
+    NoDynamicLight = true,
+})
+
+GlowLib:Define("models/props_combine/combine_intmonitor003.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 29 + ent:GetAngles():Forward() * 35
+    end,
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    Size = 1.7,
+    NoDynamicLight = true,
+})
+
+GlowLib:Define("models/props_combine/combine_monitorbay.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 10 + ent:GetAngles():Forward() * 10
+    end,
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    Size = 4,
+    NoDynamicLight = true,
+})
+
+GlowLib:Define("models/props_combine/weaponstripper.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 60 + ent:GetAngles():Forward() * 15
+    end,
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    Size = 3,
+    NoDynamicLight = true,
+})
+
+GlowLib:Define("models/props_combine/combine_interface001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 48 + ent:GetAngles():Forward() * 2 + ent:GetAngles():Right() * 2
+    end,
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    Size = 1,
+    NoDynamicLight = true,
+})
