@@ -1,5 +1,31 @@
 local GlowLib = GlowLib
 
+function GlowLib:GetAllEntities()
+    local returned = {}
+
+    for k, v in ents.Iterator() do
+        if ( !IsValid(v) ) then continue end
+        if ( !v:GetNW2Bool("bHasGlowLibEffect", false) ) then continue end
+
+        table.insert(returned, v)
+    end
+
+    return returned
+end
+
+function GlowLib:GetAllSprites()
+    local returned = {}
+
+    for k, v in ipairs(ents.FindByClass("env_sprite")) do
+        if ( !IsValid(v) ) then continue end
+        if ( !v:GetNW2Bool("bIsGlowLib", false) ) then continue end
+
+        table.insert(returned, v)
+    end
+
+    return returned
+end
+
 if ( SERVER ) then
     function GlowLib:Remove(ent)
         if not ( IsValid(ent) ) then
@@ -84,8 +110,10 @@ if ( SERVER ) then
             sprite:SetKeyValue("rendermode", "9")
             sprite:SetKeyValue("HDRColorScale", "0.5")
             sprite:SetKeyValue("scale", tostring(glow_size))
+            sprite:SetNW2Bool("bIsGlowLib", true)
             sprite:Spawn()
 
+            ent:SetNW2Bool("bHasGlowLibEffect", true)
             ent:DeleteOnRemove(sprite)
             ent:CallOnRemove("GlowLib:Remove", function(ent)
                 GlowLib:Remove(ent)
