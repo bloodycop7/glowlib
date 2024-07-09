@@ -10,6 +10,7 @@ Position = function(self, ent)
     return attachmentData.Pos
 end
 Attachment = "eyes"
+NoDynamicLight = false
 CustomColor = function(self, ent, glowCol)
 
 end
