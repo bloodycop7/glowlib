@@ -147,3 +147,38 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
     Size = 0.7,
     NoDynamicLight = true,
 })
+
+GlowLib:Define("models/player/combine_soldier.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
+    end,
+    Attachment = "eyes",
+    Color = {
+        [0] = Color(0, 140, 255),
+        [1] = Color(205, 75, 0, 100)
+    },
+    CustomColor = function(self, ent, sprie)
+        if ( ent:IsPlayer() ) then
+            return ent:GetPlayerColor():ToColor()
+        end
+    end,
+    ColorAlpha = 200,
+})
+
+GlowLib:Define("models/player/combine_super_soldier.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos
+    end,
+    Attachment = "eyes",
+    Color = {
+        [0] = Color(255, 0, 0),
+    },
+    CustomColor = function(self, ent, sprie)
+        if ( ent:IsPlayer() ) then
+            return ent:GetPlayerColor():ToColor()
+        end
+    end,
+    ColorAlpha = 200,
+})

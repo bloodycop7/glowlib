@@ -147,16 +147,19 @@ if ( SERVER ) then
                 col = glowData:CustomColor(ent, col)
             end
 
+            local col_alpha = glowData.ColorAlpha or ( col.a or 255 )
+            local size = glowData.Size or 0.3
+
             if ( !ent.GlowLib_DisableUpdating ) then
                 v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
                 v:SetKeyValue("rendercolor", tostring(col))
-                v:SetKeyValue("renderamt", tostring(glowData.ColorAlpha or ( col.a or 255 )))
+                v:SetKeyValue("renderamt", tostring(col_alpha))
             end
 
             v:SetKeyValue("HDRColorScale", "0.5")
 
             if ( !ent.GlowLib_DisableUpdating ) then
-                v:SetKeyValue("scale", tostring(glowData.Size or 0.3))
+                v:SetKeyValue("scale", tostring(size))
             end
         end
 
@@ -232,11 +235,8 @@ function GlowLib:Show(ent)
         end
     else
         if ( ent:IsPlayer() ) then
-            timer.Simple(0.1, function()
-                if ( !IsValid(ent) ) then return end
-
-                ent:SendLua([[GlowLib:Hide(LocalPlayer())]])
-            end)
+            net.Start("GlowLib:HideServerside")
+            net.Send(ent)
         end
     end
 

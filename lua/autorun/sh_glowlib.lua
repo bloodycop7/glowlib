@@ -59,6 +59,18 @@ hook.Add("OnReloaded", "GlowLib:Reload", function()
 end)
 
 if ( CLIENT ) then
+    net.Receive("GlowLib:HideServerside", function(len)
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        local bShouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
+        if ( !bShouldDrawLocalPlayer ) then
+            GlowLib:Hide(ply)
+        else
+            GlowLib:Show(ply)
+        end
+    end)
+
     concommand.Add("glowlib_print_attachments", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
         if not ( IsValid(ent) ) then
@@ -100,6 +112,7 @@ if ( CLIENT ) then
     MsgC(Color(255, 100, 0), "[ GlowLib ] by eon (bloodycop)", color_white, " has been loaded!\n")
 else
     util.AddNetworkString("GlowLib:EditMenu:Save")
+    util.AddNetworkString("GlowLib:HideServerside")
 
     net.Receive("GlowLib:EditMenu:Save", function(len, ply)
         if ( !IsValid(ply) ) then return end
