@@ -125,3 +125,25 @@ GlowLib:Define("models/dog.mdl", {
     },
     ColorAlpha = 255,
 })
+
+GlowLib:Define("models/props_combine/health_charger001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 4
+    end,
+    Color = {
+        [0] = Color(0, 145, 210),
+    },
+    Size = 1.3,
+    NoDynamicLight = true,
+})
+
+GlowLib:Define("models/props_combine/suit_charger001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 7
+    end,
+    Color = {
+        [0] = Color(210, 120, 0),
+    },
+    Size = 0.7,
+    NoDynamicLight = true,
+})

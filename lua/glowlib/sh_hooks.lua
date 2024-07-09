@@ -187,7 +187,7 @@ else
                 dynLight.b = lightColor.b
                 dynLight.Brightness = lightBrightness
                 dynLight.Size = lightSize
-                dynLight.Decay = 1000 / 1
+                dynLight.Decay = 1000
                 dynLight.DieTime = CurTime() + 1
 
                 v:SetNW2Bool("GlowLib_HasDynamicLight", true)
