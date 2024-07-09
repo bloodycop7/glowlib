@@ -167,11 +167,11 @@ else
             local glowEyes = v:GetGlowingEyes()
             if ( #glowEyes == 0 ) then continue end
 
-            if ( glowData.NoDynamicLight ) then continue end
+            if ( glowData.NoDynamicLight ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false) continue end
 
             for k2, v2 in ipairs(glowEyes) do
                 if ( !IsValid(v2) ) then continue end
-                if ( v2:GetNoDraw() ) then continue end
+                if ( v2:GetNoDraw() ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false) continue end
 
                 local dynLight = DynamicLight(v:EntIndex())
                 if ( !dynLight ) then continue end
@@ -189,6 +189,8 @@ else
                 dynLight.Size = lightSize
                 dynLight.Decay = 1000 / 1
                 dynLight.DieTime = CurTime() + 1
+
+                v:SetNW2Bool("GlowLib_HasDynamicLight", true)
             end
         end
     end)
