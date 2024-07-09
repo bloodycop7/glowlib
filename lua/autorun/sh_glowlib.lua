@@ -1,6 +1,5 @@
 GlowLib = GlowLib or {}
-GlowLib.Entities = GlowLib.Entities or {}
-GlowLib.Glow_Data = GlowLib.Glow_Data or {}
+GlowLib.Glow_Data = {}
 
 local fileFind, AddCSLuaFile, fileInclude = file.Find, AddCSLuaFile, include
 
