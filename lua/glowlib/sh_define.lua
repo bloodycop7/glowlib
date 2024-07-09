@@ -133,7 +133,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
     Color = {
         [0] = Color(0, 145, 210),
     },
-    Size = 1.3,
+    Size = 0.8,
     NoDynamicLight = true,
 })
 
@@ -144,7 +144,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
     Color = {
         [0] = Color(210, 120, 0),
     },
-    Size = 0.7,
+    Size = 0.8,
     NoDynamicLight = true,
 })
 
