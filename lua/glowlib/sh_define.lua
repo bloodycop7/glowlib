@@ -31,9 +31,9 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(170, 0, 0),
+        [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 150,
+    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {

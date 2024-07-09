@@ -167,6 +167,8 @@ else
             local glowEyes = v:GetGlowingEyes()
             if ( #glowEyes == 0 ) then continue end
 
+            if ( glowData.NoDynamicLight ) then continue end
+
             for k2, v2 in ipairs(glowEyes) do
                 if ( !IsValid(v2) ) then continue end
                 if ( v2:GetNoDraw() ) then continue end
