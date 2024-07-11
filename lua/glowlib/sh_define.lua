@@ -34,6 +34,9 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
         [0] = Color(255, 0, 0),
     },
     ColorAlpha = 200,
+    DynamicLightPos = function(self, ent, sprite)
+        return sprite:GetPos() + sprite:GetAngles():Forward() * 1
+    end
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
@@ -134,9 +137,9 @@ GlowLib:Define("models/vortigaunt.mdl", {
     ColorAlpha = 180,
 })
 
-GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
-GlowLib.Glow_Data["models/vortigaunt_blue.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
-GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = GlowLib.Glow_Data["models/vortigaunt.mdl"]
+GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = table.Copy(GlowLib.Glow_Data["models/vortigaunt.mdl"])
+GlowLib.Glow_Data["models/vortigaunt_blue.mdl"] = table.Copy(GlowLib.Glow_Data["models/vortigaunt.mdl"])
+GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = table.Copy(GlowLib.Glow_Data["models/vortigaunt.mdl"])
 
 GlowLib:Define("models/dog.mdl", {
     Position = function(self, ent)

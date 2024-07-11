@@ -64,7 +64,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( glowData["ShouldDraw"] and !glowData["ShouldDraw"](glowData, v) ) then
+            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(glowData, v) ) then
                 GlowLib:Hide(v)
 
                 continue
@@ -129,7 +129,7 @@ else
 
             if ( v:GetClass() == "class C_BaseFlex" ) then continue end
 
-            if ( glowData["ShouldDraw"] and !glowData["ShouldDraw"](glowData, v) ) then
+            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(glowData, v) ) then
                 GlowLib:Hide(v)
 
                 continue
@@ -179,7 +179,7 @@ else
                 local lightSize = glowData["DynamicLightSize"] and glowData:DynamicLightSize(v, v2)
 
                 if ( !lightPos ) then
-                    lightPos = v2:GetPos() + v2:GetAngles():Forward() * 2
+                    lightPos = v2:GetPos() + v2:GetAngles():Forward() * 3
                 end
 
                 if ( !lightColor ) then
