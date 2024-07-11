@@ -102,7 +102,7 @@ else
         local ownGlowEyes = ply:GetGlowingEyes()
         for k, v in ipairs(ownGlowEyes) do
             if ( IsValid(v) ) then
-                if ( shouldDrawLocalPlayer ) then
+                if ( shouldDrawLocalPlayer and !ply:GetNoDraw() ) then
                     GlowLib:Show(ply)
                 else
                     GlowLib:Hide(ply)
