@@ -54,7 +54,7 @@ GlowLib:Define("models/combine_scanner.mdl", {
 GlowLib:Define("models/hunter.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("top_eye"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * -5
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -4
     end,
     Attachment = "top_eye",
     Color = {
@@ -73,7 +73,7 @@ GlowLib:Define("models/hunter.mdl", {
         glowCol.a = glowCol.a or self.ColorAlpha or 255
 
         local sprite = ents.Create("env_sprite")
-        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -5)
+        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
         sprite:SetParent(ent, attachment or 0)
         sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
@@ -92,7 +92,7 @@ GlowLib:Define("models/hunter.mdl", {
         ent:DeleteOnRemove(sprite)
     end,
     DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * 0
+        return sprite:GetPos() + sprite:GetAngles():Forward() * -15
     end,
     DynamicLightSize = function(self, ent, sprite)
         return 30
@@ -116,6 +116,9 @@ GlowLib:Define("models/shield_scanner.mdl", {
     Color = {
         [0] = Color(255, 135, 0),
     },
+    DynamicLightPos = function(self, ent, sprite)
+        return sprite:GetPos() + sprite:GetAngles():Forward() * 4
+    end,
 })
 
 GlowLib:Define("models/vortigaunt.mdl", {
