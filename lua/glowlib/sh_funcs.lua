@@ -83,7 +83,7 @@ if ( SERVER ) then
             if ( ent.NoGlowLib ) then return end
 
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
-            local colAlpha = glowData.ColorAlpha or ( glowCol.a or 255 )
+
             local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
             local glow_size = glowData.Size or 0.3
             local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or ( ent:EyePos() + ent:GetAngles():Forward() * 7 )
@@ -92,6 +92,8 @@ if ( SERVER ) then
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
             end
+
+            glowCol.a = glowCol.a or glowData.ColorAlpha or 255
 
             if ( !glowData["ShouldDraw"] ) then
                 glowData["ShouldDraw"] = function(self, ent) return true end
@@ -107,11 +109,12 @@ if ( SERVER ) then
             sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
 
             sprite:SetKeyValue("model", tostring(glow_mat))
-            sprite:SetKeyValue("rendercolor", tostring(glowCol))
-            sprite:SetKeyValue("renderamt", tostring(colAlpha))
+            sprite:SetColor(glowCol)
+
             sprite:SetKeyValue("rendermode", "9")
             sprite:SetKeyValue("HDRColorScale", "0.5")
             sprite:SetKeyValue("scale", tostring(glow_size))
+
             sprite:SetNW2Bool("bIsGlowLib", true)
             sprite:Spawn()
 

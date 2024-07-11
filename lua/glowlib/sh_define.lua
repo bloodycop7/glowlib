@@ -8,7 +8,7 @@ GlowLib:Define("models/combine_soldier.mdl", {
     Attachment = "eyes",
     Color = {
         [0] = Color(0, 140, 255),
-        [1] = Color(205, 75, 0, 100)
+        [1] = Color(255, 60, 0)
     },
 })
 
@@ -20,7 +20,7 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
     Attachment = "eyes",
     Color = {
         [0] = Color(255, 200, 0, 200),
-        [1] = Color(205, 55, 30)
+        [1] = Color(205, 55, 30, 200)
     },
 })
 
