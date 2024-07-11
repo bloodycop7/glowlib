@@ -173,17 +173,29 @@ else
                 if ( !IsValid(v2) ) then continue end
                 if ( v2:GetNoDraw() ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false) continue end
 
-                local dynLight = DynamicLight(v:EntIndex())
-                if ( !dynLight ) then continue end
-
                 local lightPos = glowData["DynamicLightPos"] and glowData:DynamicLightPos(v, v2)
-                local lightColor = ( glowData["DynamicLightColor"] and glowData:DynamicLightColor(v, v2) ) or v2:GetColor()
-                local lightBrightness = ( glowData["DynamicLightBrightness"] and glowData:DynamicLightBrightness(v, v2) ) or 3
-                local lightSize = ( glowData["DynamicLightSize"] and glowData:DynamicLightSize(v, v2) ) or 20
+                local lightColor = glowData["DynamicLightColor"] and glowData:DynamicLightColor(v, v2)
+                local lightBrightness = glowData["DynamicLightBrightness"] and glowData:DynamicLightBrightness(v, v2)
+                local lightSize = glowData["DynamicLightSize"] and glowData:DynamicLightSize(v, v2)
 
                 if ( !lightPos ) then
                     lightPos = v2:GetPos() + v2:GetAngles():Forward() * 2
                 end
+
+                if ( !lightColor ) then
+                    lightColor = v2:GetColor()
+                end
+
+                if ( !lightBrightness ) then
+                    lightBrightness = 3
+                end
+
+                if ( !lightSize ) then
+                    lightSize = 20
+                end
+
+                local dynLight = DynamicLight(v:EntIndex())
+                if ( !dynLight ) then continue end
 
                 dynLight.Pos = lightPos
                 dynLight.r = lightColor.r

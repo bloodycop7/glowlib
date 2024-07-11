@@ -60,24 +60,45 @@ GlowLib:Define("models/hunter.mdl", {
     Color = {
         [0] = Color(0, 255, 255),
     },
-    OnInitialize = function(self, ent)
+    OnInitialize = function(self, ent, sprite)
         local attachment = ent:LookupAttachment("bottom_eye")
         local attachmentData = ent:GetAttachment(attachment)
+        local glow_eyes = ent:GetGlowingEyes()
+
+        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
+            glowCol = self:CustomColor(ent, glowCol)
+        end
+
+        glowCol.a = glowCol.a or self.ColorAlpha or 255
 
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -5)
         sprite:SetParent(ent, attachment or 0)
         sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        sprite:SetNW2String("GlowLib_Eye_Count", #ent:GetGlowingEyes() + 1)
+        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
         sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
-        sprite:SetKeyValue("rendercolor", "0 255 255")
-        sprite:SetKeyValue("renderamt", "255")
+        sprite:SetColor(glowCol)
+
         sprite:SetKeyValue("rendermode", "9")
         sprite:SetKeyValue("HDRColorScale", "0.5")
         sprite:SetKeyValue("scale", "0.3")
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
         sprite:Spawn()
+        sprite:Activate()
 
         ent:DeleteOnRemove(sprite)
+    end,
+    DynamicLightPos = function(self, ent, sprite)
+        return sprite:GetPos() + sprite:GetAngles():Forward() * 0
+    end,
+    DynamicLightSize = function(self, ent, sprite)
+        return 30
+    end,
+    DynamicLightBrightness = function(self, ent, sprite)
+        return 4
     end,
 })
 
@@ -117,13 +138,18 @@ GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = GlowLib.Glow_Data["models/vo
 GlowLib:Define("models/dog.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * 0
+        return attachmentData.Pos
     end,
     Attachment = "eyes",
     Color = {
         [0] = Color(220, 10, 0),
     },
-    ColorAlpha = 255,
+    DynamicLightBrightness = function(self, ent, sprite)
+        return 4
+    end,
+    DynamicLightPos = function(self, ent, sprite)
+        return sprite:GetPos() + sprite:GetAngles():Forward() * 10
+    end,
 })
 
 GlowLib:Define("models/props_combine/health_charger001.mdl", {

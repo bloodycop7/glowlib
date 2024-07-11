@@ -81,13 +81,24 @@ if ( SERVER ) then
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
             if ( ent.NoGlowLib ) then return end
-
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
 
-            local glow_mat = glowData.GlowTexture or "sprites/light_glow02.vmt"
-            local glow_size = glowData.Size or 0.3
-            local vec_sprite = ( glowData["Position"] and glowData:Position(ent, glowData) ) or ( ent:EyePos() + ent:GetAngles():Forward() * 7 )
-            local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
+            local glow_mat = glowData.GlowTexture
+            if ( !glow_mat ) then
+                glowData.GlowTexture = "sprites/light_glow02.vmt"
+                glow_mat = glowData.GlowTexture
+            end
+
+            local glow_size = glowData.Size
+            if ( !glow_size ) then
+                glowData.Size = 0.3
+                glow_size = glowData.Size
+            end
+
+            local vec_sprite = glowData["Position"] and glowData:Position(ent, glowData)
+            if ( !vec_sprite ) then
+                vec_sprite = ent:EyePos() + ent:GetAngles():Forward() * 7
+            end
 
             if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
@@ -95,12 +106,17 @@ if ( SERVER ) then
 
             glowCol.a = glowCol.a or glowData.ColorAlpha or 255
 
+            if ( glowData["CustomSize"] and isfunction(glowData["CustomSize"]) ) then
+                glow_size = glowData:CustomSize(ent, glow_size)
+            end
+
             if ( !glowData["ShouldDraw"] ) then
                 glowData["ShouldDraw"] = function(self, ent) return true end
             end
 
             if ( !glowData:ShouldDraw(ent) ) then return end
 
+            local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
             local sprite = ents.Create("env_sprite")
             sprite:SetPos(vec_sprite)
             sprite:SetParent(ent, attach or 0)
