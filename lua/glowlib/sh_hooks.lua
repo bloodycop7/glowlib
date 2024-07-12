@@ -64,7 +64,7 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(glowData, v) ) then
+            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
                 continue
@@ -129,7 +129,7 @@ else
 
             if ( v:GetClass() == "class C_BaseFlex" ) then continue end
 
-            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(glowData, v) ) then
+            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
                 continue
