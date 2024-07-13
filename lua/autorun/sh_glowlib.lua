@@ -111,6 +111,7 @@ else
         local texture = data["texture"]
         local size = data["size"]
         local colorData = data["color"]
+        local bDynLight = data["dynamicLight"]
 
         local color = Color(colorData.r, colorData.g, colorData.b)
         color.a = color.a or 255
@@ -118,5 +119,7 @@ else
         sprite:SetKeyValue("model", tostring(texture))
         sprite:SetColor(color)
         sprite:SetKeyValue("scale", tostring(size))
+
+        ent:SetNW2Bool("GlowLib:DynamicLightEnabled", bDynLight)
     end)
 end

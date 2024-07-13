@@ -185,7 +185,8 @@ else
             local glowEyes = v:GetGlowingEyes()
             if ( #glowEyes == 0 ) then continue end
 
-            if ( glowData.NoDynamicLight ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false) continue end
+            if ( glowData.NoDynamicLight ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false)  continue end
+            if ( !v:GetNW2Bool("GlowLib:DynamicLightEnabled", true) ) then v:SetNW2Bool("GlowLib_HasDynamicLight", false) continue end
 
             for k2, v2 in ipairs(glowEyes) do
                 if ( !IsValid(v2) ) then continue end

@@ -79,7 +79,7 @@ function GlowLib:ShowEditMenu(ent)
         data[v]["texture"] = v:GetModel()
         data[v]["size"] = scale
         data[v]["color"] = v:GetColor()
-        data[v]["dynamicLight"] = v:GetNW2Bool("GlowLib_HasDynamicLight", false)
+        data[v]["dynamicLight"] = ent:GetNW2Bool("GlowLib_HasDynamicLight", false)
 
         local label = self.editMenu.rightPanel:Add("DLabel")
         label:Dock(TOP)
