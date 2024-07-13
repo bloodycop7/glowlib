@@ -28,3 +28,14 @@ cvars.AddChangeCallback("cl_glowlib_enabled", function(_, _, newValue)
 
     GlowLib:ShowAll()
 end)
+
+cvars.AddChangeCallback("cl_glowlib_dynamiclights", function(_, _, newValue)
+    if ( newValue == "0" ) then
+        for k, v in ents.Iterator() do
+            if ( !IsValid(v) ) then continue end
+            if ( !v:GetNW2Bool("GlowLib_HasDynamicLight", false) ) then continue end
+
+            v:SetNW2Bool("GlowLib_HasDynamicLight", false)
+        end
+    end
+end)

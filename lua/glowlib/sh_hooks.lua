@@ -86,6 +86,24 @@ if ( SERVER ) then
             GlowLib:Show(v)
         end
     end)
+
+    hook.Add("DoPlayerDeath", "GlowLib:DoPlayerDeath", function(ply)
+        if ( !IsValid(ply) ) then return end
+
+        local model = ply:GetModel()
+        if ( !model ) then return end
+        model = model:lower()
+
+        local glowData = GlowLib.Glow_Data[model]
+        if ( !glowData ) then return end
+
+        local ownGlowEyes = ply:GetGlowingEyes()
+        for k, v in ipairs(ownGlowEyes) do
+            if ( IsValid(v) ) then
+                GlowLib:Remove(ply)
+            end
+        end
+    end)
 else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()
@@ -211,21 +229,3 @@ else
         end
     end)
 end
-
-hook.Add("DoPlayerDeath", "GlowLib:DoPlayerDeath", function(ply)
-    if ( !IsValid(ply) ) then return end
-
-    local model = ply:GetModel()
-    if ( !model ) then return end
-    model = model:lower()
-
-    local glowData = GlowLib.Glow_Data[model]
-    if ( !glowData ) then return end
-
-    local ownGlowEyes = ply:GetGlowingEyes()
-    for k, v in ipairs(ownGlowEyes) do
-        if ( IsValid(v) ) then
-            GlowLib:Remove(ply)
-        end
-    end
-end)

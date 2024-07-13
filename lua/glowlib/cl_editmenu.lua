@@ -76,7 +76,7 @@ function GlowLib:ShowEditMenu(ent)
 
         data[v] = {}
         data[v]["enabled"] = v:GetNW2Bool("enabled", true)
-        data[v]["texture"] = v:GetNW2String("texture", "sprites/light_glow02.vmt")
+        data[v]["texture"] = v:GetModel()
         data[v]["size"] = scale
         data[v]["color"] = v:GetColor()
         data[v]["dynamicLight"] = v:GetNW2Bool("GlowLib_HasDynamicLight", false)

@@ -1,5 +1,6 @@
 GlowLib = GlowLib or {}
 GlowLib.Glow_Data = {}
+GlowLib.OutputColor = Color(255, 100, 0)
 
 local fileFind, AddCSLuaFile, fileInclude = file.Find, AddCSLuaFile, include
 
@@ -42,11 +43,11 @@ end
 
 function GlowLib:Define(entModel, glowData)
     if not ( entModel ) then
-        return print("GlowLib:Define - entModel is a required argument [1]")
+        return MsgC("GlowLib:Define - arg[1] entModel is a required argument!")
     end
 
     if not ( glowData ) then
-        return print("GlowLib:Define - glowData is a required argument [2]")
+        return print("GlowLib:Define - arg[2] glowData is a required argument!")
     end
 
     self.Glow_Data[entModel] = glowData
@@ -70,45 +71,18 @@ if ( CLIENT ) then
         end
     end)
 
+    local attachmentFormatOutput = "%s"
     concommand.Add("glowlib_print_attachments", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
-        if not ( IsValid(ent) ) then
-            return
-        end
+        if ( !IsValid(ent) ) then return end
 
         local attachments = ent:GetAttachments()
         for k, v in ipairs(attachments) do
-            print(k, v.name)
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Attachments ] ", color_white, attachmentFormatOutput:format(v.name), color_white, "\n")
         end
     end)
 
-    concommand.Add("glowlib_goto_nearest", function(ply)
-        local ply = LocalPlayer()
-        if ( !IsValid(ply) ) then return end
-
-        for k, v in ents.Iterator() do
-            if not ( IsValid(v) ) then
-                continue
-            end
-
-            local model = v:GetModel()
-            if not ( model ) then
-                return
-            end
-
-            if ( v == ply ) then
-                continue
-            end
-
-            if not ( IsValid(v:GetGlowingEye()) ) then
-                continue
-            end
-
-            print(v:GetGlowingEye())
-        end
-    end)
-
-    MsgC(Color(255, 100, 0), "[ GlowLib ] by eon (bloodycop)", color_white, " has been loaded!\n")
+    MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
 else
     util.AddNetworkString("GlowLib:EditMenu:Save")
     util.AddNetworkString("GlowLib:HideServerside")
@@ -136,12 +110,13 @@ else
 
         local texture = data["texture"]
         local size = data["size"]
-        local color = data["color"]
-        local colorNoA = Color(color.r, color.g, color.b)
+        local colorData = data["color"]
 
-        sprite:SetKeyValue("model", texture)
-        sprite:SetKeyValue("rendercolor", tostring(colorNoA))
-        sprite:SetKeyValue("renderamt", tostring(color.a))
-        sprite:SetKeyValue("scale", size)
+        local color = Color(colorData.r, colorData.g, colorData.b)
+        color.a = color.a or 255
+
+        sprite:SetKeyValue("model", tostring(texture))
+        sprite:SetColor(color)
+        sprite:SetKeyValue("scale", tostring(size))
     end)
 end
