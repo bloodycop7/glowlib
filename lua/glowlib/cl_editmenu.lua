@@ -75,8 +75,6 @@ function GlowLib:ShowEditMenu(ent)
         local scale = math.Round(v:GetInternalVariable("m_flSpriteScale", true), 2)
 
         data[v] = {}
-        data[v]["enabled"] = v:GetNW2Bool("enabled", true)
-        data[v]["texture"] = v:GetModel()
         data[v]["size"] = scale
         data[v]["color"] = v:GetColor()
         data[v]["dynamicLight"] = ent:GetNW2Bool("GlowLib_HasDynamicLight", false)
@@ -103,22 +101,6 @@ function GlowLib:ShowEditMenu(ent)
             if ( !data[v] ) then return end
 
             data[v]["dynamicLight"] = b
-        end
-
-        local glowTexture = self.editMenu.rightPanel:Add("DTextEntry")
-        glowTexture:Dock(TOP)
-        glowTexture:SetTall(20)
-        glowTexture:SetText(data[v]["texture"])
-        glowTexture:SetFont("HudDefault")
-        glowTexture:SetUpdateOnType(true)
-        glowTexture:SizeToContents()
-
-        glowTexture.OnChange = function(s)
-            if ( !IsValid(ent) ) then return end
-            if ( !IsValid(v) ) then return end
-            if ( !data[v] ) then return end
-
-            data[v]["texture"] = s:GetText()
         end
 
         local glowSize = self.editMenu.rightPanel:Add("DTextEntry")
@@ -207,7 +189,6 @@ function GlowLib:ShowEditMenu(ent)
             local presetPath = "glowlib/presets/" .. value
             local presetData = util.JSONToTable(file.Read(presetPath, "DATA"))
 
-            glowTexture:SetText(presetData["texture"])
             glowSize:SetText(presetData["size"])
             glowColor:SetColor(presetData["color"])
             glowDynamicLight:SetChecked(presetData["dynamicLight"])
