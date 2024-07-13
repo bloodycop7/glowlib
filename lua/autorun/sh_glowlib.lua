@@ -113,7 +113,7 @@ else
         local colorData = data["color"]
 
         local color = Color(colorData.r, colorData.g, colorData.b)
-        color.a = color.a or glowData.ColorAlpha or 255
+        color.a = color.a or 255
 
         sprite:SetKeyValue("model", tostring(texture))
         sprite:SetColor(color)
