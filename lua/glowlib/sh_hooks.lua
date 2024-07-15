@@ -173,7 +173,6 @@ else
                 continue
             end
 
-            print("run showing")
             GlowLib:Show(v)
         end
     end)
