@@ -28,14 +28,10 @@ end
 
 if ( SERVER ) then
     function GlowLib:Remove(ent)
-        if not ( IsValid(ent) ) then
-            return
-        end
+        if ( !IsValid(ent) ) then return end
 
         local model = ent:GetModel()
-        if not ( model ) then
-            return
-        end
+        if ( !model ) then return end
 
         local glow_eyes = ent:GetGlowingEyes()
         for k, v in ipairs(glow_eyes) do
@@ -238,6 +234,13 @@ function GlowLib:Show(ent)
 
     hook.Run("GlowLib:PreShow", ent)
 
+    local glow_eyes = ent:GetGlowingEyes()
+    for k, v in ipairs(glow_eyes) do
+        if ( IsValid(v) ) then
+            v:SetNoDraw(false)
+        end
+    end
+
     if ( CLIENT ) then
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
@@ -257,13 +260,6 @@ function GlowLib:Show(ent)
         if ( ent:IsPlayer() ) then
             net.Start("GlowLib:HideServerside")
             net.Send(ent)
-        end
-    end
-
-    local glow_eyes = ent:GetGlowingEyes()
-    for k, v in ipairs(glow_eyes) do
-        if ( IsValid(v) ) then
-            v:SetNoDraw(false)
         end
     end
 

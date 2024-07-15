@@ -70,6 +70,12 @@ if ( SERVER ) then
                 continue
             end
 
+            if ( !v:GetNW2Bool("GlowLib:ShouldDraw", true) ) then
+                GlowLib:Hide(v)
+
+                continue
+            end
+
             local glowEyes = v:GetGlowingEyes()
             if ( #glowEyes == 0 ) then
                 initGlow(v)
@@ -77,12 +83,8 @@ if ( SERVER ) then
                 continue
             end
 
-            for k2, v2 in ipairs(glowEyes) do
-                if ( IsValid(v2) ) then
-                    updateGlow(v)
-                end
-            end
 
+            updateGlow(v)
             GlowLib:Show(v)
         end
     end)
@@ -97,12 +99,28 @@ if ( SERVER ) then
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
-        local ownGlowEyes = ply:GetGlowingEyes()
-        for k, v in ipairs(ownGlowEyes) do
-            if ( IsValid(v) ) then
-                GlowLib:Remove(ply)
+
+        GlowLib:Remove(ply)
+    end)
+
+    hook.Add("CreateEntityRagdoll", "GlowLib:EntityRagdollCreated", function(ent, ragdoll)
+        if ( !IsValid(ent) or !IsValid(ragdoll) ) then return end
+
+        timer.Simple(0.1, function()
+            if ( !IsValid(ragdoll) ) then return end
+
+            local bRemoveOnDeath = GetConVar("sv_glowlib_remove_on_death"):GetBool()
+            if ( bRemoveOnDeath ) then
+                ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
+                GlowLib:Remove(ragdoll)
+
+                return
             end
-        end
+
+            net.Start("GlowLib:HideServersideRagdoll")
+                net.WriteEntity(ragdoll)
+            net.Broadcast()
+        end)
     end)
 else
     local nextThinkCL = 0
@@ -117,15 +135,11 @@ else
         if ( !glib_enabled ) then return end
 
         local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply) or false
-        local ownGlowEyes = ply:GetGlowingEyes()
-        for k, v in ipairs(ownGlowEyes) do
-            if ( IsValid(v) ) then
-                if ( shouldDrawLocalPlayer and !ply:GetNoDraw() ) then
-                    GlowLib:Show(ply)
-                else
-                    GlowLib:Hide(ply)
-                end
-            end
+
+        if ( shouldDrawLocalPlayer and !ply:GetNoDraw() ) then
+            GlowLib:Show(ply)
+        else
+            GlowLib:Hide(ply)
         end
 
         for k, v in ents.Iterator() do
@@ -153,12 +167,14 @@ else
                 continue
             end
 
-            local glowEyes = v:GetGlowingEyes()
-            for k2, v2 in ipairs(glowEyes) do
-                if ( IsValid(v2) ) then
-                    GlowLib:Show(v)
-                end
+            if ( !v:GetNW2Bool("GlowLib:ShouldDraw", true) ) then
+                GlowLib:Hide(v)
+
+                continue
             end
+
+            print("run showing")
+            GlowLib:Show(v)
         end
     end)
 
