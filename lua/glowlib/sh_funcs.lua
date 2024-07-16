@@ -96,7 +96,8 @@ if ( SERVER ) then
                 vec_sprite = ent:EyePos() + ent:GetAngles():Forward() * 7
             end
 
-            if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
+            local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
+            if ( glowColCustom != nil ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
             end
 
@@ -159,9 +160,11 @@ if ( SERVER ) then
         if ( !glowData ) then return end
 
         local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
-        if ( glowData["CustomColor"] and isfunction(glowData["CustomColor"]) ) then
-            col = glowData:CustomColor(ent, col)
+        local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
+            col = glowData:CustomColor(ent, glowCol)
         end
+
         col.a = col.a or glowData.ColorAlpha or 255
 
         local size = glowData.Size or 0.3

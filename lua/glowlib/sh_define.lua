@@ -134,7 +134,7 @@ GlowLib:Define("models/vortigaunt.mdl", {
         [0] = Color(255, 50, 50),
     },
     Size = 0.25,
-    ColorAlpha = 180,
+    ColorAlpha = 180
 })
 
 GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = table.Copy(GlowLib.Glow_Data["models/vortigaunt.mdl"])

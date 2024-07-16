@@ -58,7 +58,6 @@ else
 
         local bRemoveOnDeath = GetConVar("cl_glowlib_remove_on_death"):GetBool()
 
-        print(bRemoveOnDeath, "DAD")
         if ( bRemoveOnDeath ) then
             ent:SetNW2Bool("GlowLib:ShouldDraw", false)
             GlowLib:Hide(ent)
