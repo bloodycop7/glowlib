@@ -32,7 +32,7 @@ end
 ```
 
 **Example**
-```
+```lua
 GlowLib:Define("model.mdl", {
     Position = function(ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
@@ -45,6 +45,59 @@ GlowLib:Define("model.mdl", {
         [1] = Color(180, 100, 25)
     },
     ColorAlpha = 180,
+})
+```
+**Example  - Multiple Glow Eyes**
+```lua
+GlowLib:Define("models/hunter.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("top_eye"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -4
+    end,
+    Attachment = "top_eye",
+    Color = {
+        [0] = Color(0, 255, 255),
+    },
+    OnInitialize = function(self, ent, sprite)
+        local attachment = ent:LookupAttachment("bottom_eye")
+        local attachmentData = ent:GetAttachment(attachment)
+        local glow_eyes = ent:GetGlowingEyes()
+
+        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
+            glowCol = self:CustomColor(ent, glowCol)
+        end
+
+        glowCol.a = glowCol.a or self.ColorAlpha or 255
+
+        local sprite = ents.Create("env_sprite")
+        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
+        sprite:SetParent(ent, attachment or 0)
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
+        sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
+        sprite:SetColor(glowCol)
+
+        sprite:SetKeyValue("rendermode", "9")
+        sprite:SetKeyValue("HDRColorScale", "0.5")
+        sprite:SetKeyValue("scale", "0.3")
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
+        sprite:Spawn()
+        sprite:Activate()
+
+        ent:DeleteOnRemove(sprite)
+    end,
+    DynamicLightPos = function(self, ent, sprite)
+        return sprite:GetPos() + sprite:GetAngles():Forward() * -15
+    end,
+    DynamicLightSize = function(self, ent, sprite)
+        return 30
+    end,
+    DynamicLightBrightness = function(self, ent, sprite)
+        return 4
+    end,
 })
 ```
 ### Getting the Sprite Entities
