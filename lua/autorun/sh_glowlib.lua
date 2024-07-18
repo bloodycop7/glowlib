@@ -73,7 +73,7 @@ if ( CLIENT ) then
     MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
 
     local toggle3D2D = false
-    concommand.Add("glowlib_toggle_3d2d", function()
+    concommand.Add("cl_glowlib_toggle_3d2d", function()
         toggle3D2D = !toggle3D2D
     end)
 
