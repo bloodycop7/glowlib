@@ -103,7 +103,8 @@ if ( SERVER ) then
 
             glowCol.a = glowCol.a or glowData.ColorAlpha or 255
 
-            if ( glowData["CustomSize"] and isfunction(glowData["CustomSize"]) ) then
+            local customSize = glowData.CustomSize and isfunction(glowData.CustomSize) and glowData:CustomSize(ent, glow_size)
+            if ( customSize != nil ) then
                 glow_size = glowData:CustomSize(ent, glow_size)
             end
 

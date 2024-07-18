@@ -71,4 +71,37 @@ if ( CLIENT ) then
     end)
 
     MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
+
+    local toggle3D2D = false
+    concommand.Add("glowlib_toggle_3d2d", function()
+        toggle3D2D = !toggle3D2D
+    end)
+
+    hook.Add("HUDPaint", "GlowLib:TextDev", function()
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return end
+
+        if ( !toggle3D2D ) then return end
+
+        local ent = ply:GetEyeTrace().Entity
+        if ( !IsValid(ent) ) then return end
+
+        local model = ent:GetModel()
+        if ( !model ) then return end
+        model = model:lower()
+
+        local glowData = GlowLib.Glow_Data[model]
+        if ( !glowData ) then return end
+
+        local glowEyes = ent:GetGlowingEyes()
+        if ( !glowEyes ) then return end
+
+        for k, v in ipairs(glowEyes) do
+            if ( !IsValid(v) ) then continue end
+
+            local pos = v:GetPos():ToScreen()
+
+            draw.SimpleText("Glowing Eye " .. k, "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        end
+    end)
 end

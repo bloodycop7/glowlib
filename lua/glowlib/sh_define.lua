@@ -134,7 +134,13 @@ GlowLib:Define("models/vortigaunt.mdl", {
         [0] = Color(255, 50, 50),
     },
     Size = 0.25,
-    ColorAlpha = 180
+    ColorAlpha = 180,
+    CustomColor = function(self, ent, sprite)
+        local entData = ent:GetSaveTable()
+        if ( entData.m_bIsBlue ) then
+            return Color(40, 0, 255)
+        end
+    end,
 })
 
 GlowLib.Glow_Data["models/vortigaunt_slave.mdl"] = table.Copy(GlowLib.Glow_Data["models/vortigaunt.mdl"])
