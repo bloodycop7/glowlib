@@ -206,6 +206,13 @@ function GlowLib:Hide(ent)
         end
     end
 
+    if ( SERVER ) then
+        if ( ent:IsPlayer() ) then
+            net.Start("GlowLib:HideServerside")
+            net.Send(ent)
+        end
+    end
+
     hook.Run("GlowLib:Hide", ent)
 end
 
