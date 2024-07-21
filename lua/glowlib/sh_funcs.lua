@@ -264,11 +264,15 @@ function GlowLib:Show(ent)
         if ( !glowData ) then return end
 
         local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
-        if ( !shouldDrawLocalPlayer ) then
+        if ( !shouldDrawLocalPlayer or ( ply:GetMoveType() == MOVETYPE_NOCLIP and ply:GetNoDraw() ) ) then
             self:Hide(ply)
         end
     else
         if ( ent:IsPlayer() ) then
+            if ( ent:GetMoveType() == MOVETYPE_NOCLIP and ent:GetNoDraw() ) then
+                self:Hide(ent)
+            end
+
             net.Start("GlowLib:HideServerside")
             net.Send(ent)
         end

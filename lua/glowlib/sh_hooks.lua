@@ -122,21 +122,6 @@ if ( SERVER ) then
             net.Broadcast()
         end)
     end)
-
-    hook.Add("PlayerNoClip", "GlowLib:PlayerNoClip", function(ply, state)
-        if ( !IsValid(ply) ) then return end
-
-        local model = ply:GetModel()
-        if ( !model ) then return end
-        model = model:lower()
-
-        local glowData = GlowLib.Glow_Data[model]
-        if ( !glowData ) then return end
-
-        if ( state ) then
-            GlowLib:Hide(ply)
-        end
-    end)
 else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()

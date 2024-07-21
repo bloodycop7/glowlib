@@ -220,3 +220,5 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
     end,
     ColorAlpha = 200,
 })
+
+GlowLib.Glow_Data["models/player/combine_soldier_prisonguard.mdl"] = table.Copy(GlowLib.Glow_Data["models/combine_soldier_prisonguard.mdl"])
