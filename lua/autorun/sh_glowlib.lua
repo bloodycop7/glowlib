@@ -60,7 +60,7 @@ end)
 
 if ( CLIENT ) then
     local attachmentFormatOutput = "%s"
-    concommand.Add("glowlib_print_attachments", function()
+    concommand.Add("cl_glowlib_print_attachments", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
         if ( !IsValid(ent) ) then return end
 
@@ -93,15 +93,14 @@ if ( CLIENT ) then
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
-        local glowEyes = ent:GetGlowingEyes()
-        if ( !glowEyes ) then return end
+        local add = ""
 
-        for k, v in ipairs(glowEyes) do
+        for k, v in ipairs(ent:GetChildren()) do
             if ( !IsValid(v) ) then continue end
+            if ( v:GetClass() != "env_sprite" ) then continue end
 
             local pos = v:GetPos():ToScreen()
-
-            draw.SimpleText("Glowing Eye " .. k, "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            draw.SimpleText("Sprite" .. ( v:GetNW2String("GlowEyeName", "") == "GlowLib_Eye_" .. ent:EntIndex() and " ( GlowLib )" or "" ), "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
     end)
 end

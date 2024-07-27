@@ -69,7 +69,9 @@ GlowLib:Define("models/hunter.mdl", {
         local glow_eyes = ent:GetGlowingEyes()
 
         local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
+
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
             glowCol = self:CustomColor(ent, glowCol)
         end
 
@@ -222,3 +224,74 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
 })
 
 GlowLib.Glow_Data["models/player/combine_soldier_prisonguard.mdl"] = table.Copy(GlowLib.Glow_Data["models/combine_soldier_prisonguard.mdl"])
+
+GlowLib:Define("models/antlion_guard.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("attach_glow1"))
+        return attachmentData.Pos
+    end,
+    Attachment = "attach_glow1",
+    Color = {
+        [1] = Color(0, 255, 0),
+    },
+    Size = 0.5,
+    ColorAlpha = 200,
+    GlowTexture = "sprites/grubflare1.vmt",
+    OnInitialize = function(self, ent, sprite)
+        local attachment = ent:LookupAttachment("attach_glow2")
+        local attachmentData = ent:GetAttachment(attachment)
+        local glow_eyes = ent:GetGlowingEyes()
+
+        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
+            glowCol = self:CustomColor(ent, glowCol)
+        end
+
+        glowCol.a = glowCol.a or self.ColorAlpha or 255
+
+        local sprite = ents.Create("env_sprite")
+        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
+        sprite:SetParent(ent, attachment or 0)
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
+        sprite:SetKeyValue("model", tostring(self.GlowTexture))
+        sprite:SetColor(glowCol)
+
+        sprite:SetKeyValue("rendermode", "9")
+        sprite:SetKeyValue("HDRColorScale", "0.5")
+        sprite:SetKeyValue("scale", "0.3")
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
+        sprite:Spawn()
+        sprite:Activate()
+
+        ent:DeleteOnRemove(sprite)
+    end,
+    PostUpdate = function(self, ent, sprites)
+        for k, v in ipairs(ent:GetChildren()) do
+            if ( !IsValid(v) ) then continue end
+
+            local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+            local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+            if ( glowColCustom != nil ) then
+                glowCol = self:CustomColor(ent, glowCol)
+            end
+
+            glowCol.a = glowCol.a or self.ColorAlpha or 255
+
+            v:SetColor(glowCol)
+        end
+    end,
+    CustomColor = function(self, ent, sprite)
+        if ( ent:GetInternalVariable("cavernbreed" ) ) then
+            return Color(0, 255, 0)
+        end
+    end,
+    ShouldDraw = function(self, ent)
+        if ( !ent:GetInternalVariable("cavernbreed") ) then
+            return false
+        end
+    end,
+})

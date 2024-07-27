@@ -183,6 +183,11 @@ if ( SERVER ) then
             end
         end
 
+        local postUpdate = glowData.PostUpdate and isfunction(glowData.PostUpdate) and glowData:PostUpdate(ent, glowEyes)
+        if ( postUpdate != nil ) then
+            glowData:PostUpdate(ent, glowEyes)
+        end
+
         hook.Run("GlowLib:Update", ent)
     end
 end
