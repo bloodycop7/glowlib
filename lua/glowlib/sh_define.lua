@@ -299,3 +299,32 @@ GlowLib:Define("models/antlion_guard.mdl", {
         return true
     end,
 })
+
+GlowLib:Define("models/antlion_grub.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("glow"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -1 + attachmentData.Ang:Right() * -2
+    end,
+    Attachment = "glow",
+    Color = {
+        [0] = Color(0, 255, 0),
+    },
+    Size = 0.3,
+    GlowTexture = "sprites/grubflare1.vmt",
+    PostUpdate = function(self, ent, sprites)
+        for k, v in ipairs(ent:GetChildren()) do
+            if ( !IsValid(v) ) then continue end
+
+            local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+            local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+            if ( glowColCustom != nil ) then
+                glowCol = self:CustomColor(ent, glowCol)
+            end
+
+            glowCol.a = glowCol.a or self.ColorAlpha or 255
+
+            v:SetColor(glowCol)
+        end
+    end,
+})

@@ -59,18 +59,18 @@ hook.Add("OnReloaded", "GlowLib:Reload", function()
 end)
 
 if ( CLIENT ) then
-    local attachmentFormatOutput = "%s"
+    local attachmentFormatOutput = "%s ( %s )"
     concommand.Add("cl_glowlib_print_attachments", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
         if ( !IsValid(ent) ) then return end
 
         local attachments = ent:GetAttachments()
         for k, v in ipairs(attachments) do
-            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Attachments ] ", color_white, attachmentFormatOutput:format(v.name), color_white, "\n")
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Attachments ] ", color_white, attachmentFormatOutput:format(v.name, v.id), color_white, "\n")
         end
     end)
 
-    local bodygreoupsFormatOutput = "%s ( %s ) - %s"
+    local bodygroupsFormatOutput = "%s ( %s ) - %s"
     concommand.Add("cl_glowlib_print_bodygroups", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
         if ( !IsValid(ent) ) then return end
@@ -80,6 +80,23 @@ if ( CLIENT ) then
             if ( k == 1 ) then continue end
 
             MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Bodygroups ] ", color_white, bodygreoupsFormatOutput:format(v.name, k - 1, ent:GetBodygroup(k)), color_white, "\n")
+        end
+    end)
+
+    local childrenFormatOutput = "%s ( Entity(%s) ) %s"
+    concommand.Add("cl_glowlib_print_children", function()
+        local ent = LocalPlayer():GetEyeTrace().Entity
+        if ( !IsValid(ent) ) then return end
+
+        for k, v in ipairs(ent:GetChildren()) do
+            local addText = ""
+
+            print(v:GetNW2Bool("bIsGlowLib", false))
+            if ( v:GetNW2Bool("bIsGlowLib", false) ) then
+                addText = "( GlowLib )"
+            end
+
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Children ] ", color_white, childrenFormatOutput:format(v:GetClass(), v:EntIndex(), addText), color_white, "\n")
         end
     end)
 
@@ -117,7 +134,7 @@ if ( CLIENT ) then
             if ( v:GetClass() != "env_sprite" ) then continue end
 
             local pos = v:GetPos():ToScreen()
-            draw.SimpleText("Sprite" .. ( v:GetNW2String("GlowEyeName", "") == "GlowLib_Eye_" .. ent:EntIndex() and " ( GlowLib )" or "" ), "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            draw.SimpleText("Sprite" .. ( v:GetNW2Bool("bIsGlowLib", false) and " ( GlowLib )" or "" ), "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
     end)
 
