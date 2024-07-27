@@ -232,6 +232,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
     end,
     Attachment = "attach_glow1",
     Color = {
+        [0] = Color(255, 100, 0),
         [1] = Color(0, 255, 0),
     },
     Size = 0.5,
@@ -243,7 +244,9 @@ GlowLib:Define("models/antlion_guard.mdl", {
         local glow_eyes = ent:GetGlowingEyes()
 
         local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
+
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
             glowCol = self:CustomColor(ent, glowCol)
         end
 
@@ -290,8 +293,10 @@ GlowLib:Define("models/antlion_guard.mdl", {
         end
     end,
     ShouldDraw = function(self, ent)
-        if ( !ent:GetInternalVariable("cavernbreed") ) then
+        if ( !ent:GetInternalVariable("cavernbreed") and ent:GetSkin() == 0 ) then
             return false
         end
+
+        return true
     end,
 })
