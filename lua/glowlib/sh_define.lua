@@ -262,7 +262,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
 
         sprite:SetKeyValue("rendermode", "9")
         sprite:SetKeyValue("HDRColorScale", "0.5")
-        sprite:SetKeyValue("scale", "0.3")
+        sprite:SetKeyValue("scale", "0.5")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
         sprite:Spawn()

@@ -70,11 +70,28 @@ if ( CLIENT ) then
         end
     end)
 
-    MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
+    local bodygreoupsFormatOutput = "%s ( %s ) - %s"
+    concommand.Add("cl_glowlib_print_bodygroups", function()
+        local ent = LocalPlayer():GetEyeTrace().Entity
+        if ( !IsValid(ent) ) then return end
+
+        local bodygroups = ent:GetBodyGroups()
+        for k, v in ipairs(bodygroups) do
+            if ( k == 1 ) then continue end
+
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Bodygroups ] ", color_white, bodygreoupsFormatOutput:format(v.name, k - 1, ent:GetBodygroup(k)), color_white, "\n")
+        end
+    end)
 
     local toggle3D2D = false
     concommand.Add("cl_glowlib_toggle_3d2d", function()
         toggle3D2D = !toggle3D2D
+
+        if ( toggle3D2D ) then
+            return MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ 3D2D ] ", color_white, "3D2D has been enabled!\n")
+        end
+
+        MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ 3D2D ] ", color_white, "3D2D has been disabled!\n")
     end)
 
     hook.Add("HUDPaint", "GlowLib:TextDev", function()
@@ -103,4 +120,6 @@ if ( CLIENT ) then
             draw.SimpleText("Sprite" .. ( v:GetNW2String("GlowEyeName", "") == "GlowLib_Eye_" .. ent:EntIndex() and " ( GlowLib )" or "" ), "DermaDefault", pos.x, pos.y, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
     end)
+
+    MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
 end
