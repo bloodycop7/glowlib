@@ -138,8 +138,7 @@ GlowLib:Define("models/vortigaunt.mdl", {
     Size = 0.25,
     ColorAlpha = 180,
     CustomColor = function(self, ent, sprite)
-        local entData = ent:GetSaveTable()
-        if ( entData.m_bIsBlue ) then
+        if ( ent:GetInternalVariable("m_bIsBlue") ) then
             return Color(40, 0, 255)
         end
     end,
