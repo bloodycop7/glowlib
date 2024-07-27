@@ -122,25 +122,6 @@ if ( SERVER ) then
             net.Broadcast()
         end)
     end)
-
-    hook.Add("OnEntityCreated", "GlowLib:OnEntityCreated", function(ent)
-        timer.Simple(0.33, function()
-            if ( !IsValid(ent) ) then return end
-
-            local model = ent:GetModel()
-            if ( !model ) then return end
-            model = model:lower()
-
-            if ( model == "models/antlion_guard.mdl") then
-                for k, v in ipairs(ent:GetChildren()) do
-                    if ( !IsValid(v) ) then continue end
-
-                    print(v)
-                    v:SetColor(Color(0, 255, 0))
-                end
-            end
-        end)
-    end)
 else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()
