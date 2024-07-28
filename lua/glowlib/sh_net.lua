@@ -28,10 +28,7 @@ if ( SERVER ) then
         local colorData = data["color"]
         local bDynLight = data["dynamicLight"]
 
-        local color = Color(colorData.r, colorData.g, colorData.b)
-        color.a = color.a or 255
-
-        sprite:SetColor(color)
+        sprite:SetColor(colorData)
         sprite:SetKeyValue("scale", tostring(size))
 
         ent:SetNW2Bool("GlowLib:DynamicLightEnabled", bDynLight)

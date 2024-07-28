@@ -132,8 +132,6 @@ else
         if ( !IsValid(ply) ) then return end
 
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        if ( !glib_enabled ) then return end
-
         local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply) or false
 
         if ( shouldDrawLocalPlayer and !ply:GetNoDraw() ) then
@@ -152,6 +150,8 @@ else
 
             local glowData = GlowLib.Glow_Data[model]
             if ( !glowData ) then continue end
+
+            v:SetNW2Bool("GlowLib:ShouldDraw", glib_enabled)
 
             if ( v:GetNoDraw() ) then
                 GlowLib:Hide(v)
