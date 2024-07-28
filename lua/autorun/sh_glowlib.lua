@@ -83,6 +83,17 @@ if ( CLIENT ) then
         end
     end)
 
+    local boneFormatOutput = "%s ( %s )"
+    concommand.Add("cl_glowlib_print_bones", function()
+        local ent = LocalPlayer():GetEyeTrace().Entity
+        if ( !IsValid(ent) ) then return end
+
+        local bones = ent:GetBoneCount()
+        for i = 0, bones - 1 do
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Bones ] ", color_white, boneFormatOutput:format(ent:GetBoneName(i), i), color_white, "\n")
+        end
+    end)
+
     local childrenFormatOutput = "%s ( Entity(%s) ) %s"
     concommand.Add("cl_glowlib_print_children", function()
         local ent = LocalPlayer():GetEyeTrace().Entity
