@@ -213,7 +213,7 @@ else
                 local lightSize = glowData["DynamicLightSize"] and glowData:DynamicLightSize(v, v2)
 
                 if ( !lightPos ) then
-                    lightPos = v2:GetPos() + v2:GetAngles():Forward() * 3
+                    lightPos = v2:GetPos()
                 end
 
                 if ( !lightColor ) then
