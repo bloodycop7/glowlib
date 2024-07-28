@@ -225,7 +225,7 @@ else
                 end
 
                 if ( !lightSize ) then
-                    lightSize = 20
+                    lightSize = 15
                 end
 
                 local dynLight = DynamicLight(v:EntIndex())
