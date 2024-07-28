@@ -101,8 +101,6 @@ if ( SERVER ) then
                 glowCol = glowData:CustomColor(ent, glowCol)
             end
 
-            glowCol.a = glowCol.a or glowData.ColorAlpha or 255
-
             local customSize = glowData.CustomSize and isfunction(glowData.CustomSize) and glowData:CustomSize(ent, glow_size)
             if ( customSize != nil ) then
                 glow_size = glowData:CustomSize(ent, glow_size)
@@ -166,9 +164,7 @@ if ( SERVER ) then
             col = glowData:CustomColor(ent, glowCol)
         end
 
-        col.a = col.a or glowData.ColorAlpha or 255
-
-        local size = glowData.Size or 0.3
+        local size = glowData.Size or 0.25
 
         for k, v in ipairs(glowEyes) do
             if ( !ent.GlowLib_DisableUpdating ) then

@@ -2,7 +2,6 @@
 ### Define Arguments
 ```
 Color - Color(r, g, b)
-ColorAlpha = 0-255
 GlowTexture = "sprites/light_glow02.vmt"
 Size = 0.3
 Position = function(self, ent)
@@ -44,7 +43,6 @@ GlowLib:Define("model.mdl", {
         [0] = Color(0, 140, 255),
         [1] = Color(180, 100, 25)
     },
-    ColorAlpha = 180,
 })
 ```
 **Example  - Multiple Glow Eyes**
@@ -68,7 +66,7 @@ GlowLib:Define("models/hunter.mdl", {
             glowCol = self:CustomColor(ent, glowCol)
         end
 
-        glowCol.a = glowCol.a or self.ColorAlpha or 255
+
 
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)

@@ -33,7 +33,6 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     Color = {
         [0] = Color(255, 0, 0),
     },
-    ColorAlpha = 200,
     DynamicLightPos = function(self, ent, sprite)
         return sprite:GetPos() + sprite:GetAngles():Forward() * 1
     end
@@ -74,8 +73,6 @@ GlowLib:Define("models/hunter.mdl", {
         if ( glowColCustom != nil ) then
             glowCol = self:CustomColor(ent, glowCol)
         end
-
-        glowCol.a = glowCol.a or self.ColorAlpha or 255
 
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
@@ -136,7 +133,6 @@ GlowLib:Define("models/vortigaunt.mdl", {
         [0] = Color(255, 50, 50),
     },
     Size = 0.25,
-    ColorAlpha = 180,
     CustomColor = function(self, ent, sprite)
         if ( ent:GetInternalVariable("m_bIsBlue") ) then
             return Color(40, 0, 255)
@@ -202,7 +198,6 @@ GlowLib:Define("models/player/combine_soldier.mdl", {
             return ent:GetPlayerColor():ToColor()
         end
     end,
-    ColorAlpha = 200,
 })
 
 GlowLib:Define("models/player/combine_super_soldier.mdl", {
@@ -219,7 +214,6 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
             return ent:GetPlayerColor():ToColor()
         end
     end,
-    ColorAlpha = 200,
 })
 
 GlowLib.Glow_Data["models/player/combine_soldier_prisonguard.mdl"] = table.Copy(GlowLib.Glow_Data["models/combine_soldier_prisonguard.mdl"])
@@ -235,7 +229,6 @@ GlowLib:Define("models/antlion_guard.mdl", {
         [1] = Color(0, 255, 0),
     },
     Size = 0.5,
-    ColorAlpha = 200,
     GlowTexture = "sprites/grubflare1.vmt",
     OnInitialize = function(self, ent, sprite)
         local attachment = ent:LookupAttachment("attach_glow2")
@@ -248,8 +241,6 @@ GlowLib:Define("models/antlion_guard.mdl", {
         if ( glowColCustom != nil ) then
             glowCol = self:CustomColor(ent, glowCol)
         end
-
-        glowCol.a = glowCol.a or self.ColorAlpha or 255
 
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
@@ -281,7 +272,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
                 glowCol = self:CustomColor(ent, glowCol)
             end
 
-            glowCol.a = glowCol.a or self.ColorAlpha or 255
+
 
             v:SetColor(glowCol)
         end
@@ -322,7 +313,7 @@ GlowLib:Define("models/antlion_grub.mdl", {
                 glowCol = self:CustomColor(ent, glowCol)
             end
 
-            glowCol.a = glowCol.a or self.ColorAlpha or 255
+
 
             v:SetColor(glowCol)
         end
