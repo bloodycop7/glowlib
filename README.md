@@ -9,23 +9,10 @@ Position = function(self, ent)
     return attachmentData.Pos
 end
 Attachment = "eyes"
-NoDynamicLight = false
 CustomColor = function(self, ent, glowCol)
 
 end
 OnInitialize = function(self, ent, sprite)
-
-end
-DynamicLightColor = function(self, ent, sprite)
-
-end
-DynamicLightPos = function(self, ent, sprite)
-
-end
-DynamicLightBrightness = function(self, ent, sprite)
-
-end
-DynamicLightSize = function(self, ent, sprite)
 
 end
 ```
@@ -66,8 +53,6 @@ GlowLib:Define("models/hunter.mdl", {
             glowCol = self:CustomColor(ent, glowCol)
         end
 
-
-
         local sprite = ents.Create("env_sprite")
         sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
         sprite:SetParent(ent, attachment or 0)
@@ -86,15 +71,6 @@ GlowLib:Define("models/hunter.mdl", {
         sprite:Activate()
 
         ent:DeleteOnRemove(sprite)
-    end,
-    DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * -15
-    end,
-    DynamicLightSize = function(self, ent, sprite)
-        return 30
-    end,
-    DynamicLightBrightness = function(self, ent, sprite)
-        return 4
     end,
 })
 ```

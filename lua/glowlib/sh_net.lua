@@ -26,12 +26,9 @@ if ( SERVER ) then
 
         local size = data["size"]
         local colorData = data["color"]
-        local bDynLight = data["dynamicLight"]
 
         sprite:SetColor(colorData)
         sprite:SetKeyValue("scale", tostring(size))
-
-        ent:SetNW2Bool("GlowLib:DynamicLightEnabled", bDynLight)
     end)
 else
     net.Receive("GlowLib:HideServerside", function(len)

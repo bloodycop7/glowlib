@@ -33,9 +33,6 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     Color = {
         [0] = Color(255, 0, 0),
     },
-    DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * 1
-    end
 })
 
 GlowLib:Define("models/combine_scanner.mdl", {
@@ -93,15 +90,6 @@ GlowLib:Define("models/hunter.mdl", {
 
         ent:DeleteOnRemove(sprite)
     end,
-    DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * -15
-    end,
-    DynamicLightSize = function(self, ent, sprite)
-        return 30
-    end,
-    DynamicLightBrightness = function(self, ent, sprite)
-        return 4
-    end,
 })
 
 GlowLib:Define("models/shield_scanner.mdl", {
@@ -109,18 +97,11 @@ GlowLib:Define("models/shield_scanner.mdl", {
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eye"))
         return attachmentData.Pos
     end,
-    DynamicLightPos = function(self, ent, sprite)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eye"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * 2
-    end,
     Attachment = "eye",
     Size = 0.35,
     Color = {
         [0] = Color(255, 135, 0),
     },
-    DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * 4
-    end,
 })
 
 GlowLib:Define("models/vortigaunt.mdl", {
@@ -153,12 +134,6 @@ GlowLib:Define("models/dog.mdl", {
     Color = {
         [0] = Color(220, 10, 0),
     },
-    DynamicLightBrightness = function(self, ent, sprite)
-        return 4
-    end,
-    DynamicLightPos = function(self, ent, sprite)
-        return sprite:GetPos() + sprite:GetAngles():Forward() * 10
-    end,
 })
 
 GlowLib:Define("models/props_combine/health_charger001.mdl", {
@@ -169,7 +144,6 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         [0] = Color(0, 145, 210),
     },
     Size = 0.8,
-    NoDynamicLight = true,
 })
 
 GlowLib:Define("models/props_combine/suit_charger001.mdl", {
@@ -180,7 +154,6 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         [0] = Color(210, 120, 0),
     },
     Size = 0.8,
-    NoDynamicLight = true,
 })
 
 GlowLib:Define("models/player/combine_soldier.mdl", {

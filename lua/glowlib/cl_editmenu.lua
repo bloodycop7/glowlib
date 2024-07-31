@@ -77,7 +77,6 @@ function GlowLib:ShowEditMenu(ent)
         data[v] = {}
         data[v]["size"] = scale
         data[v]["color"] = v:GetColor()
-        data[v]["dynamicLight"] = ent:GetNW2Bool("GlowLib_HasDynamicLight", false)
 
         local label = self.editMenu.rightPanel:Add("DLabel")
         label:Dock(TOP)
@@ -86,22 +85,6 @@ function GlowLib:ShowEditMenu(ent)
         label:SetFont("HudDefault")
         label:SetContentAlignment(5)
         label:SizeToContents()
-
-        local glowDynamicLight = self.editMenu.rightPanel:Add("DCheckBoxLabel")
-        glowDynamicLight:Dock(TOP)
-        glowDynamicLight:SetText("Dynamic Light")
-        glowDynamicLight:SetChecked(data[v]["dynamicLight"])
-        glowDynamicLight:SetFont("HudDefault")
-        glowDynamicLight:SetTextColor(color_white)
-        glowDynamicLight:SizeToContents()
-
-        glowDynamicLight.OnChange = function(s, b)
-            if ( !IsValid(ent) ) then return end
-            if ( !IsValid(v) ) then return end
-            if ( !data[v] ) then return end
-
-            data[v]["dynamicLight"] = b
-        end
 
         local glowSize = self.editMenu.rightPanel:Add("DTextEntry")
         glowSize:Dock(TOP)
@@ -191,7 +174,6 @@ function GlowLib:ShowEditMenu(ent)
 
             glowSize:SetText(presetData["size"])
             glowColor:SetColor(presetData["color"])
-            glowDynamicLight:SetChecked(presetData["dynamicLight"])
         end
 
         saveButton:SizeToContents()
