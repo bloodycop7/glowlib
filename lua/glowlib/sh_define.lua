@@ -7,8 +7,8 @@ GlowLib:Define("models/combine_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(0, 140, 255),
-        [1] = Color(255, 60, 0)
+        [0] = Color(0, 155, 255, 170),
+        [1] = Color(255, 64, 0, 150)
     },
 })
 
@@ -19,8 +19,8 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 200, 0, 200),
-        [1] = Color(205, 55, 30, 200)
+        [0] = Color(255, 200, 0, 170),
+        [1] = Color(205, 55, 30, 170)
     },
 })
 
@@ -31,7 +31,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0),
+        [0] = Color(255, 0, 0, 170),
     },
 })
 
@@ -57,8 +57,9 @@ GlowLib:Define("models/hunter.mdl", {
     end,
     Attachment = "top_eye",
     Color = {
-        [0] = Color(0, 255, 255),
+        [0] = Color(0, 255, 255, 255),
     },
+    Size = 0.4,
     OnInitialize = function(self, ent, sprite)
         local attachment = ent:LookupAttachment("bottom_eye")
         local attachmentData = ent:GetAttachment(attachment)
@@ -81,8 +82,8 @@ GlowLib:Define("models/hunter.mdl", {
         sprite:SetColor(glowCol)
 
         sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("HDRColorScale", "0.5")
-        sprite:SetKeyValue("scale", "0.3")
+        sprite:SetKeyValue("HDRColorScale", "1")
+        sprite:SetKeyValue("scale", "0.4")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
         sprite:Spawn()
@@ -111,12 +112,12 @@ GlowLib:Define("models/vortigaunt.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 50, 50),
+        [0] = Color(255, 50, 50, 170),
     },
-    Size = 0.25,
+    Size = 0.35,
     CustomColor = function(self, ent, sprite)
         if ( ent:GetInternalVariable("m_bIsBlue") ) then
-            return Color(40, 0, 255)
+            return Color(40, 0, 255, 170)
         end
     end,
 })
@@ -163,8 +164,8 @@ GlowLib:Define("models/player/combine_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(0, 140, 255),
-        [1] = Color(205, 75, 0, 100)
+        [0] = Color(0, 155, 255, 170),
+        [1] = Color(255, 64, 0, 100)
     },
     CustomColor = function(self, ent, sprie)
         if ( ent:IsPlayer() ) then
@@ -180,7 +181,7 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0),
+        [0] = Color(255, 0, 0, 120),
     },
     CustomColor = function(self, ent, sprie)
         if ( ent:IsPlayer() ) then
@@ -221,11 +222,11 @@ GlowLib:Define("models/antlion_guard.mdl", {
         sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
 
-        sprite:SetKeyValue("model", tostring(self.GlowTexture))
+        sprite:SetKeyValue("model", "sprites/grubflare1.vmt")
         sprite:SetColor(glowCol)
 
         sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("HDRColorScale", "0.5")
+        sprite:SetKeyValue("HDRColorScale", "1")
         sprite:SetKeyValue("scale", "0.5")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
@@ -244,8 +245,6 @@ GlowLib:Define("models/antlion_guard.mdl", {
             if ( glowColCustom != nil ) then
                 glowCol = self:CustomColor(ent, glowCol)
             end
-
-
 
             v:SetColor(glowCol)
         end
@@ -266,15 +265,17 @@ GlowLib:Define("models/antlion_guard.mdl", {
 
 GlowLib:Define("models/antlion_grub.mdl", {
     Position = function(self, ent)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("glow"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * -1 + attachmentData.Ang:Right() * -2
+        return ent:GetAttachment(1).Pos
     end,
     Attachment = "glow",
     Color = {
         [0] = Color(0, 255, 0),
     },
-    Size = 0.3,
     GlowTexture = "sprites/grubflare1.vmt",
+    OnInitialize = function(self, ent, sprite)
+        sprite:SetPos(ent:GetAttachment(1).Pos)
+        sprite:SetParent(ent:GetChildren()[1])
+    end,
     PostUpdate = function(self, ent, sprites)
         for k, v in ipairs(ent:GetChildren()) do
             if ( !IsValid(v) ) then continue end
@@ -285,8 +286,6 @@ GlowLib:Define("models/antlion_grub.mdl", {
             if ( glowColCustom != nil ) then
                 glowCol = self:CustomColor(ent, glowCol)
             end
-
-
 
             v:SetColor(glowCol)
         end

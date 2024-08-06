@@ -124,7 +124,7 @@ if ( SERVER ) then
             sprite:SetColor(glowCol)
 
             sprite:SetKeyValue("rendermode", "9")
-            sprite:SetKeyValue("HDRColorScale", "0.5")
+            sprite:SetKeyValue("HDRColorScale", "1")
             sprite:SetKeyValue("scale", tostring(glow_size))
 
             sprite:SetNW2Bool("bIsGlowLib", true)
@@ -164,7 +164,7 @@ if ( SERVER ) then
             col = glowData:CustomColor(ent, glowCol)
         end
 
-        local size = glowData.Size or 0.25
+        local size = glowData.Size or 0.3
 
         for k, v in ipairs(glowEyes) do
             if ( !ent.GlowLib_DisableUpdating ) then
@@ -172,7 +172,7 @@ if ( SERVER ) then
                 v:SetColor(col)
             end
 
-            v:SetKeyValue("HDRColorScale", "0.5")
+            v:SetKeyValue("HDRColorScale", "1")
 
             if ( !ent.GlowLib_DisableUpdating ) then
                 v:SetKeyValue("scale", tostring(size))
