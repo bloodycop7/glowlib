@@ -79,7 +79,7 @@ if ( CLIENT ) then
         for k, v in ipairs(bodygroups) do
             if ( k == 1 ) then continue end
 
-            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Bodygroups ] ", color_white, bodygreoupsFormatOutput:format(v.name, k - 1, ent:GetBodygroup(k)), color_white, "\n")
+            MsgC(GlowLib.OutputColor, "[ GlowLib ] [ Debugging ] [ Bodygroups ] ", color_white, bodygroupsFormatOutput:format(v.name, k - 1, ent:GetBodygroup(k)), color_white, "\n")
         end
     end)
 
