@@ -142,7 +142,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 4
     end,
     Color = {
-        [0] = Color(0, 145, 210),
+        [0] = Color(0, 145, 210, 200),
     },
     Size = 0.8,
 })
