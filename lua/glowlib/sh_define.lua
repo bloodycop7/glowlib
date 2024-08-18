@@ -152,7 +152,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 7
     end,
     Color = {
-        [0] = Color(210, 120, 0),
+        [0] = Color(204, 116, 0, 255),
     },
     Size = 0.8,
 })
