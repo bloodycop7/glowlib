@@ -139,12 +139,12 @@ GlowLib:Define("models/dog.mdl", {
 
 GlowLib:Define("models/props_combine/health_charger001.mdl", {
     Position = function(self, ent)
-        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 4
+        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5
     end,
     Color = {
         [0] = Color(0, 145, 210, 200),
     },
-    Size = 0.8,
+    Size = 0.45,
 })
 
 GlowLib:Define("models/props_combine/suit_charger001.mdl", {
@@ -154,7 +154,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
     Color = {
         [0] = Color(205, 115, 0, 200),
     },
-    Size = 0.8,
+    Size = 0.45,
 })
 
 GlowLib:Define("models/player/combine_soldier.mdl", {
