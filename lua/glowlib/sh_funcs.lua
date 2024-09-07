@@ -159,6 +159,8 @@ if ( SERVER ) then
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
+        if ( !ent.GlowLib_DisableUpdating ) then return end
+
         local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
         local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
         if ( glowColCustom != nil ) then
@@ -168,14 +170,9 @@ if ( SERVER ) then
         local size = glowData.Size or 0.3
 
         for k, v in ipairs(glowEyes) do
-            if ( !ent.GlowLib_DisableUpdating ) then
-                v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
-                v:SetColor(col)
-            end
-
-            if ( !ent.GlowLib_DisableUpdating ) then
-                v:SetKeyValue("scale", tostring(size))
-            end
+            v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
+            v:SetKeyValue("scale", tostring(size))
+            v:SetColor(col)
         end
 
         local postUpdate = glowData.PostUpdate and isfunction(glowData.PostUpdate) and glowData:PostUpdate(ent, glowEyes)
