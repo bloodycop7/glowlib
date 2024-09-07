@@ -165,7 +165,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         sprite:SetColor(Color(0, 195, 255, 170))
 
         sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("scale", "0.4")
+        sprite:SetKeyValue("scale", "0.5")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
         sprite:Spawn()
@@ -217,7 +217,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         sprite:SetColor(Color(255, 115, 0, 170))
 
         sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("scale", "0.4")
+        sprite:SetKeyValue("scale", "0.5")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
         sprite:Spawn()
