@@ -278,7 +278,7 @@ function GlowLib:Show(ent)
         end
     else
         if ( ent:IsPlayer() ) then
-            if ( ent:GetMoveType() == MOVETYPE_NOCLIP and ent:GetNoDraw() ) then
+            if ( ent:GetNoDraw() ) then
                 self:Hide(ent)
             end
 

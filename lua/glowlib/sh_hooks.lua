@@ -107,8 +107,6 @@ if ( SERVER ) then
     hook.Add("CreateEntityRagdoll", "GlowLib:EntityRagdollCreated", function(ent, ragdoll)
         if ( !IsValid(ent) or !IsValid(ragdoll) ) then return end
 
-        GlowLib:Remove(ent)
-
         timer.Simple(0.1, function()
             if ( !IsValid(ragdoll) ) then return end
 
@@ -124,6 +122,19 @@ if ( SERVER ) then
                 net.WriteEntity(ragdoll)
             net.Broadcast()
         end)
+    end)
+
+    hook.Add("OnNPCKilled", "GlowLib:OnNPCKilled", function(npc, attacker, inflictor)
+        if ( !IsValid(npc) ) then return end
+
+        local model = npc:GetModel()
+        if ( !model ) then return end
+        model = model:lower()
+
+        local glowData = GlowLib.Glow_Data[model]
+        if ( !glowData ) then return end
+
+        GlowLib:Remove(npc)
     end)
 else
     local nextThinkCL = 0
