@@ -126,7 +126,6 @@ if ( SERVER ) then
             sprite:SetColor(glowCol)
 
             sprite:SetKeyValue("rendermode", "9")
-            sprite:SetKeyValue("HDRColorScale", "1")
             sprite:SetKeyValue("scale", tostring(glow_size))
 
             sprite:SetNW2Bool("bIsGlowLib", true)
@@ -173,8 +172,6 @@ if ( SERVER ) then
                 v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
                 v:SetColor(col)
             end
-
-            v:SetKeyValue("HDRColorScale", "1")
 
             if ( !ent.GlowLib_DisableUpdating ) then
                 v:SetKeyValue("scale", tostring(size))
