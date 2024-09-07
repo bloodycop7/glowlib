@@ -102,7 +102,6 @@ if ( CLIENT ) then
         for k, v in ipairs(ent:GetChildren()) do
             local addText = ""
 
-            print(v:GetNW2Bool("bIsGlowLib", false))
             if ( v:GetNW2Bool("bIsGlowLib", false) ) then
                 addText = "( GlowLib )"
             end
