@@ -107,6 +107,8 @@ if ( SERVER ) then
     hook.Add("CreateEntityRagdoll", "GlowLib:EntityRagdollCreated", function(ent, ragdoll)
         if ( !IsValid(ent) or !IsValid(ragdoll) ) then return end
 
+        GlowLib:Remove(ent)
+
         timer.Simple(0.1, function()
             if ( !IsValid(ragdoll) ) then return end
 
