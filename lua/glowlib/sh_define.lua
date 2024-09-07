@@ -57,7 +57,7 @@ GlowLib:Define("models/hunter.mdl", {
     end,
     Attachment = "top_eye",
     Color = {
-        [0] = Color(0, 255, 255, 255),
+        [0] = Color(0, 255, 255, 170),
     },
     Size = 0.4,
     OnInitialize = function(self, ent, sprite)
