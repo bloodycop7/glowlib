@@ -364,3 +364,72 @@ GlowLib:Define("models/antlion_grub.mdl", {
         end
     end,
 })
+
+GlowLib:Define("models/healthvial.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetUp() * 5
+    end,
+    Color = {
+        [0] = Color(0, 255, 0, 200),
+    },
+    Size = 0.15,
+    OnInitialize = function(self, ent, sprite)
+        local light = ents.Create("light_dynamic")
+        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "0 255 0")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "13")
+        light:SetKeyValue("brightness", "2")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
+    end,
+})
+
+GlowLib:Define("models/items/healthkit.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5
+    end,
+    Color = {
+        [0] = Color(0, 255, 0, 200),
+    },
+    Size = 0.25,
+    OnInitialize = function(self, ent, sprite)
+        local light = ents.Create("light_dynamic")
+        light:SetPos(ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "0 255 0")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "18")
+        light:SetKeyValue("brightness", "2")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
+    end,
+})
+
+GlowLib:Define("models/items/battery.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 2
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 0.2,
+    OnInitialize = function(self, ent, sprite)
+        local light = ents.Create("light_dynamic")
+        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "0 255 255")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "13")
+        light:SetKeyValue("brightness", "2")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
+    end,
+})
