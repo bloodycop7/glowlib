@@ -74,6 +74,8 @@ if ( SERVER ) then
         if ( !model ) then return end
         model = model:lower()
 
+        if ( !util.IsValidModel(model) ) then return end
+
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
             if ( ent.NoGlowLib ) then return end
