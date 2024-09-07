@@ -182,6 +182,9 @@ if ( SERVER ) then
         local size = glowData.Size or 0.3
 
         for k, v in ipairs(glowEyes) do
+            local vTable = v:GetTable()
+            if ( vTable.NoGlowLibUpdate ) then return end
+
             v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
             v:SetKeyValue("scale", tostring(size))
             v:SetColor(col)

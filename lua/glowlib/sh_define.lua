@@ -7,8 +7,8 @@ GlowLib:Define("models/combine_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(0, 70, 155, 170),
-        [1] = Color(255, 64, 0, 150)
+        [0] = Color(0, 100, 210, 170),
+        [1] = Color(140, 25, 0, 170)
     },
 })
 
@@ -19,8 +19,8 @@ GlowLib:Define("models/combine_soldier_prisonguard.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 200, 0, 170),
-        [1] = Color(205, 55, 30, 170)
+        [0] = Color(190, 145, 0, 170),
+        [1] = Color(155, 40, 0, 170)
     },
 })
 
@@ -31,7 +31,7 @@ GlowLib:Define("models/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0, 170),
+        [0] = Color(200, 0, 0, 170),
     },
 })
 
@@ -46,7 +46,7 @@ GlowLib:Define("models/combine_scanner.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 135, 0),
+        [0] = Color(215, 105, 0, 170),
     },
 })
 
@@ -82,7 +82,6 @@ GlowLib:Define("models/hunter.mdl", {
         sprite:SetColor(glowCol)
 
         sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("HDRColorScale", "1")
         sprite:SetKeyValue("scale", "0.4")
 
         sprite:SetNW2Bool("bIsGlowLib", true)
@@ -101,7 +100,7 @@ GlowLib:Define("models/shield_scanner.mdl", {
     Attachment = "eye",
     Size = 0.35,
     Color = {
-        [0] = Color(255, 135, 0),
+        [0] = Color(215, 105, 0, 170),
     },
 })
 
@@ -112,12 +111,12 @@ GlowLib:Define("models/vortigaunt.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 50, 50, 170),
+        [0] = Color(205, 0, 0, 170),
     },
-    Size = 0.35,
+    Size = 0.25,
     CustomColor = function(self, ent, sprite)
         if ( ent:GetInternalVariable("m_bIsBlue") ) then
-            return Color(40, 0, 255, 170)
+            return Color(65, 0, 255, 170)
         end
     end,
 })
@@ -133,18 +132,50 @@ GlowLib:Define("models/dog.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(220, 10, 0),
+        [0] = Color(220, 5, 0, 170),
     },
 })
 
 GlowLib:Define("models/props_combine/health_charger001.mdl", {
     Position = function(self, ent)
-        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5
+        return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * -1 + ent:GetAngles():Right() * 2.5
     end,
     Color = {
-        [0] = Color(0, 145, 210, 200),
+        [0] = Color(0, 255, 255, 255),
     },
-    Size = 0.45,
+    Size = 0.1,
+    GlowTexture = "sprites/light_glow02.vmt",
+    OnInitialize = function(self, ent, sprite)
+        local glow_eyes = ent:GetGlowingEyes()
+
+        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
+            glowCol = self:CustomColor(ent, glowCol)
+        end
+
+        local sprite = ents.Create("env_sprite")
+        sprite:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5)
+        sprite:SetParent(ent)
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
+        sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
+        sprite:SetColor(Color(0, 195, 255, 170))
+
+        sprite:SetKeyValue("rendermode", "9")
+        sprite:SetKeyValue("scale", "0.4")
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
+        sprite:Spawn()
+        sprite:Activate()
+
+        local spriteTable = sprite:GetTable()
+        spriteTable.NoGlowLibUpdate = true
+
+        ent:DeleteOnRemove(sprite)
+    end,
 })
 
 GlowLib:Define("models/props_combine/suit_charger001.mdl", {
@@ -157,6 +188,48 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
     Size = 0.45,
 })
 
+GlowLib:Define("models/props_combine/suit_charger001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * 11 + ent:GetAngles():Right() * 1
+    end,
+    Color = {
+        [0] = Color(255, 135, 0),
+    },
+    Size = 0.1,
+    GlowTexture = "sprites/light_glow02.vmt",
+    OnInitialize = function(self, ent, sprite)
+        local glow_eyes = ent:GetGlowingEyes()
+
+        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
+            glowCol = self:CustomColor(ent, glowCol)
+        end
+
+        local sprite = ents.Create("env_sprite")
+        sprite:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5)
+        sprite:SetParent(ent)
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+
+        sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
+        sprite:SetColor(Color(255, 115, 0, 170))
+
+        sprite:SetKeyValue("rendermode", "9")
+        sprite:SetKeyValue("scale", "0.4")
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
+        sprite:Spawn()
+        sprite:Activate()
+
+        local spriteTable = sprite:GetTable()
+        spriteTable.NoGlowLibUpdate = true
+
+        ent:DeleteOnRemove(sprite)
+    end,
+})
+
 GlowLib:Define("models/player/combine_soldier.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
@@ -164,8 +237,8 @@ GlowLib:Define("models/player/combine_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(0, 155, 255, 170),
-        [1] = Color(255, 64, 0, 100)
+        [0] = Color(0, 100, 210, 170),
+        [1] = Color(140, 25, 0, 170)
     },
     CustomColor = function(self, ent, sprie)
         if ( ent:IsPlayer() ) then
@@ -181,7 +254,7 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(255, 0, 0, 120),
+        [0] = Color(120, 0, 0, 170),
     },
     CustomColor = function(self, ent, sprie)
         if ( ent:IsPlayer() ) then
