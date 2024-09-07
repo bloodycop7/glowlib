@@ -107,7 +107,7 @@ if ( SERVER ) then
     hook.Add("CreateEntityRagdoll", "GlowLib:EntityRagdollCreated", function(ent, ragdoll)
         if ( !IsValid(ent) or !IsValid(ragdoll) ) then return end
 
-        timer.Simple(0.1, function()
+        timer.Simple(0, function()
             if ( !IsValid(ragdoll) ) then return end
 
             local bRemoveOnDeath = GetConVar("sv_glowlib_remove_on_death"):GetBool()
