@@ -58,7 +58,9 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 and !v.GlowLib_IgnoreHealth ) then
+            local vTable = v:GetTable()
+
+            if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 and !vTable.GlowLib_IgnoreHealth ) then
                 GlowLib:Remove(v)
 
                 continue
@@ -98,7 +100,6 @@ if ( SERVER ) then
 
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
-
 
         GlowLib:Remove(ply)
     end)

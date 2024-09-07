@@ -63,6 +63,13 @@ if ( SERVER ) then
     function GlowLib:Initialize(ent)
         if ( !IsValid(ent) ) then return end
 
+        if ( ent:GetClass() == "prop_effect" ) then
+            local child = ent:GetInternalVariable("m_hMoveChild")
+            if ( IsValid(child) ) then
+                ent = child
+            end
+        end
+
         local glow_eyes = ent:GetGlowingEyes()
         for k, v in ipairs(glow_eyes) do
             if ( IsValid(v) ) then
@@ -78,7 +85,9 @@ if ( SERVER ) then
 
         local glowData = self.Glow_Data[model]
         if ( glowData ) then
-            if ( ent.NoGlowLib ) then return end
+            local entTable = ent:GetTable()
+
+            if ( entTable.NoGlowLib ) then return end
             local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
 
             local glow_mat = glowData.GlowTexture
@@ -137,9 +146,11 @@ if ( SERVER ) then
                 GlowLib:Remove(ent)
             end)
 
-            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !ent.glowlib_hasBeenInitalized ) then
+            entTable.GlowLib_DisableUpdating = false
+
+            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !entTable.glowlib_hasBeenInitalized ) then
                 glowData:OnInitialize(ent, sprite)
-                ent.glowlib_hasBeenInitalized = true
+                entTable.glowlib_hasBeenInitalized = true
             end
 
             hook.Run("GlowLib:Initalize", ent)
@@ -159,7 +170,8 @@ if ( SERVER ) then
         local glowData = GlowLib.Glow_Data[model]
         if ( !glowData ) then return end
 
-        if ( !ent.GlowLib_DisableUpdating ) then return end
+        local entTable = ent:GetTable()
+        if ( entTable.GlowLib_DisableUpdating ) then return end
 
         local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
         local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
