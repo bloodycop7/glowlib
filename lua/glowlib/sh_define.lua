@@ -254,7 +254,7 @@ GlowLib:Define("models/player/combine_super_soldier.mdl", {
     end,
     Attachment = "eyes",
     Color = {
-        [0] = Color(120, 0, 0, 170),
+        [0] = Color(200, 0, 0, 170),
     },
     CustomColor = function(self, ent, sprie)
         if ( ent:IsPlayer() ) then
