@@ -110,6 +110,8 @@ if ( SERVER ) then
         timer.Simple(0, function()
             if ( !IsValid(ragdoll) ) then return end
 
+            GlowLib:Initialize(ragdoll)
+
             local bRemoveOnDeath = GetConVar("sv_glowlib_remove_on_death"):GetBool()
             if ( bRemoveOnDeath ) then
                 ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
