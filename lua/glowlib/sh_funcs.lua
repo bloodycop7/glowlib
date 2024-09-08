@@ -61,6 +61,9 @@ if ( SERVER ) then
     end
 
     function GlowLib:Initialize(ent)
+        local sv_glowlib_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
+        if ( !sv_glowlib_enabled ) then return end
+
         if ( !IsValid(ent) ) then return end
 
         if ( ent:GetClass() == "prop_effect" ) then
@@ -308,4 +311,52 @@ function GlowLib:ShowAll()
 
         self:Show(v)
     end
+end
+
+function GlowLib:ShouldDraw(ent)
+    if ( CLIENT ) then
+        local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if ( !glib_enabled ) then return false end
+    end
+
+    if ( !IsValid(ent) ) then return false end
+
+    local model = ent:GetModel()
+    if ( !model ) then return false end
+    model = model:lower()
+
+    local glowData = self.Glow_Data[model]
+    if ( !glowData ) then return false end
+
+    local entTable = ent:GetTable()
+    if ( entTable.NoGlowLib ) then return false end
+
+    if ( glowData["ShouldDraw"] ) then
+        if ( !glowData:ShouldDraw(ent) ) then return false end
+    end
+
+    if ( !ent:GetNW2Bool("GlowLib:ShouldDraw", true) ) then return false end
+    if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !entTable.GlowLib_IgnoreHealth ) then return false end
+    if ( ent:GetNoDraw() ) then return false end
+
+    if ( CLIENT ) then
+        if ( ent == LocalPlayer() ) then
+            local shouldDrawLocalPlayer = ent:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ent) or false
+            if ( !shouldDrawLocalPlayer or ent:GetNoDraw() ) then
+                return false
+            end
+        end
+
+        if ( ent:GetClass() == "class C_BaseFlex" ) then
+            return false
+        end
+    else
+        if ( ent:IsPlayer() ) then
+            if ( ent:GetNoDraw() ) then
+                return false
+            end
+        end
+    end
+
+    return true
 end

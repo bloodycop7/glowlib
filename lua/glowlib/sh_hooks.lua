@@ -1,8 +1,7 @@
 local GlowLib = GlowLib
 
-local function initGlow(ent)
+local function updateGlow(ent)
     if ( !SERVER ) then return end
-
     if ( !IsValid(ent) ) then return end
 
     local model = ent:GetModel()
@@ -12,19 +11,9 @@ local function initGlow(ent)
     local glowEyes = ent:GetGlowingEyes()
     if ( #glowEyes == 0 ) then
         GlowLib:Initialize(ent)
+
+        return
     end
-end
-
-local function updateGlow(ent)
-    if ( !SERVER ) then return end
-
-    if ( !IsValid(ent) ) then return end
-    local model = ent:GetModel()
-    if ( !model ) then return end
-    model = model:lower()
-
-    local glowEyes = ent:GetGlowingEyes()
-    if ( #glowEyes == 0 ) then return end
 
     GlowLib:Update(ent)
 end
@@ -33,7 +22,6 @@ if ( SERVER ) then
     local nextThinkSV = 0
     hook.Add("Think", "GlowLib:Think_SV", function()
         if ( nextThinkSV > CurTime() ) then return end
-        nextThinkSV = CurTime() + 1
 
         local sv_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if ( !sv_enabled ) then return end
@@ -52,43 +40,17 @@ if ( SERVER ) then
                 continue
             end
 
-            if ( v:GetNoDraw() ) then
+            if ( !GlowLib:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
                 continue
             end
-
-            local vTable = v:GetTable()
-
-            if ( ( v:IsNPC() or v:IsPlayer() or v:IsNextBot() ) and v:Health() <= 0 and !vTable.GlowLib_IgnoreHealth ) then
-                GlowLib:Remove(v)
-
-                continue
-            end
-
-            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(v) ) then
-                GlowLib:Hide(v)
-
-                continue
-            end
-
-            if ( !v:GetNW2Bool("GlowLib:ShouldDraw", true) ) then
-                GlowLib:Hide(v)
-
-                continue
-            end
-
-            local glowEyes = v:GetGlowingEyes()
-            if ( #glowEyes == 0 ) then
-                initGlow(v)
-
-                continue
-            end
-
 
             updateGlow(v)
             GlowLib:Show(v)
         end
+
+        nextThinkSV = CurTime() + 1
     end)
 
     hook.Add("DoPlayerDeath", "GlowLib:DoPlayerDeath", function(ply)
@@ -142,18 +104,16 @@ else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()
         if ( nextThinkCL > CurTime() ) then return end
-        nextThinkCL = CurTime() + 1
 
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
 
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply) or false
-
-        if ( shouldDrawLocalPlayer and !ply:GetNoDraw() ) then
-            GlowLib:Show(ply)
-        else
+        local shouldDrawLocalPlayer = GlowLib:ShouldDraw(ply)
+        if ( !shouldDrawLocalPlayer ) then
             GlowLib:Hide(ply)
+
+            return
         end
 
         for k, v in ents.Iterator() do
@@ -169,21 +129,7 @@ else
 
             v:SetNW2Bool("GlowLib:ShouldDraw", glib_enabled)
 
-            if ( v:GetNoDraw() ) then
-                GlowLib:Hide(v)
-
-                continue
-            end
-
-            if ( v:GetClass() == "class C_BaseFlex" ) then continue end
-
-            if ( glowData["ShouldDraw"] and !glowData:ShouldDraw(v) ) then
-                GlowLib:Hide(v)
-
-                continue
-            end
-
-            if ( !v:GetNW2Bool("GlowLib:ShouldDraw", true) ) then
+            if ( !GlowLib:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
                 continue
@@ -191,5 +137,7 @@ else
 
             GlowLib:Show(v)
         end
+
+        nextThinkCL = CurTime() + 1
     end)
 end

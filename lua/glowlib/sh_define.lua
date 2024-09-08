@@ -57,7 +57,7 @@ GlowLib:Define("models/hunter.mdl", {
     end,
     Attachment = "top_eye",
     Color = {
-        [0] = Color(0, 255, 255, 170),
+        [0] = Color(0, 255, 255, 160),
     },
     Size = 0.4,
     OnInitialize = function(self, ent, sprite)
@@ -127,7 +127,9 @@ GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = table.Copy(GlowLib.Glow_Data
 
 GlowLib:Define("models/dog.mdl", {
     Position = function(self, ent)
+        PrintTable(ent:GetAttachments())
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+
         return attachmentData.Pos
     end,
     Attachment = "eyes",
@@ -393,7 +395,7 @@ GlowLib:Define("models/items/healthkit.mdl", {
         return ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5
     end,
     Color = {
-        [0] = Color(0, 255, 0, 200),
+        [0] = Color(0, 255, 0, 150),
     },
     Size = 0.25,
     OnInitialize = function(self, ent, sprite)
@@ -416,7 +418,7 @@ GlowLib:Define("models/items/battery.mdl", {
         return ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 2
     end,
     Color = {
-        [0] = Color(0, 255, 255, 200),
+        [0] = Color(0, 255, 255, 150),
     },
     Size = 0.2,
     OnInitialize = function(self, ent, sprite)
