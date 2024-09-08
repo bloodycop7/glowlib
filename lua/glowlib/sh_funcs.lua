@@ -267,30 +267,8 @@ function GlowLib:Show(ent)
         end
     end
 
-    if ( CLIENT ) then
-        local ply = LocalPlayer()
-        if ( !IsValid(ply) ) then return end
-
-        local plyModel = ply:GetModel()
-        if ( !plyModel ) then return end
-        plyModel = plyModel:lower()
-
-        local glowData = self.Glow_Data[plyModel]
-        if ( !glowData ) then return end
-
-        local shouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
-        if ( !shouldDrawLocalPlayer or ( ply:GetMoveType() == MOVETYPE_NOCLIP and ply:GetNoDraw() ) ) then
-            self:Hide(ply)
-        end
-    else
-        if ( ent:IsPlayer() ) then
-            if ( ent:GetNoDraw() ) then
-                self:Hide(ent)
-            end
-
-            net.Start("GlowLib:HideServerside")
-            net.Send(ent)
-        end
+    if ( !GlowLib:ShouldDraw(ent) ) then
+        GlowLib:Hide(ent)
     end
 
     hook.Run("GlowLib:Show", ent)

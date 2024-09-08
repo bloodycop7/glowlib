@@ -109,16 +109,9 @@ else
         if ( !IsValid(ply) ) then return end
 
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        local shouldDrawLocalPlayer = GlowLib:ShouldDraw(ply)
-        if ( !shouldDrawLocalPlayer ) then
-            GlowLib:Hide(ply)
-
-            return
-        end
 
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
-            if ( v == ply ) then continue end
 
             local model = v:GetModel()
             if ( !model or model == "" ) then continue end
