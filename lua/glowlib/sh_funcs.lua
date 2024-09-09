@@ -260,15 +260,17 @@ function GlowLib:Show(ent)
 
     hook.Run("GlowLib:PreShow", ent)
 
+    if ( !GlowLib:ShouldDraw(ent) ) then
+        GlowLib:Hide(ent)
+
+        return
+    end
+
     local glow_eyes = ent:GetGlowingEyes()
     for k, v in ipairs(glow_eyes) do
         if ( IsValid(v) ) then
             v:SetNoDraw(false)
         end
-    end
-
-    if ( !GlowLib:ShouldDraw(ent) ) then
-        GlowLib:Hide(ent)
     end
 
     hook.Run("GlowLib:Show", ent)
@@ -313,6 +315,8 @@ function GlowLib:ShouldDraw(ent)
         if ( !glowData:ShouldDraw(ent) ) then return false end
     end
 
+    if ( ent:IsPlayer() ) then print("DAD") end
+
     if ( !ent:GetNW2Bool("GlowLib:ShouldDraw", true) ) then return false end
     if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !entTable.GlowLib_IgnoreHealth ) then return false end
     if ( ent:GetNoDraw() ) then return false end
@@ -333,6 +337,9 @@ function GlowLib:ShouldDraw(ent)
             if ( ent:GetNoDraw() ) then
                 return false
             end
+
+            net.Start("GlowLib:HideServerside")
+            net.Send(ent)
         end
     end
 

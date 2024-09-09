@@ -43,6 +43,10 @@ if ( SERVER ) then
             if ( !GlowLib:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
+                if ( v:IsPlayer() ) then
+                    print(v, "GUH")
+                end
+
                 continue
             end
 
@@ -110,8 +114,16 @@ else
 
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
 
+        if ( !GlowLib:ShouldDraw(ply) ) then
+            GlowLib:Hide(ply)
+            nextThinkCL = CurTime() + 1
+
+            return
+        end
+
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
+            if ( v == ply ) then continue end
 
             local model = v:GetModel()
             if ( !model or model == "" ) then continue end
@@ -128,6 +140,7 @@ else
                 continue
             end
 
+            print(v)
             GlowLib:Show(v)
         end
 

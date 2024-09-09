@@ -36,8 +36,7 @@ else
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
 
-        local bShouldDrawLocalPlayer = ply:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ply)
-        if ( !bShouldDrawLocalPlayer ) then
+        if ( !GlowLib:ShouldDraw(ply) ) then
             GlowLib:Hide(ply)
         end
     end)
