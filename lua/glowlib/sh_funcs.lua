@@ -315,8 +315,6 @@ function GlowLib:ShouldDraw(ent)
         if ( !glowData:ShouldDraw(ent) ) then return false end
     end
 
-    if ( ent:IsPlayer() ) then print("DAD") end
-
     if ( !ent:GetNW2Bool("GlowLib:ShouldDraw", true) ) then return false end
     if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !entTable.GlowLib_IgnoreHealth ) then return false end
     if ( ent:GetNoDraw() ) then return false end
@@ -324,7 +322,7 @@ function GlowLib:ShouldDraw(ent)
     if ( CLIENT ) then
         if ( ent == LocalPlayer() ) then
             local shouldDrawLocalPlayer = ent:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ent) or false
-            if ( !shouldDrawLocalPlayer or ent:GetNoDraw() ) then
+            if ( !shouldDrawLocalPlayer ) then
                 return false
             end
         end

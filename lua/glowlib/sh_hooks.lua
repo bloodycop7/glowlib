@@ -43,10 +43,6 @@ if ( SERVER ) then
             if ( !GlowLib:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
-                if ( v:IsPlayer() ) then
-                    print(v, "GUH")
-                end
-
                 continue
             end
 
@@ -140,7 +136,6 @@ else
                 continue
             end
 
-            print(v)
             GlowLib:Show(v)
         end
 
