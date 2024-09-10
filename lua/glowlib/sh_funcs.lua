@@ -332,12 +332,12 @@ function GlowLib:ShouldDraw(ent)
         end
     else
         if ( ent:IsPlayer() ) then
+            net.Start("GlowLib:HideServerside")
+            net.Send(ent)
+
             if ( ent:GetNoDraw() ) then
                 return false
             end
-
-            net.Start("GlowLib:HideServerside")
-            net.Send(ent)
         end
     end
 
