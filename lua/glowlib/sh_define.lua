@@ -145,11 +145,10 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
     Color = {
         [0] = Color(0, 255, 255, 255),
     },
-    Size = 0.1,
+    Size = 0.15,
     GlowTexture = "sprites/light_glow02.vmt",
     OnInitialize = function(self, ent, sprite)
         local glow_eyes = ent:GetGlowingEyes()
-
         local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
         local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
@@ -177,22 +176,24 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         spriteTable.NoGlowLibUpdate = true
 
         ent:DeleteOnRemove(sprite)
+
+        local light = ents.Create("light_dynamic")
+        light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 12 + ent:GetAngles():Up() * 3 + ent:GetAngles():Right() * -5)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "0 255 255 255")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "15")
+        light:SetKeyValue("brightness", "1")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
     end,
 })
 
 GlowLib:Define("models/props_combine/suit_charger001.mdl", {
     Position = function(self, ent)
-        return ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 7
-    end,
-    Color = {
-        [0] = Color(205, 115, 0, 200),
-    },
-    Size = 0.45,
-})
-
-GlowLib:Define("models/props_combine/suit_charger001.mdl", {
-    Position = function(self, ent)
-        return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * 11 + ent:GetAngles():Right() * 1
+        return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * 11 + ent:GetAngles():Right() * 1.5
     end,
     Color = {
         [0] = Color(255, 135, 0),
@@ -229,6 +230,18 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         spriteTable.NoGlowLibUpdate = true
 
         ent:DeleteOnRemove(sprite)
+
+        local light = ents.Create("light_dynamic")
+        light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "255 135 0")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "5")
+        light:SetKeyValue("brightness", "6")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
     end,
 })
 
