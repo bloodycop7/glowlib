@@ -143,7 +143,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * -1 + ent:GetAngles():Right() * 2.5
     end,
     Color = {
-        [0] = Color(0, 255, 255, 255),
+        [0] = Color(0, 255, 255),
     },
     Size = 0.15,
     GlowTexture = "sprites/light_glow02.vmt",
@@ -196,9 +196,9 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         return ent:GetPos() + ent:GetAngles():Forward() * 7 + ent:GetAngles():Up() * 11 + ent:GetAngles():Right() * 1.5
     end,
     Color = {
-        [0] = Color(255, 135, 0),
+        [0] = Color(255, 100, 0),
     },
-    Size = 0.1,
+    Size = 0.15,
     GlowTexture = "sprites/light_glow02.vmt",
     OnInitialize = function(self, ent, sprite)
         local glow_eyes = ent:GetGlowingEyes()
