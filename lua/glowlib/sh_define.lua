@@ -325,7 +325,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
     end,
     PostUpdate = function(self, ent, sprites)
         for k, v in ipairs(ent:GetChildren()) do
-            if ( !IsValid(v) ) then continue end
+            if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
 
             local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
@@ -366,7 +366,7 @@ GlowLib:Define("models/antlion_grub.mdl", {
     end,
     PostUpdate = function(self, ent, sprites)
         for k, v in ipairs(ent:GetChildren()) do
-            if ( !IsValid(v) ) then continue end
+            if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
 
             local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
