@@ -47,7 +47,7 @@ if ( SERVER ) then
         local entTable = ent:GetTable()
 
         local glow_color = spriteData.Color or glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
-        local attach = ent:LookupAttachment(spriteData.Attachment) or 0
+        local attach = spriteData.Attachment and ent:LookupAttachment(spriteData.Attachment) or 0
         local glow_mat = spriteData.GlowTexture or glowData.GlowTexture or "sprites/light_glow02.vmt"
         local glow_size = spriteData.Size or glowData.Size or 0.3
         local glow_renderMode = spriteData.RenderMode or glowData.RenderMode or 9
