@@ -73,7 +73,7 @@ GlowLib:Define("models/hunter.mdl", {
         local attachmentData = ent:GetAttachment(attach)
         if !attachmentData then return end
 
-        GlowLib:CreateSprite(ent, {
+        local sprite = GlowLib:CreateSprite(ent, {
             Color = glow_color,
             Attachment = "bottom_eye",
             Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
@@ -261,25 +261,15 @@ GlowLib:Define("models/antlion_guard.mdl", {
     Size = 0.5,
     GlowTexture = "sprites/grubflare1.vmt",
     OnInitialize = function(self, ent, sprite)
-        local attachment = ent:LookupAttachment("attach_glow2")
-        local attachmentData = ent:GetAttachment(attachment)
-        local glow_eyes = ent:GetGlowingEyes()
+        local entTable = ent:GetTable()
+        entTable.GlowLib_bDontUpdate = true
+        entTable.Glowlib_bDisabled = true
 
-        local glow_color = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-
-        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
-        if ( glowColCustom != nil ) then
-            glow_color = self:CustomColor(ent, glowCol)
+        if IsValid(ent) and IsValid(sprite) then
+            sprite:SetParent(nil)
+            SafeRemoveEntity(sprite)
         end
 
-        local sprite = GlowLib:CreateSprite(ent, {
-            Color = glow_color,
-            Position = attachmentData.Pos,
-            GlowTexture = "sprites/grubflare1.vmt",
-            Size = 0.5,
-        })
-    end,
-    PostUpdate = function(self, ent, sprites)
         for k, v in ipairs(ent:GetChildren()) do
             if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
 
@@ -317,8 +307,14 @@ GlowLib:Define("models/antlion_grub.mdl", {
     },
     GlowTexture = "sprites/grubflare1.vmt",
     OnInitialize = function(self, ent, sprite)
-        print(sprite)
-        SafeRemoveEntity(sprite)
+        local entTable = ent:GetTable()
+        entTable.GlowLib_bDontUpdate = true
+        entTable.Glowlib_bDisabled = true
+
+        if IsValid(ent) and IsValid(sprite) then
+            sprite:SetParent(nil)
+            SafeRemoveEntity(sprite)
+        end
 
         for k, v in ipairs(ent:GetChildren()) do
             if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end

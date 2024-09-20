@@ -100,6 +100,8 @@ if ( CLIENT ) then
         if ( !IsValid(ent) ) then return end
 
         for k, v in ipairs(ent:GetChildren()) do
+            if !IsValid(v) then continue end
+
             local addText = ""
 
             if ( v:GetNW2Bool("bIsGlowLib", false) ) then

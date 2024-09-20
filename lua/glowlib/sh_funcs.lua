@@ -44,8 +44,6 @@ if ( SERVER ) then
             end
         end
 
-        local entTable = ent:GetTable()
-
         local glow_color = spriteData.Color or glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
         local attach = spriteData.Attachment and ent:LookupAttachment(spriteData.Attachment) or 0
         local glow_mat = spriteData.GlowTexture or glowData.GlowTexture or "sprites/light_glow02.vmt"
@@ -155,7 +153,7 @@ if ( SERVER ) then
         if ( glowData ) then
             local entTable = ent:GetTable()
 
-            if ( entTable.NoGlowLib ) then return end
+            if ( entTable.Glowlib_bDisabled ) then return end
             local glow_color = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
 
             local glow_mat = glowData.GlowTexture
@@ -362,7 +360,7 @@ function GlowLib:ShouldDraw(ent)
     if ( !glowData ) then return false end
 
     local entTable = ent:GetTable()
-    if ( entTable.NoGlowLib ) then return false end
+    if ( entTable.Glowlib_bDisabled ) then return false end
 
     if ( glowData["ShouldDraw"] ) then
         if ( !glowData:ShouldDraw(ent) ) then return false end

@@ -41,36 +41,28 @@ GlowLib:Define("models/hunter.mdl", {
     end,
     Attachment = "top_eye",
     Color = {
-        [0] = Color(0, 255, 255),
+        [0] = Color(0, 255, 255, 160),
     },
+    Size = 0.4,
     OnInitialize = function(self, ent, sprite)
-        local attachment = ent:LookupAttachment("bottom_eye")
-        local attachmentData = ent:GetAttachment(attachment)
         local glow_eyes = ent:GetGlowingEyes()
+        local glow_color = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
-        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-        if ( self["CustomColor"] and isfunction(self["CustomColor"]) ) then
-            glowCol = self:CustomColor(ent, glowCol)
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
+            glow_color = self:CustomColor(ent, glowCol)
         end
 
-        local sprite = ents.Create("env_sprite")
-        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
-        sprite:SetParent(ent, attachment or 0)
-        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
+        local attach = ent:LookupAttachment("bottom_eye")
+        local attachmentData = ent:GetAttachment(attach)
+        if !attachmentData then return end
 
-        sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
-        sprite:SetColor(glowCol)
-
-        sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("HDRColorScale", "0.5")
-        sprite:SetKeyValue("scale", "0.3")
-
-        sprite:SetNW2Bool("bIsGlowLib", true)
-        sprite:Spawn()
-        sprite:Activate()
-
-        ent:DeleteOnRemove(sprite)
+        local sprite = GlowLib:CreateSprite(ent, {
+            Color = glow_color,
+            Attachment = "bottom_eye",
+            Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
+            Size = 0.4,
+        })
     end,
 })
 ```
