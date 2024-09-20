@@ -88,6 +88,8 @@ if ( SERVER ) then
         ent:CallOnRemove("GlowLib:Remove", function(ent)
             GlowLib:Remove(ent)
         end)
+
+        return sprite
     end
 
     function GlowLib:Remove(ent)

@@ -200,26 +200,14 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
             glowCol = self:CustomColor(ent, glowCol)
         end
 
-        local sprite = ents.Create("env_sprite")
-        sprite:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5)
-        sprite:SetParent(ent)
-        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
-
-        sprite:SetKeyValue("model", "sprites/light_glow02.vmt")
-        sprite:SetColor(Color(255, 115, 0, 170))
-
-        sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("scale", "0.5")
-
-        sprite:SetNW2Bool("bIsGlowLib", true)
-        sprite:Spawn()
-        sprite:Activate()
+        local sprite = GlowLib:CreateSprite(ent, {
+            Color = Color(255, 115, 0, 170),
+            Position = ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5,
+            Size = 0.5,
+        })
 
         local spriteTable = sprite:GetTable()
         spriteTable.NoGlowLibUpdate = true
-
-        ent:DeleteOnRemove(sprite)
 
         local light = ents.Create("light_dynamic")
         light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
