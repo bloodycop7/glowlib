@@ -27,6 +27,69 @@ function GlowLib:GetAllSprites()
 end
 
 if ( SERVER ) then
+    function GlowLib:CreateSprite(ent, spriteData)
+        if !IsValid(ent) or !spriteData then return end
+
+        local ent_model = ent:GetModel()
+        if !ent_model then return end
+        ent_model = ent_model:lower()
+
+        local glowData = self.Glow_Data[ent_model]
+        if !glowData then return end
+
+        if ent:GetClass() == "prop_effect" then
+            local child = ent:GetInternalVariable("m_hMoveChild")
+            if IsValid(child) then
+                ent = child
+            end
+        end
+
+        local entTable = ent:GetTable()
+
+        local glow_color = spriteData.Color or glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
+        local attach = ent:LookupAttachment(spriteData.Attachment) or 0
+        local glow_mat = spriteData.GlowTexture or glowData.GlowTexture or "sprites/light_glow02.vmt"
+        local glow_size = spriteData.Size or glowData.Size or 0.3
+        local glow_renderMode = spriteData.RenderMode or glowData.RenderMode or 9
+
+        local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
+        if ( glowColCustom != nil ) then
+            glow_color = glowData:CustomColor(ent, glowCol)
+        end
+
+        local customSize = glowData.CustomSize and isfunction(glowData.CustomSize) and glowData:CustomSize(ent, glow_size)
+        if ( customSize != nil ) then
+            glow_size = glowData:CustomSize(ent, glow_size)
+        end
+
+        local vec_sprite = spriteData.Position or isfunction(glowData.Position) and glowData:Position(ent, spriteData)
+        if ( !vec_sprite ) then
+            vec_sprite = ent:EyePos() + ent:GetAngles():Forward() * 7
+        end
+
+        local sprite = ents.Create("env_sprite")
+        sprite:SetPos(vec_sprite)
+        sprite:SetParent(ent, attach or 0)
+
+        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        sprite:SetNW2String("GlowLib_Eye_Count", #ent:GetGlowingEyes() + 1)
+
+        sprite:SetKeyValue("model", tostring(glow_mat))
+        sprite:SetColor(glow_color)
+
+        sprite:SetKeyValue("rendermode", tostring(glow_renderMode))
+        sprite:SetKeyValue("scale", tostring(glow_size))
+
+        sprite:SetNW2Bool("bIsGlowLib", true)
+        sprite:Spawn()
+
+        ent:SetNW2Bool("bHasGlowLibEffect", true)
+        ent:DeleteOnRemove(sprite)
+        ent:CallOnRemove("GlowLib:Remove", function(ent)
+            GlowLib:Remove(ent)
+        end)
+    end
+
     function GlowLib:Remove(ent)
         if ( !IsValid(ent) ) then return end
 
@@ -91,7 +154,7 @@ if ( SERVER ) then
             local entTable = ent:GetTable()
 
             if ( entTable.NoGlowLib ) then return end
-            local glowCol = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
+            local glow_color = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
 
             local glow_mat = glowData.GlowTexture
             if ( !glow_mat ) then
@@ -126,28 +189,16 @@ if ( SERVER ) then
 
             if ( !glowData:ShouldDraw(ent) ) then return end
 
-            local attach = ent:LookupAttachment(glowData.Attachment or "eyes")
-            local sprite = ents.Create("env_sprite")
-            sprite:SetPos(vec_sprite)
-            sprite:SetParent(ent, attach or 0)
+            local attach = glowData.Attachment or "eyes"
 
-            sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-            sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
-
-            sprite:SetKeyValue("model", tostring(glow_mat))
-            sprite:SetColor(glowCol)
-
-            sprite:SetKeyValue("rendermode", "9")
-            sprite:SetKeyValue("scale", tostring(glow_size))
-
-            sprite:SetNW2Bool("bIsGlowLib", true)
-            sprite:Spawn()
-
-            ent:SetNW2Bool("bHasGlowLibEffect", true)
-            ent:DeleteOnRemove(sprite)
-            ent:CallOnRemove("GlowLib:Remove", function(ent)
-                GlowLib:Remove(ent)
-            end)
+            self:CreateSprite(ent, {
+                Color = glow_color,
+                Attachment = attach,
+                Position = vec_sprite,
+                GlowTexture = glow_mat,
+                Size = glow_size,
+                RenderMode = glowData.RenderMode or 9
+            })
 
             entTable.GlowLib_DisableUpdating = false
 
