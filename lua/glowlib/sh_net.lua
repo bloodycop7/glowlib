@@ -23,7 +23,7 @@ if ( SERVER ) then
         if ( !glowData ) then return end
 
         local entTable = ent:GetTable()
-        entTable.GlowLib_DisableUpdating = true
+        entTable.GlowLib_bDontUpdate = true
 
         local size = data["size"]
         local colorData = data["color"]

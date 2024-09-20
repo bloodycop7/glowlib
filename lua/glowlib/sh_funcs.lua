@@ -193,7 +193,7 @@ if ( SERVER ) then
 
             local attach = glowData.Attachment or "eyes"
 
-            self:CreateSprite(ent, {
+            local sprite = self:CreateSprite(ent, {
                 Color = glow_color,
                 Attachment = attach,
                 Position = vec_sprite,
@@ -202,11 +202,11 @@ if ( SERVER ) then
                 RenderMode = glowData.RenderMode or 9
             })
 
-            entTable.GlowLib_DisableUpdating = false
+            entTable.GlowLib_bDontUpdate = false
 
-            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !entTable.glowlib_hasBeenInitalized ) then
+            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !entTable.GlowLib_bInitalized ) then
                 glowData:OnInitialize(ent, sprite)
-                entTable.glowlib_hasBeenInitalized = true
+                entTable.GlowLib_bInitalized = true
             end
 
             hook.Run("GlowLib:Initalize", ent)
@@ -227,7 +227,7 @@ if ( SERVER ) then
         if ( !glowData ) then return end
 
         local entTable = ent:GetTable()
-        if ( entTable.GlowLib_DisableUpdating ) then return end
+        if ( entTable.GlowLib_bDontUpdate ) then return end
 
         local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
         local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
@@ -239,7 +239,7 @@ if ( SERVER ) then
 
         for k, v in ipairs(glowEyes) do
             local vTable = v:GetTable()
-            if ( vTable.NoGlowLibUpdate ) then return end
+            if ( vTable.GlowLib_bNoUpdate ) then return end
 
             v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
             v:SetKeyValue("scale", tostring(size))

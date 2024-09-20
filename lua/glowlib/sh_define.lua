@@ -153,7 +153,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         })
 
         local spriteTable = sprite:GetTable()
-        spriteTable.NoGlowLibUpdate = true
+        spriteTable.GlowLib_bNoUpdate = true
 
         ent:DeleteOnRemove(sprite)
 
@@ -197,7 +197,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         })
 
         local spriteTable = sprite:GetTable()
-        spriteTable.NoGlowLibUpdate = true
+        spriteTable.GlowLib_bNoUpdate = true
 
         local light = ents.Create("light_dynamic")
         light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
@@ -265,31 +265,19 @@ GlowLib:Define("models/antlion_guard.mdl", {
         local attachmentData = ent:GetAttachment(attachment)
         local glow_eyes = ent:GetGlowingEyes()
 
-        local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+        local glow_color = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
         local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
         if ( glowColCustom != nil ) then
-            glowCol = self:CustomColor(ent, glowCol)
+            glow_color = self:CustomColor(ent, glowCol)
         end
 
-        local sprite = ents.Create("env_sprite")
-        sprite:SetPos(attachmentData.Pos + attachmentData.Ang:Forward() * -4)
-        sprite:SetParent(ent, attachment or 0)
-        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        sprite:SetNW2String("GlowLib_Eye_Count", #glow_eyes + 1)
-
-        sprite:SetKeyValue("model", "sprites/grubflare1.vmt")
-        sprite:SetColor(glowCol)
-
-        sprite:SetKeyValue("rendermode", "9")
-        sprite:SetKeyValue("HDRColorScale", "1")
-        sprite:SetKeyValue("scale", "0.5")
-
-        sprite:SetNW2Bool("bIsGlowLib", true)
-        sprite:Spawn()
-        sprite:Activate()
-
-        ent:DeleteOnRemove(sprite)
+        local sprite = GlowLib:CreateSprite(ent, {
+            Color = glow_color,
+            Position = attachmentData.Pos,
+            GlowTexture = "sprites/grubflare1.vmt",
+            Size = 0.5,
+        })
     end,
     PostUpdate = function(self, ent, sprites)
         for k, v in ipairs(ent:GetChildren()) do
@@ -306,7 +294,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
         end
     end,
     CustomColor = function(self, ent, sprite)
-        if ( ent:GetInternalVariable("cavernbreed" ) ) then
+        if ( ent:GetInternalVariable("cavernbreed") ) then
             return Color(0, 255, 0)
         end
     end,
@@ -329,10 +317,9 @@ GlowLib:Define("models/antlion_grub.mdl", {
     },
     GlowTexture = "sprites/grubflare1.vmt",
     OnInitialize = function(self, ent, sprite)
-        sprite:SetPos(ent:GetAttachment(1).Pos)
-        sprite:SetParent(ent:GetChildren()[1])
-    end,
-    PostUpdate = function(self, ent, sprites)
+        print(sprite)
+        SafeRemoveEntity(sprite)
+
         for k, v in ipairs(ent:GetChildren()) do
             if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
 
