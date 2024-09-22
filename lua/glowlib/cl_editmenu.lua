@@ -16,7 +16,7 @@ function GlowLib:ShowEditMenu(ent)
 
     if ( !ply:IsAdmin() ) then return self:Remove() end
 
-    if ( !ent.GetGlowingEyes ) then return self:Remove() end
+    if ( !ent.GetGlowingEyes or !isfunction(ent.GetGlowingEyes) ) then return self:Remove() end
 
     local glowingEyes = ent:GetGlowingEyes()
     if ( !glowingEyes ) then return self:Remove() end

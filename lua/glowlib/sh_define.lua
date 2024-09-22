@@ -331,6 +331,25 @@ GlowLib:Define("models/antlion_grub.mdl", {
     end,
 })
 
+GlowLib:Define("models/antlion_worker.mdl", {
+    Position = function(self, ent)
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("mouth"))
+        return attachmentData.Pos
+    end,
+    Attachment = "mouth",
+    Color = {
+        [0] = Color(0, 255, 0),
+    },
+    Size = 1,
+    GlowTexture = "sprites/light_glow02_add.vmt",
+    OnInitialize = function(self, ent, sprite)
+        local bone = ent:LookupBone("Antlion.Back_Bone")
+
+        sprite:AddEffects(EF_FOLLOWBONE)
+        sprite:SetParent(ent, bone)
+    end,
+})
+
 GlowLib:Define("models/healthvial.mdl", {
     Position = function(self, ent)
         return ent:GetPos() + ent:GetUp() * 5
