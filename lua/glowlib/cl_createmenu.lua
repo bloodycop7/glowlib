@@ -373,7 +373,7 @@ end
 
 concommand.Add("cl_glowlib_creationmenu", function(ply)
     if ( !IsValid(ply) ) then return end
-    if ( !hook.Run("GlowLib_CanUseCreationMenu", ply, self.creationMenu) ) then return end
+    if ( !hook.Run("GlowLib_CanUseCreationMenu", ply) ) then return end
 
     GlowLib:ShowCreationMenu()
 end)
