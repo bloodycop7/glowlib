@@ -12,7 +12,6 @@ local extraOptions = {
     {"Don't draw if Ragdoll", "if ( ent:IsRagdoll() ) then\n\t\t\treturn false\n\t\tend"},
     {"Don't draw if Player", "if ( ent:IsPlayer() ) then\n\t\t\treturn false\n\t\tend"},
     {"Don't draw if NPC", "if ( ent:IsNPC() ) then\n\t\t\treturn false\n\t\tend"},
-    {"Use Player Color (Makes the \"Color\" table useless for player entities.)", "if ( ent:IsPlayer() ) then\n\t\t\treturn ent:GetPlayerColor():ToColor()\n\t\tend"}
 }
 
 local moreGlowingEyes = {
@@ -203,7 +202,7 @@ function GlowLib:ShowCreationMenu()
     cMenu.options.spriteForwardOffset:SetMax(40)
     cMenu.options.spriteForwardOffset:SetDecimals(1)
     cMenu.options.spriteForwardOffset:SetValue(1)
-    cMenu.options.spriteForwardOffset:SetTooltip("This is the front offset direction of the sprite from the attachment position. May not actually be forward for some models for some models.")
+    cMenu.options.spriteForwardOffset:SetTooltip("This is the front offset direction of the sprite from the attachment position. May not actually be forward for some models.")
 
     cMenu.data.spriteForwardOffset = 1
     cMenu.options.spriteForwardOffset.OnValueChanged = function(this, value)
@@ -217,7 +216,7 @@ function GlowLib:ShowCreationMenu()
     cMenu.options.spriteRightOffset:SetMax(40)
     cMenu.options.spriteRightOffset:SetDecimals(1)
     cMenu.options.spriteRightOffset:SetValue(1)
-    cMenu.options.spriteRightOffset:SetTooltip("This is the right offset direction of the sprite from the attachment position. May not actually be right for some models for some models.")
+    cMenu.options.spriteRightOffset:SetTooltip("This is the right offset direction of the sprite from the attachment position. May not actually be right for some models..")
 
     cMenu.data.spriteRightOffset = 1
     cMenu.options.spriteRightOffset.OnValueChanged = function(this, value)
@@ -231,7 +230,7 @@ function GlowLib:ShowCreationMenu()
     cMenu.options.spriteUpOffset:SetMax(40)
     cMenu.options.spriteUpOffset:SetDecimals(1)
     cMenu.options.spriteUpOffset:SetValue(1)
-    cMenu.options.spriteUpOffset:SetTooltip("This is the up offset direction of the sprite from the attachment position. May not actually be up for some models for some models.")
+    cMenu.options.spriteUpOffset:SetTooltip("This is the up offset direction of the sprite from the attachment position. May not actually be up for some models.")
 
     cMenu.data.spriteUpOffset = 1
     cMenu.options.spriteUpOffset.OnValueChanged = function(this, value)
@@ -262,6 +261,19 @@ function GlowLib:ShowCreationMenu()
             cMenu.data.extraOptions[k] = bool
         end
     end
+
+    local optionPlayerColor = cMenu.options:Add("DCheckBoxLabel")
+    optionPlayerColor:Dock(TOP)
+    optionPlayerColor:SetText("Use Player Color (Makes the \"Color\" table useless for player entities.)")
+    optionPlayerColor:SetTextColor(color_white)
+    optionPlayerColor:SetFont("DermaDefault")
+    optionPlayerColor:SetContentAlignment(5)
+    optionPlayerColor:SetTooltip("if ( ent:IsPlayer() ) then\n\t\t\treturn ent:GetPlayerColor():ToColor()\n\t\tend")
+    optionPlayerColor.OnChange = function(this, bool)
+        cMenu.data.usePlayerColor = bool
+    end
+
+    cMenu.data.usePlayerColor = false
 
     cMenu.options.attachmentListLabel = cMenu.options:Add("DLabel")
     cMenu.options.attachmentListLabel:Dock(TOP)
@@ -311,6 +323,10 @@ function GlowLib:ShowCreationMenu()
             end
 
             table.insert(code, '\t},')
+        end
+
+        if ( cMenu.data.usePlayerColor ) then
+            table.insert(code, '\tCustomColor = function(self, ent, color)\n\t\tif ( ent:IsPlayer() ) then\n\t\t\treturn ent:GetPlayerColor():ToColor()\n\t\tend\n\n\t\treturn color\n\tend,')
         end
 
         table.insert(code, '})')
