@@ -26,15 +26,16 @@ local moreGlowingEyes = {
             glow_color = self:CustomColor(ent, glow_color)
         end
 
-        local attach = ent:LookupAttachment("no_attachment") // REPLACE
+        local attach = ent:LookupAttachment("no_attachment") // REPLACE IF NEEDED
         local attachmentData = ent:GetAttachment(attach)
         if ( !attachmentData ) then return end
 
         local sprite = GlowLib:CreateSprite(ent, {
             Color = glow_color,
-            Attachment = "no_attachment", // REPLACE
-            Position = attachmentData.Pos + attachmentData.Ang:Forward() * 1 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You may need to change this, depends on the model.
-            Size = 0.3, // You can change this
+            Attachment = "no_attachment", // REPLACE IF NEEDED
+            GlowTexture = "sprites/light_glow02.vmt",
+            Position = attachmentData.Pos + attachmentData.Ang:Forward() * 1 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You MOST LIKELY need to change this
+            Size = 0.3,
         })
 end]]
 }
@@ -322,8 +323,22 @@ function GlowLib:ShowCreationMenu()
         end
 
         chat.PlaySound()
-
         return code
+    end
+
+    local function outputMoreEyes(bCopy)
+        bCopy = bCopy or false
+
+        local replacer = moreGlowingEyes
+        replacer = string.Replace(replacer[1], "no_attachment", cMenu.data.attachment)
+        replacer = string.Replace(replacer, "0.3", cMenu.data.size)
+        replacer = string.Replace(replacer, "sprites/light_glow02.vmt", cMenu.data.texture)
+        replacer = string.Replace(replacer, "attachmentData.Ang:Forward() * 1", "attachmentData.Ang:Forward() * " .. cMenu.data.spriteForwardOffset)
+        replacer = string.Replace(replacer, "attachmentData.Ang:Right() * 1", "attachmentData.Ang:Right() * " .. cMenu.data.spriteRightOffset)
+        replacer = string.Replace(replacer, "attachmentData.Ang:Up() * 1", "attachmentData.Ang:Up() * " .. cMenu.data.spriteUpOffset)
+
+        MsgC(GlowLib.OutputColor, replacer, "\n")
+        chat.PlaySound()
     end
 
     cMenu.printMoreEyes = cMenu:Add("DButton")
@@ -331,17 +346,11 @@ function GlowLib:ShowCreationMenu()
     cMenu.printMoreEyes:SetText("Print More Eyes Code")
     cMenu.printMoreEyes:SetTooltip("Left Click : Print Code\nRight Click : Print & Copy Code")
     cMenu.printMoreEyes.DoClick = function(this)
-        local codeStr = table.concat(moreGlowingEyes, "\n")
-        MsgC(GlowLib.OutputColor, codeStr, "\n\n")
-
-        chat.PlaySound()
+        outputMoreEyes()
     end
 
     cMenu.printMoreEyes.DoRightClick = function(this)
-        local codeStr = table.concat(moreGlowingEyes, "\n")
-        MsgC(GlowLib.OutputColor, codeStr, "\n\n")
-
-        chat.PlaySound()
+        outputMoreEyes(true)
     end
 
     cMenu.print = cMenu:Add("DButton")
