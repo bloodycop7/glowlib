@@ -24,6 +24,8 @@ function GlowLib:ShowEditMenu(ent)
     if ( !IsValid(ply) ) then return self.editMenu:Remove() end
     if ( !hook.Run("GlowLib_CanUseEditMenu", ply, ent, self.editMenu) ) then return self.editMenu:Remove() end
 
+    local glowingEyes = ent:GetGlowingEyes()
+
     self.editMenu.leftPanel = self.editMenu:Add("DPanel")
     self.editMenu.leftPanel:Dock(LEFT)
     self.editMenu.leftPanel:SetWide(self.editMenu:GetWide() / 4)
