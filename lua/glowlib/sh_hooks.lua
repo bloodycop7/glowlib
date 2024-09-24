@@ -100,6 +100,22 @@ if ( SERVER ) then
 
         GlowLib:Remove(npc)
     end)
+
+    hook.Add("GlowLib_CanPerformEdit", "GlowLib:CanPerformEdit", function(ply, ent, sprite, data)
+        if ( !IsValid(ply) ) then return false end
+        if ( !IsValid(ent) ) then return false end
+        if ( !IsValid(sprite) ) then return false end
+
+        if ( !ply:IsAdmin() ) then return false end
+
+        if ( !ent.GetGlowingEyes or !isfunction(ent.GetGlowingEyes) ) then return false end
+
+        local glowingEyes = ent:GetGlowingEyes()
+        if ( !glowingEyes ) then return false end
+        if ( #glowingEyes == 0 ) then return false end
+
+        return true
+    end)
 else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()

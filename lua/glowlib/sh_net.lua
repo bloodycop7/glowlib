@@ -11,7 +11,7 @@ if ( SERVER ) then
         local sprite = net.ReadEntity()
         local data = net.ReadTable()
 
-        if ( !hook.Run("GlowLib:CanPerformEdit", ply, ent, sprite, data) ) then return end
+        if ( !hook.Run("GlowLib_CanPerformEdit", ply, ent, sprite, data) ) then return end
 
         if ( !IsValid(ent) ) then return end
         if ( !IsValid(sprite) ) then return end
