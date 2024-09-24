@@ -16,9 +16,6 @@ function GlowLib:ShowEditMenu(ent)
     self.editMenu:SetTitle("GlowLib Edit Menu")
     self.editMenu:MakePopup()
     self.editMenu.editingEnt = ent
-    self.editMenu.Think = function(s)
-        if ( !IsValid(ent) ) then return s:Remove() end
-    end
 
     local ply = LocalPlayer()
     if ( !IsValid(ply) ) then return self.editMenu:Remove() end
