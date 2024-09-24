@@ -42,13 +42,14 @@ function GlowLib:IncludeDir(dir)
 end
 
 function GlowLib:IncludeCreations()
-    local files, folders = fileFind("glowlib/creations/*", "DATA")
+    local files, folders = fileFind("autorun/glowlib_creations/*", "LUA")
+
     for _, fileName in ipairs(files) do
-        self:IncludeFile(dir .. "/" .. fileName)
+        GlowLib:IncludeFile("autorun/glowlib_creations/" .. fileName)
     end
 
     for _, folder in ipairs(folders) do
-        self:IncludeDir(dir .. "/" .. folder)
+        self:IncludeDir("autorun/glowlib_creations/" .. folder)
     end
 end
 
