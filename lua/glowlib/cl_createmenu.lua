@@ -360,6 +360,7 @@ function GlowLib:ShowCreationMenu()
         end
 
         chat.PlaySound()
+        return replacer
     end
 
     cMenu.printMoreEyes = cMenu:Add("DButton")
