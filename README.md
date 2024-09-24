@@ -13,7 +13,7 @@
 6. GLowLib:Hide(Entity)
     - Hides all Sprites belonging the to given Entity.
 7. GlowLib:CreateSprite(Entity, SpriteData)
-    - Creates a New Sprite belonging to `Entity`**
+    - Creates a New Sprite belonging to **`Entity`**
 
     - SpriteData:
         * Color = Color(255, 255, 255)
