@@ -349,6 +349,9 @@ if ( IsValid(GlowLib.creationMenu) ) then
     GlowLib:ShowCreatingMenu()
 end
 
-concommand.Add("cl_glowlib_creationmenu", function()
+concommand.Add("cl_glowlib_creationmenu", function(ply)
+    if ( !IsValid(ply) ) then return end
+    if ( !ply:IsAdmin() ) then return end
+
     GlowLib:ShowCreatingMenu()
 end)
