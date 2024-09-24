@@ -26,20 +26,20 @@ local moreGlowingEyes = {
             glow_color = self:CustomColor(ent, glow_color)
         end
 
-        local attach = ent:LookupAttachment("other_attachment") // REPLACE
+        local attach = ent:LookupAttachment("no_attachment") // REPLACE
         local attachmentData = ent:GetAttachment(attach)
         if ( !attachmentData ) then return end
 
         local sprite = GlowLib:CreateSprite(ent, {
             Color = glow_color,
-            Attachment = "other_attachment", // REPLACE
-            Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You may need to change this, depends on the model.
+            Attachment = "no_attachment", // REPLACE
+            Position = attachmentData.Pos + attachmentData.Ang:Forward() * 1 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You may need to change this, depends on the model.
             Size = 0.3, // You can change this
         })
 end]]
 }
 
-function GlowLib:ShowCreatingMenu()
+function GlowLib:ShowCreationMenu()
     if ( IsValid(self.creationMenu) ) then
         self.creationMenu:Remove()
     end
@@ -49,7 +49,7 @@ function GlowLib:ShowCreatingMenu()
     if ( !ply:IsAdmin() ) then return self:Remove() end
 
     self.creationMenu = vgui.Create("DFrame")
-    self.creationMenu:SetSize(ScrW() * 0.35, ScrH() * 0.6)
+    self.creationMenu:SetSize(ScrW() * 0.35, ScrH() * 0.65)
     self.creationMenu:Center()
     self.creationMenu:SetTitle("GlowLib Creation Menu")
     self.creationMenu:MakePopup()
@@ -98,8 +98,11 @@ function GlowLib:ShowCreatingMenu()
         color = color_white,
         size = 0.3,
         texture = "sprites/light_glow02.vmt",
-        attachment = "other_attachment",
+        attachment = "no_attachment",
         extraOptions = {},
+        spriteForwardOffset = 1,
+        spriteRightOffset = 1,
+        spriteUpOffset = 1
     }
 
     cMenu.model = cMenu:Add("DTextEntry")
@@ -115,28 +118,31 @@ function GlowLib:ShowCreatingMenu()
 
         cMenu.options.attachmentList:Clear()
 
-        for k, v in ipairs(cMenu.leftPanel.ent.Entity:GetAttachments()) do
-            local attachment = cMenu.options.attachmentList:Add("DButton")
-            attachment:Dock(TOP)
-            attachment:DockMargin(5, 5, 5, 0)
-            attachment:SetTall(15)
-            attachment:SetText(v.name)
-            attachment:SetFont("DermaDefault")
-            attachment:SetTextColor(color_white)
-            attachment:SetTooltip("Attachment ID: " .. v.id)
-            attachment.DoClick = function()
-                cMenu.data.attachment = v.name
-            end
-            attachment.Paint = function(s, w, h)
-                surface.SetDrawColor(color_black)
-                surface.DrawOutlinedRect(0, 0, w, h, 2)
-            end
+        local modelEnt = cMenu.leftPanel.ent.Entity
+        if ( IsValid(modelEnt) ) then
+            for k, v in ipairs(cMenu.leftPanel.ent.Entity:GetAttachments()) do
+                local attachment = cMenu.options.attachmentList:Add("DButton")
+                attachment:Dock(TOP)
+                attachment:DockMargin(5, 5, 5, 0)
+                attachment:SetTall(15)
+                attachment:SetText(v.name)
+                attachment:SetFont("DermaDefault")
+                attachment:SetTextColor(color_white)
+                attachment:SetTooltip("Attachment ID: " .. v.id)
+                attachment.DoClick = function()
+                    cMenu.data.attachment = v.name
+                end
+                attachment.Paint = function(s, w, h)
+                    surface.SetDrawColor(color_black)
+                    surface.DrawOutlinedRect(0, 0, w, h, 2)
+                end
 
-            attachment.Think = function(this)
-                if ( cMenu.data.attachment == v.name) then
-                    this:SetTextColor(color_green)
-                else
-                    this:SetTextColor(color_white)
+                attachment.Think = function(this)
+                    if ( cMenu.data.attachment == v.name) then
+                        this:SetTextColor(color_green)
+                    else
+                        this:SetTextColor(color_white)
+                    end
                 end
             end
         end
@@ -271,6 +277,8 @@ function GlowLib:ShowCreatingMenu()
         bCopy = bCopy or false
 
         local model = cMenu.data.model
+        if ( !model or model == "" ) then return end
+
         local color = cMenu.data.color
         local size = cMenu.data.size
         local texture = cMenu.data.texture
@@ -283,7 +291,10 @@ function GlowLib:ShowCreatingMenu()
         table.insert(code, '\tAttachment = "' .. cMenu.data.attachment .. '",')
         table.insert(code, '\tPosition = function(self, ent)\n\t\tlocal attachmentData = ent:GetAttachment(ent:LookupAttachment("' .. cMenu.data.attachment .. '"))\n\n\t\treturn attachmentData.Pos + attachmentData.Ang:Forward() * ' .. sOF .. ' + attachmentData.Ang:Up() * ' .. sUO .. ' + attachmentData.Ang:Right() * ' .. sRO .. '\n\tend,')
         table.insert(code, '\tColor = {\n\t\t[0] = Color(' .. color.r .. ', ' .. color.g .. ', ' .. color.b .. ', ' .. color.a .. '), // [0] is the skin, do [1] = Color(200, 200, 200), for skin 1.\n\t},')
-        table.insert(code, '\tSize = ' .. size .. ',')
+
+        if ( size != 0.3 ) then
+            table.insert(code, '\tSize = ' .. size .. ',')
+        end
 
         if ( texture != "sprites/light_glow02.vmt" ) then
             table.insert(code, '\tGlowTexture = "' .. texture .. '",')
@@ -311,18 +322,8 @@ function GlowLib:ShowCreatingMenu()
         end
 
         chat.PlaySound()
-    end
 
-    cMenu.print = cMenu:Add("DButton")
-    cMenu.print:Dock(BOTTOM)
-    cMenu.print:SetText("Print Code")
-    cMenu.print:SetTooltip("Left Click : Print Code\nRight Click : Print & Copy Code")
-    cMenu.print.DoClick = function(this)
-        getCode()
-    end
-
-    cMenu.print.DoRightClick = function(this)
-        getCode(true)
+        return code
     end
 
     cMenu.printMoreEyes = cMenu:Add("DButton")
@@ -342,16 +343,28 @@ function GlowLib:ShowCreatingMenu()
 
         chat.PlaySound()
     end
+
+    cMenu.print = cMenu:Add("DButton")
+    cMenu.print:Dock(BOTTOM)
+    cMenu.print:SetText("Print Code")
+    cMenu.print:SetTooltip("Left Click : Print Code\nRight Click : Print & Copy Code")
+    cMenu.print.DoClick = function(this)
+        getCode()
+    end
+
+    cMenu.print.DoRightClick = function(this)
+        getCode(true)
+    end
 end
 
 if ( IsValid(GlowLib.creationMenu) ) then
     GlowLib.creationMenu:Remove()
-    GlowLib:ShowCreatingMenu()
+    GlowLib:ShowCreationMenu()
 end
 
 concommand.Add("cl_glowlib_creationmenu", function(ply)
     if ( !IsValid(ply) ) then return end
     if ( !ply:IsAdmin() ) then return end
 
-    GlowLib:ShowCreatingMenu()
+    GlowLib:ShowCreationMenu()
 end)

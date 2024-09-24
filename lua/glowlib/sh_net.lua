@@ -2,6 +2,7 @@ if ( SERVER ) then
     util.AddNetworkString("GlowLib:EditMenu:Save")
     util.AddNetworkString("GlowLib:HideServerside")
     util.AddNetworkString("GlowLib:HideServersideRagdoll")
+    util.AddNetworkString("GlowLib:CreationMenu:SaveCreation")
 
     net.Receive("GlowLib:EditMenu:Save", function(len, ply)
         if ( !IsValid(ply) ) then return end
@@ -30,6 +31,30 @@ if ( SERVER ) then
 
         sprite:SetColor(colorData)
         sprite:SetKeyValue("scale", tostring(size))
+    end)
+
+    net.Receive("GlowLib:CreationMenu:SaveCreation", function(len, ply)
+        if ( !IsValid(ply) ) then return end
+        if ( !ply:IsAdmin() ) then return end
+
+        local model = net.ReadString()
+        local data = net.ReadTable()
+
+        if ( !model or model == "" ) then return end
+        if ( !data ) then return end
+
+        model = model:lower()
+
+        local creationCount = 1
+        for k, v in ipairs(file.Find("glowlib/creations/*", "DATA")) do
+            creationCount = creationCount + 1
+        end
+
+        file.Write("glowlib/creations/" .. creationCount .. "creation.txt", util.TableToJSON(data, true))
+        print("Saved creation for " .. model)
+
+        GlowLib:IncludeCreations()
+        BroadcastLua([[GlowLib:IncludeCreations()]])
     end)
 else
     net.Receive("GlowLib:HideServerside", function(len)

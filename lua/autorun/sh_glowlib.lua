@@ -32,8 +32,19 @@ end
 
 function GlowLib:IncludeDir(dir)
     local files, folders = fileFind(dir .. "/*", "LUA")
-    for _, file in ipairs(files) do
-        self:IncludeFile(dir .. "/" .. file)
+    for _, fileName in ipairs(files) do
+        self:IncludeFile(dir .. "/" .. fileName)
+    end
+
+    for _, folder in ipairs(folders) do
+        self:IncludeDir(dir .. "/" .. folder)
+    end
+end
+
+function GlowLib:IncludeCreations()
+    local files, folders = fileFind("glowlib/creations/*", "DATA")
+    for _, fileName in ipairs(files) do
+        self:IncludeFile(dir .. "/" .. fileName)
     end
 
     for _, folder in ipairs(folders) do
@@ -54,8 +65,11 @@ function GlowLib:Define(entModel, glowData)
 end
 
 GlowLib:IncludeDir("glowlib")
+GlowLib:IncludeCreations()
+
 hook.Add("OnReloaded", "GlowLib:Reload", function()
     GlowLib:IncludeDir("glowlib")
+    GlowLib:IncludeCreations()
 end)
 
 if ( CLIENT ) then
@@ -197,4 +211,7 @@ if ( CLIENT ) then
     end)
 
     MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
+else
+    file.CreateDir("glowlib")
+    file.CreateDir("glowlib/creations")
 end
