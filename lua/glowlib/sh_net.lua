@@ -6,11 +6,12 @@ if ( SERVER ) then
 
     net.Receive("GlowLib:EditMenu:Save", function(len, ply)
         if ( !IsValid(ply) ) then return end
-        if ( !ply:IsAdmin() ) then return end
 
         local ent = net.ReadEntity()
         local sprite = net.ReadEntity()
         local data = net.ReadTable()
+
+        if ( !hook.Run("GlowLib:CanPerformEdit", ply, ent, sprite, data) ) then return end
 
         if ( !IsValid(ent) ) then return end
         if ( !IsValid(sprite) ) then return end
@@ -26,11 +27,11 @@ if ( SERVER ) then
         local entTable = ent:GetTable()
         entTable.GlowLib_bDontUpdate = true
 
-        local size = data["size"]
-        local colorData = data["color"]
+        local data_size = data["size"]
+        local data_color = data["color"]
 
-        sprite:SetColor(colorData)
-        sprite:SetKeyValue("scale", tostring(size))
+        sprite:SetColor(data_color)
+        sprite:SetKeyValue("scale", tostring(data_size))
     end)
 
     net.Receive("GlowLib:CreationMenu:SaveCreation", function(len, ply)
