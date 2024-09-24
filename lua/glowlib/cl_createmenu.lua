@@ -349,6 +349,6 @@ if ( IsValid(GlowLib.creationMenu) ) then
     GlowLib:ShowCreatingMenu()
 end
 
-concommand.Add("glowlib_create", function()
+concommand.Add("cl_glowlib_creationmenu", function()
     GlowLib:ShowCreatingMenu()
 end)
