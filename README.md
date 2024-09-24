@@ -1,9 +1,9 @@
 # **GlowLib** Documentation
 ## Functions
-### GlowLib:RemoveAll()
-- Removes all Sprites.
-### GlowLib:Remove(Entity)
-- Removes all Sprites from the given Entity.
+1. GlowLib:RemoveAll()
+    - Removes all Sprites.
+2.  GlowLib:Remove(Entity)
+    - Removes all Sprites from the given Entity.
 ### GlowLib:ShowAll()
 - Shows all currently NoDrawn Sprites.
 ### GlowLib:Show(Entity)
@@ -13,7 +13,8 @@
 ### GLowLib:Hide(Entity)
 - Hides all Sprites belonging the to given Entity.
 ### GlowLib:CreateSprite(Entity, SpriteData)
-- Creates a New Sprite belonging to `Entity`
+**- Creates a New Sprite belonging to `Entity`**
+
 SpriteData:
 * Color = Color(255, 255, 255)
 * Attachment = "eyes"
@@ -21,7 +22,7 @@ SpriteData:
 * Size = 0,3
 * RenderMode = 9 (Not Recommended to Change)
 
-- Returns the Created Sprite.
+- **Returns the Created Sprite.**
 ### GlowLib:Initialize(Entity)
 - Initializes the Entity's Glow Data and creates sprites based on it.
 ### GlowLib:Update(Entity)
