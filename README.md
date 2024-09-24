@@ -29,3 +29,13 @@
     - Updates the Entity's sprites to match the GlowData (except Position and Attachment Values)
 10. GlowLib:ShouldDraw(Entity)
     - Returns whether an Entity's Sprites should be drawn.
+
+## Hooks
+1. GlowLib_CanUseCreationMenu(Player, Panel)
+    Panel is not always valid, use:
+    ```
+    if IsValid(Panel) then
+        -- code
+    end
+    ```
+    - Returns true or false.
