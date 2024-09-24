@@ -10,24 +10,19 @@ function GlowLib:ShowEditMenu(ent)
         self.editMenu:Remove()
     end
 
-    local ply = LocalPlayer()
-    if ( !IsValid(ply) ) then return self:Remove() end
-    if ( !IsValid(ent) ) then return self:Remove() end
-
-    if ( !ply:IsAdmin() ) then return self:Remove() end
-
-    if ( !ent.GetGlowingEyes or !isfunction(ent.GetGlowingEyes) ) then return self:Remove() end
-
-    local glowingEyes = ent:GetGlowingEyes()
-    if ( !glowingEyes ) then return self:Remove() end
-    if ( #glowingEyes == 0 ) then return self:Remove() end
-
     self.editMenu = vgui.Create("DFrame")
     self.editMenu:SetSize(ScrW() * 0.5, ScrH() * 0.5)
     self.editMenu:Center()
     self.editMenu:SetTitle("GlowLib Edit Menu")
     self.editMenu:MakePopup()
     self.editMenu.editingEnt = ent
+    self.editMenu.Think = function(s)
+        if ( !IsValid(ent) ) then return s:Remove() end
+    end
+
+    local ply = LocalPlayer()
+    if ( !IsValid(ply) ) then return self.editMenu:Remove() end
+    if ( !hook.Run("GlowLib_CanUseEditMenu", ply, ent, self.editMenu) ) then return self.editMenu:Remove() end
 
     self.editMenu.leftPanel = self.editMenu:Add("DPanel")
     self.editMenu.leftPanel:Dock(LEFT)

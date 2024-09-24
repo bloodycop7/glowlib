@@ -133,4 +133,26 @@ else
 
         nextThinkCL = CurTime() + 1
     end)
+
+    hook.Add("GlowLib_CanUseCreationMenu", "GlowLib:CanUseCreationMenu", function(ply, creationMenu)
+        if ( !IsValid(ply) ) then return false end
+        if ( !ply:IsAdmin() ) then return false end
+
+        return true
+    end)
+
+    hook.Add("GlowLib_CanUseEditMenu", "GlowLib:CanUseEditMenu", function(ply, ent, editMenu)
+        local ply = LocalPlayer()
+        if ( !IsValid(ply) ) then return false end
+        if ( !IsValid(ent) ) then return false end
+        if ( !ply:IsAdmin() ) then return false end
+
+        if ( !ent.GetGlowingEyes or !isfunction(ent.GetGlowingEyes) ) then return false end
+
+        local glowingEyes = ent:GetGlowingEyes()
+        if ( !glowingEyes ) then return false end
+        if ( #glowingEyes == 0 ) then return false end
+
+        return true
+    end)
 end

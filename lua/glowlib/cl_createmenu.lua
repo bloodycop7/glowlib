@@ -45,15 +45,15 @@ function GlowLib:ShowCreationMenu()
         self.creationMenu:Remove()
     end
 
-    local ply = LocalPlayer()
-    if ( !IsValid(ply) ) then return self:Remove() end
-    if ( !ply:IsAdmin() ) then return self:Remove() end
-
     self.creationMenu = vgui.Create("DFrame")
     self.creationMenu:SetSize(ScrW() * 0.35, ScrH() * 0.65)
     self.creationMenu:Center()
     self.creationMenu:SetTitle("GlowLib Creation Menu")
     self.creationMenu:MakePopup()
+
+    local ply = LocalPlayer()
+    if ( !IsValid(ply) ) then return self.creationMenu:Remove() end
+    if ( !hook.Run("GlowLib_CanUseCreationMenu", ply, self.creationMenu) ) then return self.creationMenu:Remove() end
 
     local cMenu = self.creationMenu
 
@@ -373,7 +373,7 @@ end
 
 concommand.Add("cl_glowlib_creationmenu", function(ply)
     if ( !IsValid(ply) ) then return end
-    if ( !ply:IsAdmin() ) then return end
+    if ( !hook.Run("GlowLib_CanUseCreationMenu", ply, self.creationMenu) ) then return end
 
     GlowLib:ShowCreationMenu()
 end)
