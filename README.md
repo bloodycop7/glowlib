@@ -32,11 +32,10 @@
 
 ## Hooks
 1. GlowLib_CanUseCreationMenu(Player, Panel)
-
+    - Returns true or false.
     Panel is not always valid, use:
     ```
     if IsValid(Panel) then
-        -- code
+        return false // lol, troll
     end
     ```
-    - Returns true or false.
