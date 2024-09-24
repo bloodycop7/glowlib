@@ -354,6 +354,11 @@ function GlowLib:ShowCreationMenu()
         replacer = string.Replace(replacer, "attachmentData.Ang:Up() * 1", "attachmentData.Ang:Up() * " .. cMenu.data.spriteUpOffset)
 
         MsgC(GlowLib.OutputColor, replacer, "\n")
+
+        if ( bCopy ) then
+            SetClipboardText(replacer)
+        end
+
         chat.PlaySound()
     end
 
