@@ -178,7 +178,7 @@ function GlowLib:ShowCreationMenu()
     cMenu.options.colorMixer:SetPalette(false)
     cMenu.options.colorMixer:SetWangs(false)
 
-    cMenu.options.colorMixer.OnValueChanged = function(this, color)
+    cMenu.options.colorMixer.ValueChanged = function(this, color)
         cMenu.data.color = color
     end
 
