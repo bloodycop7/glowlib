@@ -116,6 +116,16 @@ if ( SERVER ) then
 
         return true
     end)
+
+    hook.Add("GlowLib_CanPlayerSaveCreation", "GlowLib:CanPlayerSaveCreation", function(ply, model, data)
+        if ( !IsValid(ply) ) then return false end
+        if ( !ply:IsAdmin() ) then return false end
+
+        if ( !model or model == "" ) then return false end
+        if ( !data ) then return false end
+
+        return true
+    end)
 else
     local nextThinkCL = 0
     hook.Add("Think", "GlowLib:Think_CL", function()

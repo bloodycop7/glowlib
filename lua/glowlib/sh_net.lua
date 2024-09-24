@@ -36,10 +36,11 @@ if ( SERVER ) then
 
     net.Receive("GlowLib:CreationMenu:SaveCreation", function(len, ply)
         if ( !IsValid(ply) ) then return end
-        if ( !ply:IsAdmin() ) then return end
 
         local model = net.ReadString()
         local data = net.ReadTable()
+
+        if ( !hook.Run("GlowLib_CanPlayerSaveCreation", ply, model, data) ) then return end
 
         if ( !model or model == "" ) then return end
         if ( !data ) then return end
