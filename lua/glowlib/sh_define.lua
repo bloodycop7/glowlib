@@ -157,6 +157,7 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
         ent:DeleteOnRemove(sprite)
 
         local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 12 + ent:GetAngles():Up() * 3 + ent:GetAngles():Right() * -5)
         light:SetParent(ent)
         light:SetKeyValue("_light", "0 255 255 255")
@@ -199,6 +200,7 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
         spriteTable.GlowLib_bNoUpdate = true
 
         local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
         light:SetParent(ent)
         light:SetKeyValue("_light", "255 135 0")
@@ -359,6 +361,7 @@ GlowLib:Define("models/healthvial.mdl", {
     Size = 0.15,
     OnInitialize = function(self, ent, sprite)
         local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         light:SetPos(ent:GetPos() + ent:GetUp() * 5)
         light:SetParent(ent)
         light:SetKeyValue("_light", "0 255 0")
@@ -382,6 +385,7 @@ GlowLib:Define("models/items/healthkit.mdl", {
     Size = 0.25,
     OnInitialize = function(self, ent, sprite)
         local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         light:SetPos(ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5)
         light:SetParent(ent)
         light:SetKeyValue("_light", "0 255 0")
@@ -405,6 +409,7 @@ GlowLib:Define("models/items/battery.mdl", {
     Size = 0.2,
     OnInitialize = function(self, ent, sprite)
         local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
         light:SetPos(ent:GetPos() + ent:GetUp() * 5)
         light:SetParent(ent)
         light:SetKeyValue("_light", "0 255 255")
