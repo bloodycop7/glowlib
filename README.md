@@ -32,7 +32,7 @@
 
 ## Hooks
 1. GlowLib_CanUseCreationMenu(Player, Panel)
-    - Returns true or false.
+    - Return true or false.
 
     Panel is not always valid, use:
     ```
@@ -40,3 +40,25 @@
         return false // lol, troll
     end
     ```
+2. GlowLib_CanPlayerSaveCreation(Player, Model, Data)
+    - Return true or false
+3. GlowLib_CanUseEditMenu(Player, Entity, Panel)
+    - Return true or false.
+4. GlowLib_CanPerformEdit(Player, Entity, Sprite, Data)
+    - Return true or false
+5. GlowLib_Remove(Entity)
+    - Called when an Entity's Sprites get removed.
+6. GlowLib_RemoveAll()
+    - Called when GlowLib:RemoveAll() is called.
+7. GlowLib_Initialize(Entity)
+    - Called after GlowLib:Initialize(Entity) has finished.
+8. GlowLib_Update(Entity)
+    - Called after GlowLib:Update(Entity) has been called.
+9. GlowLib_PreHide(Entity)
+    - Called before GlowLib does it's internal Sprite hiding on an Entity.
+10. GlowLib_Hide(Entity)
+    - Called after GlowLib has finished Hiding an Entity's Sprites.
+11. GlowLib_PreShow(Entity)
+    - Called before GlowLib does it's internal Sprite showing on an Entity.
+12. GlowLib_Show(Entity)
+    - Called after GlowLib does it's internal Sprite showing on an Entity.

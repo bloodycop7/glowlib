@@ -103,7 +103,7 @@ if ( SERVER ) then
             end
         end
 
-        hook.Run("GlowLib:Remove", ent)
+        hook.Run("GLowLib_Remove", ent)
     end
 
     function GlowLib:RemoveAll()
@@ -120,7 +120,7 @@ if ( SERVER ) then
             self:Remove(v)
         end
 
-        hook.Run("GlowLib:RemoveAll")
+        hook.Run("GLowLib_RemoveAll")
     end
 
     function GlowLib:Initialize(ent)
@@ -207,7 +207,7 @@ if ( SERVER ) then
                 entTable.GlowLib_bInitalized = true
             end
 
-            hook.Run("GlowLib:Initalize", ent)
+            hook.Run("GLowLib_Initalize", ent)
         end
     end
 
@@ -249,7 +249,7 @@ if ( SERVER ) then
             glowData:PostUpdate(ent, glowEyes)
         end
 
-        hook.Run("GlowLib:Update", ent)
+        hook.Run("GLowLib_Update", ent)
     end
 end
 
@@ -263,7 +263,7 @@ function GlowLib:Hide(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    hook.Run("GlowLib:PreHide", ent)
+    hook.Run("GLowLib_PreHide", ent)
 
     local glow_eyes = ent:GetGlowingEyes()
     for k, v in ipairs(glow_eyes) do
@@ -279,7 +279,7 @@ function GlowLib:Hide(ent)
         end
     end
 
-    hook.Run("GlowLib:Hide", ent)
+    hook.Run("GLowLib_Hide", ent)
 end
 
 function GlowLib:HideAll()
@@ -309,7 +309,7 @@ function GlowLib:Show(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    hook.Run("GlowLib:PreShow", ent)
+    hook.Run("GLowLib_PreShow", ent)
 
     if ( !GlowLib:ShouldDraw(ent) ) then
         GlowLib:Hide(ent)
@@ -324,7 +324,7 @@ function GlowLib:Show(ent)
         end
     end
 
-    hook.Run("GlowLib:Show", ent)
+    hook.Run("GLowLib_Show", ent)
 end
 
 function GlowLib:ShowAll()
