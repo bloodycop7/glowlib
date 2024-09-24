@@ -117,7 +117,6 @@ GlowLib.Glow_Data["models/vortigaunt_doctor.mdl"] = table.Copy(GlowLib.Glow_Data
 
 GlowLib:Define("models/dog.mdl", {
     Position = function(self, ent)
-        PrintTable(ent:GetAttachments())
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
 
         return attachmentData.Pos

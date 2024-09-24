@@ -45,12 +45,11 @@ GlowLib:Define("models/hunter.mdl", {
     },
     Size = 0.4,
     OnInitialize = function(self, ent, sprite)
-        local glow_eyes = ent:GetGlowingEyes()
         local glow_color = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
-        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+        local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glow_color)
         if ( glowColCustom != nil ) then
-            glow_color = self:CustomColor(ent, glowCol)
+            glow_color = self:CustomColor(ent, glow_color)
         end
 
         local attach = ent:LookupAttachment("bottom_eye")
@@ -63,6 +62,12 @@ GlowLib:Define("models/hunter.mdl", {
             Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
             Size = 0.4,
         })
+    end,
+    ShouldDraw = function(self, ent)
+        return true
+    end,
+    CustomColor = function(self, ent, sprite)
+
     end,
 })
 ```

@@ -28,18 +28,18 @@ end
 
 if ( SERVER ) then
     function GlowLib:CreateSprite(ent, spriteData)
-        if !IsValid(ent) or !spriteData then return end
+        if ( !IsValid(ent) or !spriteData ) then return end
 
         local ent_model = ent:GetModel()
-        if !ent_model then return end
+        if ( !ent_model ) then return end
         ent_model = ent_model:lower()
 
         local glowData = self.Glow_Data[ent_model]
-        if !glowData then return end
+        if ( !glowData ) then return end
 
-        if ent:GetClass() == "prop_effect" then
+        if ( ent:GetClass() == "prop_effect" ) then
             local child = ent:GetInternalVariable("m_hMoveChild")
-            if IsValid(child) then
+            if ( IsValid(child) ) then
                 ent = child
             end
         end
