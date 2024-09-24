@@ -32,6 +32,7 @@
 
 ## Hooks
 1. GlowLib_CanUseCreationMenu(Player, Panel)
+
     Panel is not always valid, use:
     ```
     if IsValid(Panel) then
