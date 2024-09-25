@@ -422,3 +422,27 @@ GlowLib:Define("models/items/battery.mdl", {
         ent:DeleteOnRemove(light)
     end,
 })
+
+GlowLib:Define("models/items/combine_rifle_ammo01.mdl", {
+    Position = function(self, ent)
+        return ent:WorldSpaceCenter()
+    end,
+    Color = {
+        [0] = Color(255, 220, 0, 220),
+    },
+    Size = 0.3,
+    OnInitialize = function(self, ent, sprite)
+        local light = ents.Create("light_dynamic")
+        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+        light:SetParent(ent)
+        light:SetKeyValue("_light", "255 220 0")
+        light:SetKeyValue("style", "1")
+        light:SetKeyValue("distance", "13")
+        light:SetKeyValue("brightness", "2")
+        light:Spawn()
+        light:Activate()
+
+        ent:DeleteOnRemove(light)
+    end,
+})
