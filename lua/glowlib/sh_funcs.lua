@@ -327,7 +327,7 @@ function GlowLib:Show(ent)
             v:SetNoDraw(false)
 
             if ( v:GetClass() == "light_dynamic" ) then
-                v:Fire("TurnOff")
+                v:Fire("TurnOn")
             end
         end
     end
