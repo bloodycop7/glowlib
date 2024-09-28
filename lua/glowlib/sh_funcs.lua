@@ -270,7 +270,7 @@ function GlowLib:Hide(ent)
         if ( IsValid(v) ) then
             v:SetNoDraw(true)
 
-            if ( v:GetClass() == "light_dynamic" ) then
+            if ( SERVER and v:GetClass() == "light_dynamic" ) then
                 v:Fire("TurnOff")
             end
         end
@@ -326,7 +326,7 @@ function GlowLib:Show(ent)
         if ( IsValid(v) ) then
             v:SetNoDraw(false)
 
-            if ( v:GetClass() == "light_dynamic" ) then
+            if ( SERVER and v:GetClass() == "light_dynamic" ) then
                 v:Fire("TurnOn")
             end
         end
