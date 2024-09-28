@@ -269,6 +269,10 @@ function GlowLib:Hide(ent)
     for k, v in ipairs(glow_eyes) do
         if ( IsValid(v) ) then
             v:SetNoDraw(true)
+
+            if ( v:GetClass() == "light_dynamic" ) then
+                v:Fire("TurnOff")
+            end
         end
     end
 
@@ -321,6 +325,10 @@ function GlowLib:Show(ent)
     for k, v in ipairs(glow_eyes) do
         if ( IsValid(v) ) then
             v:SetNoDraw(false)
+
+            if ( v:GetClass() == "light_dynamic" ) then
+                v:Fire("TurnOff")
+            end
         end
     end
 
