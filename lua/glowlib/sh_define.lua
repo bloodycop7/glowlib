@@ -71,7 +71,7 @@ GlowLib:Define("models/hunter.mdl", {
 
         local attach = ent:LookupAttachment("bottom_eye")
         local attachmentData = ent:GetAttachment(attach)
-        if !attachmentData then return end
+        if ( !attachmentData ) then return end
 
         if ( SERVER ) then
             local sprite = GlowLib:CreateSprite(ent, {
