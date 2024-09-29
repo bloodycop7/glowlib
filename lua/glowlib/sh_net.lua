@@ -3,6 +3,7 @@ if ( SERVER ) then
     util.AddNetworkString("GlowLib:HideServerside")
     util.AddNetworkString("GlowLib:HideServersideRagdoll")
     util.AddNetworkString("GlowLib:CreationMenu:SaveCreation")
+    util.AddNetworkString("GlowLib:ClientsideInitalize")
 
     net.Receive("GlowLib:EditMenu:Save", function(len, ply)
         if ( !IsValid(ply) ) then return end
@@ -81,5 +82,24 @@ else
             ent:SetNW2Bool("GlowLib:ShouldDraw", false)
             GlowLib:Hide(ent)
         end
+    end)
+
+    net.Receive("GlowLib:ClientsideInitalize", function()
+        local ent = net.ReadEntity()
+        if ( !IsValid(ent) ) then return end
+
+        local model = ent:GetModel()
+        if ( !model or model == "" ) then return end
+
+        model = model:lower()
+
+        local glow_data = GlowLib.Glow_Data[model]
+        if ( !glow_data ) then return end
+
+        if ( glow_data.OnInitialize and isfunction(glow_data.OnInitialize) ) then
+            glow_data:OnInitialize(ent, ent:GetGlowingEyes()[1])
+        end
+
+        hook.Run("GlowLib_Initalize", ent)
     end)
 end

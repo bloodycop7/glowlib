@@ -202,12 +202,14 @@ if ( SERVER ) then
 
             entTable.GlowLib_bDontUpdate = false
 
-            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) and !entTable.GlowLib_bInitalized ) then
+            if ( glowData["OnInitialize"] and isfunction(glowData["OnInitialize"]) ) then
                 glowData:OnInitialize(ent, sprite)
-                entTable.GlowLib_bInitalized = true
             end
 
-            hook.Run("GLowLib_Initalize", ent)
+            hook.Run("GlowLib_Initalize", ent)
+            net.Start("GlowLib:ClientsideInitalize")
+                net.WriteEntity(ent)
+            net.Broadcast()
         end
     end
 
