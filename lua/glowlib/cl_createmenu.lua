@@ -29,13 +29,15 @@ local moreGlowingEyes = {
         local attachmentData = ent:GetAttachment(attach)
         if ( !attachmentData ) then return end
 
-        local sprite = GlowLib:CreateSprite(ent, {
-            Color = glow_color,
-            Attachment = "no_attachment", // REPLACE IF NEEDED
-            GlowTexture = "sprites/light_glow02.vmt",
-            Position = attachmentData.Pos + attachmentData.Ang:Forward() * 1 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You MOST LIKELY need to change this
-            Size = 0.3,
-        })
+        if ( SERVER ) then
+            local sprite = GlowLib:CreateSprite(ent, {
+                Color = glow_color,
+                Attachment = "no_attachment", // REPLACE IF NEEDED
+                GlowTexture = "sprites/light_glow02.vmt",
+                Position = attachmentData.Pos + attachmentData.Ang:Forward() * 1 + attachmentData.Ang:Right() * 1 + attachmentData.Ang:Up() * 1, // You MOST LIKELY need to change this
+                Size = 0.3,
+            })
+        end
 end]]
 }
 

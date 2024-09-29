@@ -73,12 +73,14 @@ GlowLib:Define("models/hunter.mdl", {
         local attachmentData = ent:GetAttachment(attach)
         if !attachmentData then return end
 
-        local sprite = GlowLib:CreateSprite(ent, {
-            Color = glow_color,
-            Attachment = "bottom_eye",
-            Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
-            Size = 0.4,
-        })
+        if ( SERVER ) then
+            local sprite = GlowLib:CreateSprite(ent, {
+                Color = glow_color,
+                Attachment = "bottom_eye",
+                Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
+                Size = 0.4,
+            })
+        end
     end,
 })
 
@@ -145,29 +147,31 @@ GlowLib:Define("models/props_combine/health_charger001.mdl", {
             glowCol = self:CustomColor(ent, glowCol)
         end
 
-        local sprite = GlowLib:CreateSprite(ent, {
-            Color = Color(0, 195, 255, 170),
-            Position = ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5,
-            Size = 0.5,
-        })
+        if ( SERVER ) then
+            local sprite = GlowLib:CreateSprite(ent, {
+                Color = Color(0, 195, 255, 170),
+                Position = ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5,
+                Size = 0.5,
+            })
 
-        local spriteTable = sprite:GetTable()
-        spriteTable.GlowLib_bNoUpdate = true
+            local spriteTable = sprite:GetTable()
+            spriteTable.GlowLib_bNoUpdate = true
 
-        ent:DeleteOnRemove(sprite)
+            ent:DeleteOnRemove(sprite)
 
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 12 + ent:GetAngles():Up() * 3 + ent:GetAngles():Right() * -5)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "0 255 255 255")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "15")
-        light:SetKeyValue("brightness", "1")
-        light:Spawn()
-        light:Activate()
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 12 + ent:GetAngles():Up() * 3 + ent:GetAngles():Right() * -5)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "0 255 255 255")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "15")
+            light:SetKeyValue("brightness", "1")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
 
@@ -190,27 +194,29 @@ GlowLib:Define("models/props_combine/suit_charger001.mdl", {
             glowCol = self:CustomColor(ent, glowCol)
         end
 
-        local sprite = GlowLib:CreateSprite(ent, {
-            Color = Color(255, 115, 0, 170),
-            Position = ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5,
-            Size = 0.5,
-        })
+        if ( SERVER ) then
+            local sprite = GlowLib:CreateSprite(ent, {
+                Color = Color(255, 115, 0, 170),
+                Position = ent:GetPos() + ent:GetAngles():Forward() * 9 + ent:GetAngles():Up() * 5,
+                Size = 0.5,
+            })
 
-        local spriteTable = sprite:GetTable()
-        spriteTable.GlowLib_bNoUpdate = true
+            local spriteTable = sprite:GetTable()
+            spriteTable.GlowLib_bNoUpdate = true
 
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "255 135 0")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "5")
-        light:SetKeyValue("brightness", "6")
-        light:Spawn()
-        light:Activate()
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetAngles():Forward() * 10 + ent:GetAngles():Up() * 4 + ent:GetAngles():Right() * -1)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "255 135 0")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "5")
+            light:SetKeyValue("brightness", "6")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
 
@@ -266,22 +272,24 @@ GlowLib:Define("models/antlion_guard.mdl", {
         entTable.GlowLib_bDontUpdate = true
         entTable.Glowlib_bDisabled = true
 
-        if IsValid(ent) and IsValid(sprite) then
-            sprite:SetParent(nil)
-            SafeRemoveEntity(sprite)
-        end
-
-        for k, v in ipairs(ent:GetChildren()) do
-            if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
-
-            local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-
-            local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
-            if ( glowColCustom != nil ) then
-                glowCol = self:CustomColor(ent, glowCol)
+        if ( SERVER ) then
+            if ( IsValid(ent) and IsValid(sprite) ) then
+                sprite:SetParent(nil)
+                SafeRemoveEntity(sprite)
             end
 
-            v:SetColor(glowCol)
+            for k, v in ipairs(ent:GetChildren()) do
+                if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
+
+                local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+                local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+                if ( glowColCustom != nil ) then
+                    glowCol = self:CustomColor(ent, glowCol)
+                end
+
+                v:SetColor(glowCol)
+            end
         end
     end,
     CustomColor = function(self, ent, sprite)
@@ -308,46 +316,29 @@ GlowLib:Define("models/antlion_grub.mdl", {
     },
     GlowTexture = "sprites/grubflare1.vmt",
     OnInitialize = function(self, ent, sprite)
-        local entTable = ent:GetTable()
-        entTable.GlowLib_bDontUpdate = true
-        entTable.Glowlib_bDisabled = true
+        if ( SERVER ) then
+            local entTable = ent:GetTable()
+            entTable.GlowLib_bDontUpdate = true
+            entTable.Glowlib_bDisabled = true
 
-        if IsValid(ent) and IsValid(sprite) then
-            sprite:SetParent(nil)
-            SafeRemoveEntity(sprite)
-        end
-
-        for k, v in ipairs(ent:GetChildren()) do
-            if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
-
-            local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
-
-            local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
-            if ( glowColCustom != nil ) then
-                glowCol = self:CustomColor(ent, glowCol)
+            if ( IsValid(ent) and IsValid(sprite) ) then
+                sprite:SetParent(nil)
+                SafeRemoveEntity(sprite)
             end
 
-            v:SetColor(glowCol)
+            for k, v in ipairs(ent:GetChildren()) do
+                if ( !IsValid(v) or v:GetClass() != "env_sprite" ) then continue end
+
+                local glowCol = self.Color[ent:GetSkin()] or self.Color[0] or color_white
+
+                local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
+                if ( glowColCustom != nil ) then
+                    glowCol = self:CustomColor(ent, glowCol)
+                end
+
+                v:SetColor(glowCol)
+            end
         end
-    end,
-})
-
-GlowLib:Define("models/antlion_worker.mdl", {
-    Position = function(self, ent)
-        local attachmentData = ent:GetAttachment(ent:LookupAttachment("mouth"))
-        return attachmentData.Pos
-    end,
-    Attachment = "mouth",
-    Color = {
-        [0] = Color(0, 255, 0),
-    },
-    Size = 1,
-    GlowTexture = "sprites/light_glow02_add.vmt",
-    OnInitialize = function(self, ent, sprite)
-        local bone = ent:LookupBone("Antlion.Back_Bone")
-
-        sprite:AddEffects(EF_FOLLOWBONE)
-        sprite:SetParent(ent, bone)
     end,
 })
 
@@ -360,18 +351,20 @@ GlowLib:Define("models/healthvial.mdl", {
     },
     Size = 0.15,
     OnInitialize = function(self, ent, sprite)
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "0 255 0")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "13")
-        light:SetKeyValue("brightness", "2")
-        light:Spawn()
-        light:Activate()
+        if ( SERVER ) then
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "0 255 0")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "13")
+            light:SetKeyValue("brightness", "2")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
 
@@ -384,18 +377,20 @@ GlowLib:Define("models/items/healthkit.mdl", {
     },
     Size = 0.25,
     OnInitialize = function(self, ent, sprite)
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "0 255 0")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "18")
-        light:SetKeyValue("brightness", "2")
-        light:Spawn()
-        light:Activate()
+        if ( SERVER ) then
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetUp() * 6 + ent:GetForward() * 5 + ent:GetRight() * -3.5)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "0 255 0")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "18")
+            light:SetKeyValue("brightness", "2")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
 
@@ -408,18 +403,20 @@ GlowLib:Define("models/items/battery.mdl", {
     },
     Size = 0.2,
     OnInitialize = function(self, ent, sprite)
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "0 255 255")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "13")
-        light:SetKeyValue("brightness", "2")
-        light:Spawn()
-        light:Activate()
+        if ( SERVER ) then
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "0 255 255")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "13")
+            light:SetKeyValue("brightness", "2")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
 
@@ -432,17 +429,19 @@ GlowLib:Define("models/items/combine_rifle_ammo01.mdl", {
     },
     Size = 0.3,
     OnInitialize = function(self, ent, sprite)
-        local light = ents.Create("light_dynamic")
-        light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        light:SetPos(ent:GetPos() + ent:GetUp() * 5)
-        light:SetParent(ent)
-        light:SetKeyValue("_light", "255 220 0")
-        light:SetKeyValue("style", "1")
-        light:SetKeyValue("distance", "13")
-        light:SetKeyValue("brightness", "2")
-        light:Spawn()
-        light:Activate()
+        if ( SERVER ) then
+            local light = ents.Create("light_dynamic")
+            light:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            light:SetPos(ent:GetPos() + ent:GetUp() * 5)
+            light:SetParent(ent)
+            light:SetKeyValue("_light", "255 220 0")
+            light:SetKeyValue("style", "1")
+            light:SetKeyValue("distance", "13")
+            light:SetKeyValue("brightness", "2")
+            light:Spawn()
+            light:Activate()
 
-        ent:DeleteOnRemove(light)
+            ent:DeleteOnRemove(light)
+        end
     end,
 })
