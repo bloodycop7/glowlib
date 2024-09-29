@@ -183,11 +183,10 @@ if ( SERVER ) then
                 glow_size = glowData:CustomSize(ent, glow_size)
             end
 
-            if ( !glowData["ShouldDraw"] ) then
-                glowData["ShouldDraw"] = function(self, ent) return true end
+            local bShouldDraw = glowData.ShouldDraw and isfunction(glowData.ShouldDraw) and glowData:ShouldDraw(ent)
+            if ( bShouldDraw != nil and bShouldDraw == false ) then
+                return
             end
-
-            if ( !glowData:ShouldDraw(ent) ) then return end
 
             local attach = glowData.Attachment or "eyes"
 
@@ -372,9 +371,8 @@ function GlowLib:ShouldDraw(ent)
     local entTable = ent:GetTable()
     if ( entTable.Glowlib_bDisabled ) then return false end
 
-    if ( glowData["ShouldDraw"] ) then
-        if ( !glowData:ShouldDraw(ent) ) then return false end
-    end
+    local bShouldDraw = glowData.ShouldDraw and isfunction(glowData.ShouldDraw) and glowData:ShouldDraw(ent)
+    if ( bShouldDraw != nil and bShouldDraw == false ) then return false end
 
     local bShouldDrawHook = hook.Run("GlowLib_ShouldDraw", ent)
     bShouldDrawHook = bShouldDrawHook or true
