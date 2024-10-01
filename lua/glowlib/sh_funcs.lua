@@ -277,11 +277,9 @@ function GlowLib:Hide(ent)
         end
     end
 
-    if ( SERVER ) then
-        if ( ent:IsPlayer() ) then
-            net.Start("GlowLib:HideServerside")
-            net.Send(ent)
-        end
+    if ( SERVER and ent:IsPlayer() ) then
+        net.Start("GlowLib:HideServerside")
+        net.Send(ent)
     end
 
     hook.Run("GLowLib_Hide", ent)
@@ -333,6 +331,11 @@ function GlowLib:Show(ent)
         end
     end
 
+    if ( SERVER and ent:IsPlayer() ) then
+        net.Start("GlowLib:HideServerside")
+        net.Send(ent)
+    end
+
     hook.Run("GLowLib_Show", ent)
 end
 
@@ -356,6 +359,9 @@ end
 function GlowLib:ShouldDraw(ent)
     if ( CLIENT ) then
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if ( !glib_enabled ) then return false end
+    else
+        local glib_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if ( !glib_enabled ) then return false end
     end
 
@@ -383,6 +389,11 @@ function GlowLib:ShouldDraw(ent)
     if ( ent:GetNoDraw() ) then return false end
 
     if ( CLIENT ) then
+        local cl_ragdoll_remove = GetConVar("cl_glowlib_remove_on_death"):GetBool()
+        if ( cl_ragdoll_remove and ent:IsRagdoll() ) then
+            return false
+        end
+
         if ( ent == LocalPlayer() ) then
             local shouldDrawLocalPlayer = ent:ShouldDrawLocalPlayer() or hook.Run("ShouldDrawLocalPlayer", ent) or false
             if ( !shouldDrawLocalPlayer ) then
@@ -394,6 +405,11 @@ function GlowLib:ShouldDraw(ent)
             return false
         end
     else
+        local sv_ragdoll_remove = GetConVar("sv_glowlib_remove_on_death"):GetBool()
+        if ( sv_ragdoll_remove and ent:IsRagdoll() ) then
+            return false
+        end
+
         if ( ent:IsPlayer() ) then
             net.Start("GlowLib:HideServerside")
             net.Send(ent)

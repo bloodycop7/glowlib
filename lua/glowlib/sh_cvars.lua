@@ -1,8 +1,8 @@
 local GlowLib = GlowLib
 
 if ( CLIENT ) then
-    CreateClientConVar("cl_glowlib_enabled", "1", true, false, "Enable or disable GlowLib", 0, 1)
-    CreateClientConVar("cl_glowlib_remove_on_death", "1", true, false, "Remove glowing eyes on death (NPCs)", 0, 1)
+    CreateClientConVar("cl_glowlib_enabled", "1", true, true, "Enable or disable GlowLib", 0, 1)
+    CreateClientConVar("cl_glowlib_remove_on_death", "1", true, true, "Remove glowing eyes on death (NPCs)", 0, 1)
 else
     CreateConVar("sv_glowlib_enabled", "1", {FCVAR_ARCHIVE, FCVAR_GAMEDLL}, "Enable or disable GlowLib", 0, 1)
     CreateConVar("sv_glowlib_remove_on_death", "1", {FCVAR_ARCHIVE, FCVAR_GAMEDLL}, "Enable or disable removing Glowing Eyes On Death (NPCs)", 0, 1)

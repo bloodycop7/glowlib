@@ -72,17 +72,14 @@ if ( SERVER ) then
         timer.Simple(0, function()
             if ( !IsValid(ragdoll) ) then return end
 
-            GlowLib:Initialize(ragdoll)
-
-            local bRemoveOnDeath = GetConVar("sv_glowlib_remove_on_death"):GetBool()
-            if ( bRemoveOnDeath ) then
+            if ( !GlowLib:ShouldDraw(ragdoll) ) then
                 ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
-                GlowLib:Remove(ragdoll)
+                GlowLib:Hide(ragdoll)
 
                 return
             end
 
-            net.Start("GlowLib:HideServersideRagdoll")
+            net.Start("GlowLib:HandleClientsideRagdoll")
                 net.WriteEntity(ragdoll)
             net.Broadcast()
         end)
@@ -135,6 +132,7 @@ else
         if ( !IsValid(ply) ) then return end
 
         local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if ( !glib_enabled ) then return end
 
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
