@@ -37,7 +37,7 @@ cvars.AddChangeCallback("sv_glowlib_remove_on_death", function(_, _, newValue)
 
     if ( newValue == "1" ) then
         for k, ragdoll in ipairs(ents.FindByClass("prop_ragdoll")) do
-            if ( !IsValid(ragdoll) ) then continue end
+        if ( !IsValid(ragdoll) or GlowLib:ShouldDraw(ragdoll) ) then continue end
 
             ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
             GlowLib:Remove(ragdoll)
@@ -47,7 +47,7 @@ cvars.AddChangeCallback("sv_glowlib_remove_on_death", function(_, _, newValue)
     end
 
     for k, ragdoll in ipairs(ents.FindByClass("prop_ragdoll")) do
-        if ( !IsValid(ragdoll) ) then continue end
+        if ( !IsValid(ragdoll) or GlowLib:ShouldDraw(ragdoll) ) then continue end
 
         ragdoll:SetNW2Bool("GlowLib:ShouldDraw", true)
     end
@@ -78,7 +78,7 @@ end)
 cvars.AddChangeCallback("cl_glowlib_remove_on_death", function(_, _, newValue)
     if ( newValue == "1" ) then
         for k, ragdoll in ipairs(ents.FindByClass("prop_ragdoll")) do
-            if ( !IsValid(ragdoll) ) then continue end
+            if ( !IsValid(ragdoll) or GlowLib:ShouldDraw(ragdoll) ) then continue end
 
             ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
             GlowLib:Hide(ragdoll)
@@ -88,7 +88,7 @@ cvars.AddChangeCallback("cl_glowlib_remove_on_death", function(_, _, newValue)
     end
 
     for k, ragdoll in ipairs(ents.FindByClass("prop_ragdoll")) do
-        if ( !IsValid(ragdoll) ) then continue end
+        if ( !IsValid(ragdoll) or GlowLib:ShouldDraw(ragdoll) ) then continue end
 
         ragdoll:SetNW2Bool("GlowLib:ShouldDraw", true)
         GlowLib:Show(ragdoll)

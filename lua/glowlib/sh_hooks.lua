@@ -72,8 +72,10 @@ if ( SERVER ) then
         timer.Simple(0, function()
             if ( !IsValid(ragdoll) ) then return end
 
-            if ( !GlowLib:ShouldDraw(ragdoll) ) then
+            local sv_ragdoll = GetConVar("sv_glowlib_remove_on_death"):GetBool()
+            if ( sv_ragdoll ) then
                 ragdoll:SetNW2Bool("GlowLib:ShouldDraw", false)
+                ragdoll:SetNW2Bool("GlowLib:IsNPCRagdoll", true)
                 GlowLib:Hide(ragdoll)
 
                 return

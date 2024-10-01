@@ -390,7 +390,7 @@ function GlowLib:ShouldDraw(ent)
 
     if ( CLIENT ) then
         local cl_ragdoll_remove = GetConVar("cl_glowlib_remove_on_death"):GetBool()
-        if ( cl_ragdoll_remove and ent:IsRagdoll() ) then
+        if ( cl_ragdoll_remove and ent:IsRagdoll() and ent:GetNW2Bool("GlowLib:IsNPCRagdoll", false) ) then
             return false
         end
 
@@ -406,7 +406,7 @@ function GlowLib:ShouldDraw(ent)
         end
     else
         local sv_ragdoll_remove = GetConVar("sv_glowlib_remove_on_death"):GetBool()
-        if ( sv_ragdoll_remove and ent:IsRagdoll() ) then
+        if ( sv_ragdoll_remove and ent:IsRagdoll() and ent:GetNW2Bool("GlowLib:IsNPCRagdoll", false) ) then
             return false
         end
 

@@ -2,7 +2,6 @@ if ( SERVER ) then
     util.AddNetworkString("GlowLib:EditMenu:Save")
     util.AddNetworkString("GlowLib:HideServerside")
     util.AddNetworkString("GlowLib:HandleClientsideRagdoll")
-    util.AddNetworkString("GlowLib:CreationMenu:SaveCreation")
     util.AddNetworkString("GlowLib:ClientsideInitalize")
 
     net.Receive("GlowLib:EditMenu:Save", function(len, ply)
@@ -34,31 +33,6 @@ if ( SERVER ) then
         sprite:SetColor(data_color)
         sprite:SetKeyValue("scale", tostring(data_size))
     end)
-
-    net.Receive("GlowLib:CreationMenu:SaveCreation", function(len, ply)
-        if ( !IsValid(ply) ) then return end
-
-        local model = net.ReadString()
-        local data = net.ReadTable()
-
-        if ( !hook.Run("GlowLib_CanPlayerSaveCreation", ply, model, data) ) then return end
-
-        if ( !model or model == "" ) then return end
-        if ( !data ) then return end
-
-        model = model:lower()
-
-        local creationCount = 1
-        for k, v in ipairs(file.Find("glowlib/creations/*", "DATA")) do
-            creationCount = creationCount + 1
-        end
-
-        file.Write("glowlib/creations/" .. creationCount .. "creation.txt", util.TableToJSON(data, true))
-        print("Saved creation for " .. model)
-
-        GlowLib:IncludeCreations()
-        BroadcastLua([[GlowLib:IncludeCreations()]])
-    end)
 else
     net.Receive("GlowLib:HideServerside", function(len)
         local ply = LocalPlayer()
@@ -76,7 +50,11 @@ else
         local ent = net.ReadEntity()
         if ( !IsValid(ent) ) then return end
 
-        if ( !GlowLib:ShouldDraw(ent) ) then
+        local cl_glowLib = GetConVar("cl_glowlib_remove_on_death"):GetBool()
+        if ( !GlowLib:ShouldDraw(ent) or cl_glowLib and ent:GetNW2Bool("GlowLib:IsNPCRagdoll", false) ) then
+            ent:SetNW2Bool("GlowLib:ShouldDraw", false)
+            ent:SetNW2Bool("GlowLib:IsNPCRagdoll", true)
+
             GlowLib:Hide(ent)
         end
     end)
