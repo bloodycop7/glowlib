@@ -33,19 +33,19 @@ hook.Add("PopulateToolMenu", "GlowLib:PopulateToolMenu", function()
         glowlib_Label:SetTextColor(color_white)
         glowlib_Label:SetFont("GlowLib:MenuFontLarge")
 
-        local checkbox = panel:CheckBox("Enable GlowLib (Serverside)", "sv_glowlib_enabled")
+        local checkbox = panel:CheckBox("Enable GlowLib (Server)", "sv_glowlib_enabled")
         checkbox:SetTextColor(color_white)
         checkbox:SetFont("GlowLib:MenuFontSmall")
 
-        local checkbox = panel:CheckBox("Remove Glowing Eyes On Death (Serverside)", "sv_glowlib_remove_on_death")
+        local checkbox = panel:CheckBox("Remove Glowing Eyes On Death (Server)", "sv_glowlib_remove_on_death")
         checkbox:SetTextColor(color_white)
         checkbox:SetFont("GlowLib:MenuFontSmall")
 
-        local checkbox = panel:CheckBox("Enable GlowLib (Clientside)", "cl_glowlib_enabled")
+        local checkbox = panel:CheckBox("Enable GlowLib (Client)", "cl_glowlib_enabled")
         checkbox:SetTextColor(color_white)
         checkbox:SetFont("GlowLib:MenuFontSmall")
 
-        local checkbox = panel:CheckBox("Remove Glowing Eyes On Death (Clientside)", "cl_glowlib_remove_on_death")
+        local checkbox = panel:CheckBox("Remove Glowing Eyes On Death (Client)", "cl_glowlib_remove_on_death")
         checkbox:SetTextColor(color_white)
         checkbox:SetFont("GlowLib:MenuFontSmall")
 	end)
