@@ -1,7 +1,5 @@
 local GlowLib = GlowLib
 
-if ( !CLIENT ) then return end
-
 file.CreateDir("glowlib")
 file.CreateDir("glowlib/presets")
 
