@@ -65,7 +65,7 @@ function GlowLib:ShowEditMenu(ent)
     local files, folders = file.Find("glowlib/presets/*", "DATA")
 
     for k, v in ipairs(glowingEyes) do
-        local scale = v:GetClass() == "light_dynamic" and v:GetInternalVariable("distance", true) or math.Round(v:GetInternalVariable("m_flSpriteScale", true), 2)
+        local scale = math.Round(v:GetInternalVariable("m_flSpriteScale", true), 2)
 
         data[v] = {}
         data[v]["size"] = scale
