@@ -65,6 +65,8 @@ function GlowLib:ShowEditMenu(ent)
     local files, folders = file.Find("glowlib/presets/*", "DATA")
 
     for k, v in ipairs(glowingEyes) do
+        if ( v:GetClass() != "env_sprite" ) then continue end
+
         local renderFXValue = math.Round(v:GetInternalVariable("m_nRenderFX", true), 2)
         local scale = math.Round(v:GetInternalVariable("m_flSpriteScale", true), 2)
 
