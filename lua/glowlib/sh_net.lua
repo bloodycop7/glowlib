@@ -65,14 +65,16 @@ else
 
         local model = ent:GetModel()
         if ( !model or model == "" ) then return end
-
         model = model:lower()
+
+        local sprite = net.ReadEntity()
+        if ( !IsValid(sprite) ) then return end
 
         local glow_data = GlowLib.Glow_Data[model]
         if ( !glow_data ) then return end
 
         if ( glow_data.OnInitialize and isfunction(glow_data.OnInitialize) ) then
-            glow_data:OnInitialize(ent, ent:GetGlowingEyes()[1])
+            glow_data:OnInitialize(ent, sprite)
         end
 
         hook.Run("GlowLib_Initalize", ent)

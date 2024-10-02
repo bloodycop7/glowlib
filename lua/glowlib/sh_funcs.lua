@@ -208,6 +208,7 @@ if ( SERVER ) then
             hook.Run("GlowLib_Initalize", ent)
             net.Start("GlowLib:ClientsideInitalize")
                 net.WriteEntity(ent)
+                net.WriteEntity(sprite)
             net.Broadcast()
         end
     end
@@ -385,7 +386,12 @@ function GlowLib:ShouldDraw(ent)
 
     if ( !bShouldDrawHook ) then return false end
     if ( !ent:GetNW2Bool("GlowLib:ShouldDraw", true) ) then return false end
-    if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !entTable.GlowLib_IgnoreHealth ) then return false end
+    if ( !glowData.IgnoreHealth ) then
+        if ( ( ent:IsNPC() or ent:IsNextBot() or ent:IsPlayer() and ent:Health() <= 0 ) ) then
+            return false
+        end
+    end
+
     if ( ent:GetNoDraw() ) then return false end
 
     if ( CLIENT ) then
