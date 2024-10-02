@@ -31,7 +31,13 @@ if ( SERVER ) then
         local data_color = data["color"]
 
         sprite:SetColor(data_color)
-        sprite:SetKeyValue("scale", tostring(data_size))
+
+        local scaleVar = "scale"
+        if ( sprite:GetClass() == "light_dynamic" ) then
+            scaleVar = "distance"
+        end
+
+        sprite:SetKeyValue(scaleVar, tostring(data_size))
     end)
 else
     net.Receive("GlowLib:HideServerside", function(len)
