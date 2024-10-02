@@ -27,8 +27,8 @@ if ( SERVER ) then
         local entTable = ent:GetTable()
         entTable.GlowLib_bDontUpdate = true
 
-        local data_size = data["size"]
-        local data_color = data["color"]
+        local data_size = data.size
+        local data_color = data.color
 
         sprite:SetColor(data_color)
         sprite:SetKeyValue("scale", tostring(data_size))
