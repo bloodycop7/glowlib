@@ -380,7 +380,7 @@ function GlowLib:ShouldDraw(ent)
     if ( entTable.GlowLib_bDisabled ) then return false end
 
     local bShouldDraw = glowData.ShouldDraw and isfunction(glowData.ShouldDraw) and glowData:ShouldDraw(ent)
-    if ( bShouldDraw != nil and bShouldDraw == false ) then print("!No draw", ent) return false end
+    if ( bShouldDraw != nil and bShouldDraw == false ) then return false end
 
     local bShouldDrawHook = hook.Run("GlowLib_ShouldDraw", ent)
     bShouldDrawHook = bShouldDrawHook or true
