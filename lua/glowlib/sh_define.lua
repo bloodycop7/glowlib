@@ -270,7 +270,7 @@ GlowLib:Define("models/antlion_guard.mdl", {
     OnInitialize = function(self, ent, sprite)
         local entTable = ent:GetTable()
         entTable.GlowLib_bDontUpdate = true
-        entTable.Glowlib_bDisabled = true
+        entTable.GlowLib_bDisabled = true
 
         if ( SERVER ) then
             if ( IsValid(ent) and IsValid(sprite) ) then
@@ -319,7 +319,7 @@ GlowLib:Define("models/antlion_grub.mdl", {
         if ( SERVER ) then
             local entTable = ent:GetTable()
             entTable.GlowLib_bDontUpdate = true
-            entTable.Glowlib_bDisabled = true
+            entTable.GlowLib_bDisabled = true
 
             if ( IsValid(ent) and IsValid(sprite) ) then
                 sprite:SetParent(nil)

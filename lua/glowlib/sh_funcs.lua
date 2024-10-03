@@ -123,6 +123,7 @@ if ( SERVER ) then
         hook.Run("GLowLib_RemoveAll")
     end
 
+    local color_fallback = Color(255, 255, 255, 170)
     function GlowLib:Initialize(ent)
         local sv_glowlib_enabled = GetConVar("sv_glowlib_enabled"):GetBool()
         if ( !sv_glowlib_enabled ) then return end
@@ -153,8 +154,8 @@ if ( SERVER ) then
         if ( glowData ) then
             local entTable = ent:GetTable()
 
-            if ( entTable.Glowlib_bDisabled ) then return end
-            local glow_color = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
+            if ( entTable.GlowLib_bDisabled ) then return end
+            local glow_color = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_fallback
 
             local glow_mat = glowData.GlowTexture
             if ( !glow_mat ) then
@@ -229,7 +230,7 @@ if ( SERVER ) then
         local entTable = ent:GetTable()
         if ( entTable.GlowLib_bDontUpdate ) then return end
 
-        local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
+        local col = glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_fallback
         local glowColCustom = glowData.CustomColor and isfunction(glowData.CustomColor) and glowData:CustomColor(ent, glowCol)
         if ( glowColCustom != nil ) then
             col = glowData:CustomColor(ent, glowCol)
@@ -376,10 +377,10 @@ function GlowLib:ShouldDraw(ent)
     if ( !glowData ) then return false end
 
     local entTable = ent:GetTable()
-    if ( entTable.Glowlib_bDisabled ) then return false end
+    if ( entTable.GlowLib_bDisabled ) then return false end
 
     local bShouldDraw = glowData.ShouldDraw and isfunction(glowData.ShouldDraw) and glowData:ShouldDraw(ent)
-    if ( bShouldDraw != nil and bShouldDraw == false ) then return false end
+    if ( bShouldDraw != nil and bShouldDraw == false ) then print("!No draw", ent) return false end
 
     local bShouldDrawHook = hook.Run("GlowLib_ShouldDraw", ent)
     bShouldDrawHook = bShouldDrawHook or true

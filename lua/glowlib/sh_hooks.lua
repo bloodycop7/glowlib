@@ -133,8 +133,8 @@ else
         local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return end
 
-        local glib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
-        if ( !glib_enabled ) then return end
+        local cl_glowlib_enabled = GetConVar("cl_glowlib_enabled"):GetBool()
+        if ( !cl_glowlib_enabled ) then return end
 
         for k, v in ents.Iterator() do
             if ( !IsValid(v) ) then continue end
@@ -148,7 +148,7 @@ else
 
             v:SetNW2Bool("GlowLib:ShouldDraw", glib_enabled)
 
-            if ( !GlowLib:ShouldDraw(v) or !glib_enabled ) then
+            if ( !GlowLib:ShouldDraw(v) ) then
                 GlowLib:Hide(v)
 
                 continue
