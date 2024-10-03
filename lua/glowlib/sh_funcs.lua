@@ -385,13 +385,7 @@ function GlowLib:ShouldDraw(ent)
     bShouldDrawHook = bShouldDrawHook or true
 
     if ( !bShouldDrawHook ) then return false end
-    if ( !ent:GetNW2Bool("GlowLib:ShouldDraw", true) ) then return false end
-    if ( !glowData.IgnoreHealth ) then
-        if ( ( ent:IsNPC() or ent:IsNextBot() or ent:IsPlayer() and ent:Health() <= 0 ) ) then
-            return false
-        end
-    end
-
+    if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !glowData.IgnoreHealth ) then return false end
     if ( ent:GetNoDraw() ) then return false end
 
     if ( CLIENT ) then
