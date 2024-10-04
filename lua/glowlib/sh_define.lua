@@ -1,5 +1,21 @@
 local GlowLib = GlowLib
 
+GlowLib:Define("models/police.mdl", {
+    Position = function(self, ent)
+        if ( !IsValid(ent) ) then return end
+
+        local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
+        return attachmentData.Pos + attachmentData.Ang:Forward() * 1.55
+    end,
+    Attachment = "eyes",
+    Color = {
+        [0] = Color(0, 0, 0, 0),
+    },
+    ShouldDraw = function(self, ent)
+        return false
+    end
+})
+
 GlowLib:Define("models/combine_soldier.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("eyes"))
