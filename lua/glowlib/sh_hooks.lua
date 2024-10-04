@@ -8,6 +8,16 @@ local function updateGlow(ent)
     if ( !model ) then return end
     model = model:lower()
 
+    local ent_table = ent:GetTable()
+    if ( !ent_table ) then return end
+
+    local lastStored = ent_table.GlowLib_LastStoredModel or model
+    if ( lastStored != model ) then
+        GlowLib:Remove(ent)
+    end
+
+    ent_table.GlowLib_LastStoredModel = model
+
     local glowEyes = ent:GetGlowingEyes()
     if ( #glowEyes == 0 ) then
         GlowLib:Initialize(ent)
@@ -36,7 +46,6 @@ if ( SERVER ) then
             local glowData = GlowLib.Glow_Data[model]
             if ( !glowData ) then
                 GlowLib:Remove(v)
-
                 continue
             end
 

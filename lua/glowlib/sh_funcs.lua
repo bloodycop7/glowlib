@@ -374,7 +374,13 @@ function GlowLib:ShouldDraw(ent)
     model = model:lower()
 
     local glowData = self.Glow_Data[model]
-    if ( !glowData ) then return false end
+    if ( !glowData ) then
+        if ( SERVER ) then
+            GlowLib:Remove(v)
+        end
+
+        return false
+    end
 
     local entTable = ent:GetTable()
     if ( entTable.GlowLib_bDisabled ) then return false end
