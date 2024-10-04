@@ -389,9 +389,8 @@ function GlowLib:ShouldDraw(ent)
     if ( bShouldDraw != nil and bShouldDraw == false ) then return false end
 
     local bShouldDrawHook = hook.Run("GlowLib_ShouldDraw", ent)
-    bShouldDrawHook = bShouldDrawHook or true
-
     if ( !bShouldDrawHook ) then return false end
+
     if ( ( ent:IsNPC() or ent:IsPlayer() or ent:IsNextBot() ) and ent:Health() <= 0 and !glowData.IgnoreHealth ) then return false end
     if ( ent:GetNoDraw() ) then return false end
 

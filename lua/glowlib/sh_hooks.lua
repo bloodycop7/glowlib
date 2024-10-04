@@ -191,3 +191,16 @@ else
         return true
     end)
 end
+
+hook.Add("GlowLib_ShouldDraw", "GlowLib_ShouldDraw", function(ent)
+    if ( !IsValid(ent) ) then return false end
+
+    local model = ent:GetModel()
+    if ( !model or model == "" ) then return false end
+    model = model:lower()
+
+    local glowData = GlowLib.Glow_Data[model]
+    if ( !glowData ) then return false end
+
+    return true
+end)
