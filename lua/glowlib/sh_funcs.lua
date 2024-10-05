@@ -87,6 +87,9 @@ if ( SERVER ) then
             GlowLib:Remove(ent)
         end)
 
+        local sprite_table = sprite:GetTable()
+        sprite_table.GlowLib_bNoUpdate = spriteData.NoUpdate or false
+
         return sprite
     end
 
@@ -239,6 +242,8 @@ if ( SERVER ) then
         local size = glowData.Size or 0.3
 
         for k, v in ipairs(glowEyes) do
+            if ( !IsValid(v) ) then continue end
+
             local vTable = v:GetTable()
             if ( vTable.GlowLib_bNoUpdate ) then return end
 

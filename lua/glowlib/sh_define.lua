@@ -69,15 +69,14 @@ GlowLib:Define("models/combine_scanner.mdl", {
 GlowLib:Define("models/hunter.mdl", {
     Position = function(self, ent)
         local attachmentData = ent:GetAttachment(ent:LookupAttachment("top_eye"))
-        return attachmentData.Pos + attachmentData.Ang:Forward() * -4
+        return attachmentData.Pos + attachmentData.Ang:Forward() * -4.5
     end,
     Attachment = "top_eye",
     Color = {
-        [0] = Color(0, 255, 255, 160),
+        [0] = Color(0, 255, 255, 150),
     },
-    Size = 0.4,
+    Size = 0.25,
     OnInitialize = function(self, ent, sprite)
-        local glow_eyes = ent:GetGlowingEyes()
         local glow_color = self.Color[ent:GetSkin()] or self.Color[0] or color_white
 
         local glowColCustom = self.CustomColor and isfunction(self.CustomColor) and self:CustomColor(ent, glowCol)
@@ -89,12 +88,24 @@ GlowLib:Define("models/hunter.mdl", {
         local attachmentData = ent:GetAttachment(attach)
         if ( !attachmentData ) then return end
 
+        local attach_head = ent:LookupAttachment("head_center")
+        local attachmentData_head = ent:GetAttachment(attach_head)
+        if ( !attachmentData_head ) then return end
+
         if ( SERVER ) then
             local sprite = GlowLib:CreateSprite(ent, {
                 Color = glow_color,
                 Attachment = "bottom_eye",
-                Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4,
-                Size = 0.4,
+                Position = attachmentData.Pos + attachmentData.Ang:Forward() * -4.5,
+                Size = 0.25,
+            })
+
+            local sprite2 = GlowLib:CreateSprite(ent, {
+                Color = Color(0, 60, 255, 160),
+                Attachment = "head_center",
+                Position = attachmentData_head.Pos + attachmentData_head.Ang:Up() * 20 + attachmentData_head.Ang:Right() * 2,
+                Size = 0.8,
+                NoUpdate = true,
             })
         end
     end,
