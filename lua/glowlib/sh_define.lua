@@ -472,3 +472,83 @@ GlowLib:Define("models/items/combine_rifle_ammo01.mdl", {
         end
     end,
 })
+
+GlowLib:Define("models/props_combine/combine_intmonitor001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 29 + ent:GetAngles():Forward() * 10
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 1.7,
+})
+
+GlowLib:Define("models/props_combine/combine_intmonitor003.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 29 + ent:GetAngles():Forward() * 35
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 1.7,
+})
+
+GlowLib:Define("models/props_combine/combine_monitorbay.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 10 + ent:GetAngles():Forward() * 10
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 4,
+})
+
+GlowLib:Define("models/props_combine/weaponstripper.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 60 + ent:GetAngles():Forward() * 15
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 3,
+})
+
+GlowLib:Define("models/props_combine/combine_interface001.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 48 + ent:GetAngles():Forward() * 2 + ent:GetAngles():Right() * 2
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 1,
+})
+
+GlowLib:Define("models/props_combine/combine_interface002.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 48 + ent:GetAngles():Forward() * 2 + ent:GetAngles():Right() * 2
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 1.2,
+})
+
+GlowLib:Define("models/props_combine/combine_interface003.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 48 + ent:GetAngles():Forward() * 2 + ent:GetAngles():Right() * -5
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 1.2,
+})
+
+GlowLib:Define("models/props_combine/masterinterface.mdl", {
+    Position = function(self, ent)
+        return ent:GetPos() + ent:GetAngles():Up() * 70 + ent:GetAngles():Forward() * -30 + ent:GetAngles():Right() * 1
+    end,
+    Color = {
+        [0] = Color(0, 255, 255, 200),
+    },
+    Size = 3,
+})
