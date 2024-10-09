@@ -479,6 +479,8 @@ GlowLib:Define("models/props_combine/combine_intmonitor001.mdl", {
     end,
     Color = {
         [0] = Color(0, 255, 255, 200),
+        [1] = Color(0, 0, 0, 0),
+        [2] = Color(200, 0, 0, 200)
     },
     Size = 1.7,
 })
@@ -489,6 +491,8 @@ GlowLib:Define("models/props_combine/combine_intmonitor003.mdl", {
     end,
     Color = {
         [0] = Color(0, 255, 255, 200),
+        [1] = Color(0, 0, 0, 0),
+        [2] = Color(200, 0, 0, 200)
     },
     Size = 1.7,
 })
@@ -519,6 +523,7 @@ GlowLib:Define("models/props_combine/combine_interface001.mdl", {
     end,
     Color = {
         [0] = Color(0, 255, 255, 200),
+        [1] = Color(0, 0, 0, 0),
     },
     Size = 1,
 })
@@ -529,6 +534,7 @@ GlowLib:Define("models/props_combine/combine_interface002.mdl", {
     end,
     Color = {
         [0] = Color(0, 255, 255, 200),
+        [1] = Color(0, 0, 0, 0),
     },
     Size = 1.2,
 })
@@ -539,6 +545,7 @@ GlowLib:Define("models/props_combine/combine_interface003.mdl", {
     end,
     Color = {
         [0] = Color(0, 255, 255, 200),
+        [1] = Color(0, 0, 0, 0),
     },
     Size = 1.2,
 })
