@@ -66,31 +66,35 @@ if ( SERVER ) then
         end
 
         local sprite = ents.Create("env_sprite")
-        sprite:SetPos(vec_sprite)
-        sprite:SetParent(ent, attach or 0)
+        if ( IsValid(sprite) ) then
+            sprite:SetPos(vec_sprite)
+            sprite:SetParent(ent, attach or 0)
 
-        sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
-        sprite:SetNW2String("GlowLib_Eye_Count", #ent:GetGlowingEyes() + 1)
+            sprite:SetNW2String("GlowEyeName", "GlowLib_Eye_" .. ent:EntIndex())
+            sprite:SetNW2String("GlowLib_Eye_Count", #ent:GetGlowingEyes() + 1)
 
-        sprite:SetKeyValue("model", tostring(glow_mat))
-        sprite:SetColor(glow_color)
+            sprite:SetKeyValue("model", tostring(glow_mat))
+            sprite:SetColor(glow_color)
 
-        sprite:SetKeyValue("rendermode", tostring(glow_renderMode))
-        sprite:SetKeyValue("scale", tostring(glow_size))
+            sprite:SetKeyValue("rendermode", tostring(glow_renderMode))
+            sprite:SetKeyValue("scale", tostring(glow_size))
 
-        sprite:SetNW2Bool("bIsGlowLib", true)
-        sprite:Spawn()
+            sprite:SetNW2Bool("bIsGlowLib", true)
+            sprite:Spawn()
 
-        ent:SetNW2Bool("bHasGlowLibEffect", true)
-        ent:DeleteOnRemove(sprite)
-        ent:CallOnRemove("GlowLib:Remove", function(ent)
-            GlowLib:Remove(ent)
-        end)
+            ent:SetNW2Bool("bHasGlowLibEffect", true)
+            ent:DeleteOnRemove(sprite)
+            ent:CallOnRemove("GlowLib:Remove", function(ent)
+                GlowLib:Remove(ent)
+            end)
 
-        local sprite_table = sprite:GetTable()
-        sprite_table.GlowLib_bNoUpdate = spriteData.NoUpdate or false
+            local sprite_table = sprite:GetTable()
+            sprite_table.GlowLib_bNoUpdate = spriteData.NoUpdate or false
 
-        return sprite
+            return sprite
+        else
+            ErrorNoHaltWithStack("GlowLib:CreateSprite - Failed to create sprite for entity " .. tostring(ent) .. "!\n")
+        end
     end
 
     function GlowLib:Remove(ent)
