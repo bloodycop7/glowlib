@@ -214,5 +214,4 @@ if ( CLIENT ) then
     MsgC(GlowLib.OutputColor, "[ GlowLib ] by eon ( bloodycop )", color_white, " has been loaded!\n")
 else
     file.CreateDir("glowlib")
-    file.CreateDir("glowlib/creations")
 end

@@ -92,8 +92,6 @@ if ( SERVER ) then
             sprite_table.GlowLib_bNoUpdate = spriteData.NoUpdate or false
 
             return sprite
-        else
-            ErrorNoHaltWithStack("GlowLib:CreateSprite - Failed to create sprite for entity " .. tostring(ent) .. "!\n")
         end
     end
 
