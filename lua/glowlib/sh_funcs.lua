@@ -291,7 +291,7 @@ function GlowLib:Hide(ent)
         net.Send(ent)
     end
 
-    hook.Run("GLowLib_Hide", ent)
+    hook.Run("GlowLib_Hide", ent)
 end
 
 function GlowLib:HideAll()
