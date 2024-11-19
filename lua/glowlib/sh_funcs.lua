@@ -108,7 +108,7 @@ if ( SERVER ) then
             end
         end
 
-        hook.Run("GLowLib_Remove", ent)
+        hook.Run("GlowLib_Remove", ent)
     end
 
     function GlowLib:RemoveAll()
@@ -125,7 +125,7 @@ if ( SERVER ) then
             self:Remove(v)
         end
 
-        hook.Run("GLowLib_RemoveAll")
+        hook.Run("GlowLib_RemoveAll")
     end
 
     local color_fallback = Color(255, 255, 255, 170)
@@ -247,7 +247,7 @@ if ( SERVER ) then
             if ( !IsValid(v) ) then continue end
 
             local vTable = v:GetTable()
-            if ( vTable.GlowLib_bNoUpdate ) then return end
+            if ( vTable.GlowLib_bNoUpdate ) then continue end
 
             v:SetKeyValue("model", glowData.GlowTexture or "sprites/light_glow02.vmt")
             v:SetKeyValue("scale", tostring(size))
@@ -259,7 +259,7 @@ if ( SERVER ) then
             glowData:PostUpdate(ent, glowEyes)
         end
 
-        hook.Run("GLowLib_Update", ent)
+        hook.Run("GlowLib_Update", ent)
     end
 end
 
@@ -273,7 +273,7 @@ function GlowLib:Hide(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    hook.Run("GLowLib_PreHide", ent)
+    hook.Run("GlowLib_PreHide", ent)
 
     local glow_eyes = ent:GetGlowingEyes()
     for k, v in ipairs(glow_eyes) do
@@ -321,7 +321,7 @@ function GlowLib:Show(ent)
     local glowData = self.Glow_Data[model]
     if ( !glowData ) then return end
 
-    hook.Run("GLowLib_PreShow", ent)
+    hook.Run("GlowLib_PreShow", ent)
 
     if ( !GlowLib:ShouldDraw(ent) ) then
         GlowLib:Hide(ent)
@@ -345,7 +345,7 @@ function GlowLib:Show(ent)
         net.Send(ent)
     end
 
-    hook.Run("GLowLib_Show", ent)
+    hook.Run("GlowLib_Show", ent)
 end
 
 function GlowLib:ShowAll()
