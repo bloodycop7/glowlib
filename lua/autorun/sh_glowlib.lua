@@ -62,7 +62,7 @@ function GlowLib:Define(entModel, glowData)
         return print("GlowLib:Define - arg[2] glowData is a required argument!")
     end
 
-    self.Glow_Data[entModel] = glowData
+    self.Glow_Data[entModel:lower()] = glowData
 end
 
 GlowLib:IncludeDir("glowlib")
