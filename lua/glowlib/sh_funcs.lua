@@ -37,13 +37,6 @@ if ( SERVER ) then
         local glowData = self.Glow_Data[ent_model]
         if ( !glowData ) then return end
 
-        if ( ent:GetClass() == "prop_effect" ) then
-            local child = ent:GetInternalVariable("m_hMoveChild")
-            if ( IsValid(child) ) then
-                ent = child
-            end
-        end
-
         local glow_color = spriteData.Color or glowData.Color[ent:GetSkin()] or glowData.Color[0] or color_white
         local attach = spriteData.Attachment and ent:LookupAttachment(spriteData.Attachment) or 0
         local glow_mat = spriteData.GlowTexture or glowData.GlowTexture or "sprites/light_glow02.vmt"
