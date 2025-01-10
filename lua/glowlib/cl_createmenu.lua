@@ -78,14 +78,15 @@ function GlowLib:ShowCreationMenu()
 		else
 			local found = false
 
-			for k, v in ipairs(ent:GetSequenceList()) do
-				if ( ( v:lower():find("idle") or v:lower():find("fly") ) and v != "idlenoise" ) then
-					ent:ResetSequence(v)
-					found = true
+            for i = 0, ent:GetSequenceCount() do
+                local name = ent:GetSequenceName(i)
+                if ( ( name:lower():find("idle") or name:lower():find("fly") ) and name != "idlenoise" ) then
+                    ent:ResetSequence(i)
+                    found = true
 
-					break
-				end
-			end
+                    break
+                end
+            end
 
 			if ( !found ) then
 				ent:ResetSequence(4)
