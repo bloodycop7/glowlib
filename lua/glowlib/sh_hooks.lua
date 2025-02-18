@@ -177,7 +177,6 @@ else
     end)
 
     hook.Add("GlowLib_CanUseEditMenu", "GlowLib:CanUseEditMenu", function(ply, ent, editMenu)
-        local ply = LocalPlayer()
         if ( !IsValid(ply) ) then return false end
         if ( !IsValid(ent) ) then return false end
         if ( !ply:IsAdmin() ) then return false end
